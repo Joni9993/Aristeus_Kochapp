@@ -62,16 +62,30 @@ const DAYS = ['Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samsta
 // ---------------------------------------------------------------------------
 
 function PendingView({ onRefresh }: { onRefresh: () => void }) {
+  const [elapsed, setElapsed] = useState(0)
+  const navigate = useNavigate()
+
   useEffect(() => {
-    const t = setInterval(onRefresh, 3000)
-    return () => clearInterval(t)
+    const poll = setInterval(onRefresh, 3000)
+    const tick = setInterval(() => setElapsed((e) => e + 1), 1000)
+    return () => { clearInterval(poll); clearInterval(tick) }
   }, [onRefresh])
 
   return (
     <div className="flex flex-col items-center gap-4 py-12 text-stone-500">
       <div className="h-10 w-10 animate-spin rounded-full border-4 border-emerald-400 border-t-transparent" />
       <p className="text-sm">Gerichte werden vorgeschlagen…</p>
-      <p className="text-xs text-stone-400">Das dauert ca. 10–30 Sekunden</p>
+      <p className="text-xs text-stone-400">
+        {elapsed < 90 ? 'Das dauert ca. 10–30 Sekunden' : `${elapsed}s — dauert ungewöhnlich lang`}
+      </p>
+      {elapsed >= 120 && (
+        <button
+          onClick={() => navigate('/plan/new')}
+          className="mt-2 rounded-lg border border-stone-300 px-4 py-2 text-xs text-stone-600 hover:bg-stone-50"
+        >
+          Neu versuchen
+        </button>
+      )}
     </div>
   )
 }
@@ -211,7 +225,7 @@ function SuggestionsView({
       }))
       const updated = await apiFetch<Plan>(`/plans/${plan.id}/confirm`, {
         method: 'POST',
-        body: JSON.stringify({ selections: sels }),
+        body: { selections: sels },
       })
       onConfirmed(updated)
     } catch (err) {
@@ -351,7 +365,7 @@ function FeedbackRow({ planId, dish }: { planId: number; dish: Dish }) {
     try {
       await apiFetch(`/plans/${planId}/dishes/${dish.id}/feedback`, {
         method: 'PATCH',
-        body: JSON.stringify(patch),
+        body: patch,
       })
     } catch {
       //
@@ -457,7 +471,7 @@ function ShoppingView({ plan, onItemUpdate }: { plan: Plan; onItemUpdate: (id: n
     try {
       await apiFetch(`/plans/${plan.id}/shopping/${item.id}`, {
         method: 'PATCH',
-        body: JSON.stringify({ [field]: newVal }),
+        body: { [field]: newVal },
       })
     } catch {
       onItemUpdate(item.id, { [field]: item[field] }) // revert
@@ -608,6 +622,22 @@ export default function Plan() {
 
       {plan.status === 'pending' && (
         <PendingView onRefresh={loadPlan} />
+      )}
+
+      {plan.status === 'error' && (
+        <div className="rounded-xl border border-red-200 bg-red-50 p-6 text-center">
+          <p className="font-medium text-red-700">Vorschläge konnten nicht generiert werden</p>
+          <p className="mt-1 text-sm text-red-600">
+            Prüfe ob der OpenRouter-API-Key in <code className="font-mono">backend/.env</code> gesetzt ist
+            und die Modelle verfügbar sind.
+          </p>
+          <button
+            onClick={() => navigate('/plan/new')}
+            className="mt-4 rounded-lg bg-red-600 px-4 py-2 text-sm text-white hover:bg-red-700"
+          >
+            Neu versuchen
+          </button>
+        </div>
       )}
 
       {plan.status === 'suggestions_ready' && (

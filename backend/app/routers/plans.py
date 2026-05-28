@@ -152,7 +152,6 @@ async def more_suggestions(
     if plan.status not in ("suggestions_ready",):
         raise HTTPException(400, "Plan ist nicht im Vorschlagsschritt")
 
-    existing = [d.name for d in plan.dishes]
     dishes = await run_suggestions_step(plan_id, household, db, count=5)
     return {
         "new_suggestions": [_dish_out(d) for d in dishes],
@@ -176,6 +175,17 @@ async def confirm_plan(
 
     plan = await run_confirm_step(plan_id, body.selections, household, db)
     return _plan_out(plan)
+
+
+@router.delete("/{plan_id}", status_code=204)
+def delete_plan(
+    plan_id: int,
+    household: Household = Depends(get_current_household),
+    db: DbSession = Depends(get_db),
+) -> None:
+    plan = _get_plan_or_404(plan_id, household.id, db)
+    db.delete(plan)
+    db.commit()
 
 
 @router.patch("/{plan_id}/dishes/{dish_id}/feedback")
@@ -239,6 +249,8 @@ def _get_plan_or_404(plan_id: int, household_id: int, db: DbSession) -> WeeklyPl
 
 
 async def _bg_suggestions(plan_id: int, household_id: int) -> None:
+    import logging
+    log = logging.getLogger(__name__)
     db = SessionLocal()
     try:
         household = db.get(Household, household_id)
@@ -246,7 +258,11 @@ async def _bg_suggestions(plan_id: int, household_id: int) -> None:
             return
         await run_suggestions_step(plan_id, household, db)
     except Exception as exc:
-        import logging
-        logging.getLogger(__name__).error("Background suggestions failed: %s", exc)
+        log.error("Background suggestions failed for plan %d: %s", plan_id, exc, exc_info=True)
+        plan = db.get(WeeklyPlan, plan_id)
+        if plan and plan.status == "pending":
+            plan.status = "error"
+            plan.error_message = str(exc)[:500] if hasattr(plan, "error_message") else None
+            db.commit()
     finally:
         db.close()

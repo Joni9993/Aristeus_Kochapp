@@ -77,9 +77,20 @@ def start_scheduler() -> None:
     scheduler.add_job(
         _run_refresh_sync,
         trigger="cron",
-        hour=3,
+        day_of_week="sat",
+        hour=6,
         minute=0,
-        id="nightly_kaufda_refresh",
+        id="saturday_kaufda_refresh",
+        replace_existing=True,
+        misfire_grace_time=3600,
+    )
+    scheduler.add_job(
+        _run_refresh_sync,
+        trigger="cron",
+        day_of_week="sun",
+        hour=6,
+        minute=0,
+        id="sunday_kaufda_refresh",
         replace_existing=True,
         misfire_grace_time=3600,
     )
@@ -94,7 +105,7 @@ def start_scheduler() -> None:
         misfire_grace_time=3600,
     )
     scheduler.start()
-    logger.info("APScheduler started — nightly Kaufda refresh at 03:00, weekly aggregation Mon 04:00")
+    logger.info("APScheduler started — Kaufda refresh Sa+So 06:00, feedback aggregation Mon 04:00")
 
 
 def stop_scheduler() -> None:

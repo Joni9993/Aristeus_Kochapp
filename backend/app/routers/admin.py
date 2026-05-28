@@ -1,13 +1,14 @@
 """Admin-only endpoints: invite tokens, household list."""
 
+import json
 import secrets
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy import func, select
 from sqlalchemy.orm import Session as DbSession
 
 from ..db import get_db
-from ..models import ApiCall, Household, InviteToken
+from ..models import ApiCall, Household, InviteToken, LearnedPreferences
 from ..schemas import HouseholdAdminOut, InviteTokenOut
 from ..security import get_current_admin
 
@@ -47,6 +48,49 @@ def list_households(
         )
         for h in households
     ]
+
+
+@router.get("/households/{household_id}/details")
+def household_details(
+    household_id: int,
+    _admin: Household = Depends(get_current_admin),
+    db: DbSession = Depends(get_db),
+) -> dict:
+    """Return profile settings and learned preferences for one household."""
+    h = db.get(Household, household_id)
+    if not h:
+        raise HTTPException(404, "Haushalt nicht gefunden")
+
+    p = h.profile
+    profile_data = None
+    if p:
+        profile_data = {
+            "postal_code": p.postal_code,
+            "adults": p.adults,
+            "kids": p.kids,
+            "diet": p.diet,
+            "allergies": json.loads(p.allergies_json),
+            "no_gos": json.loads(p.no_gos_json),
+            "preferred_cuisines": json.loads(p.preferred_cuisines_json),
+            "allowed_meats": json.loads(p.allowed_meats_json),
+            "max_cook_time_min": p.max_cook_time_min,
+            "selected_stores": json.loads(p.selected_stores_json),
+            "budget_sensitivity": p.budget_sensitivity,
+        }
+
+    prefs = db.scalar(
+        select(LearnedPreferences).where(LearnedPreferences.household_id == household_id)
+    )
+    prefs_data = None
+    if prefs:
+        prefs_data = {
+            "loved_dishes": json.loads(prefs.loved_dishes_json),
+            "disliked_dishes": json.loads(prefs.disliked_dishes_json),
+            "portion_adjustments": json.loads(prefs.portion_adjustments_json),
+            "recurring_notes": prefs.recurring_notes,
+        }
+
+    return {"profile": profile_data, "learned_preferences": prefs_data}
 
 
 @router.get("/invite-tokens", response_model=list[InviteTokenOut])

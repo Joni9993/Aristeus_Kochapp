@@ -61,12 +61,20 @@ export default function Home() {
   const [plans, setPlans] = useState<PlanSummary[]>([])
 
   useEffect(() => {
-    apiFetch<FreshnessResponse>('/stores/freshness')
-      .then(setFreshness)
-      .catch(() => {})
-    apiFetch<PlanSummary[]>('/plans')
-      .then(setPlans)
-      .catch(() => {})
+    Promise.all([
+      apiFetch<FreshnessResponse>('/stores/freshness'),
+      apiFetch<PlanSummary[]>('/plans'),
+    ]).then(([freshness, plans]) => {
+      setFreshness(freshness)
+      setPlans(plans)
+      // Auto-refresh if any selected store has stale or unfetched data
+      const needsRefresh = Object.values(freshness.stores).some(
+        (s) => s.status === 'not_fetched' || s.status === 'outdated',
+      )
+      if (needsRefresh) {
+        apiFetch('/stores/refresh', { method: 'POST' }).catch(() => {})
+      }
+    }).catch(() => {})
   }, [])
 
   async function handleLogout() {
@@ -163,17 +171,30 @@ export default function Home() {
         <section className="mb-6 rounded-xl border border-stone-200 bg-white p-4 shadow-sm">
           <h2 className="mb-3 font-semibold">Letzte Pläne</h2>
           <div className="space-y-1">
-            {plans.slice(0, 5).map((p) => {
+            {plans.slice(0, 10).map((p) => {
               const st = PLAN_STATUS[p.status] ?? { label: p.status, cls: 'text-stone-400' }
               return (
-                <Link
-                  key={p.id}
-                  to={`/plan/${p.id}`}
-                  className="flex items-center justify-between rounded-lg px-2 py-2 hover:bg-stone-50"
-                >
-                  <span className="text-sm font-medium text-stone-700">{formatWeekRange(p.week_start_date)}</span>
-                  <span className={`text-xs ${st.cls}`}>{st.label}</span>
-                </Link>
+                <div key={p.id} className="group flex items-center rounded-lg px-2 py-2 hover:bg-stone-50">
+                  <Link
+                    to={`/plan/${p.id}`}
+                    className="flex flex-1 items-center justify-between"
+                  >
+                    <span className="text-sm font-medium text-stone-700">{formatWeekRange(p.week_start_date)}</span>
+                    <span className={`text-xs ${st.cls}`}>{st.label}</span>
+                  </Link>
+                  <button
+                    onClick={async (e) => {
+                      e.preventDefault()
+                      if (!confirm('Plan löschen?')) return
+                      await apiFetch(`/plans/${p.id}`, { method: 'DELETE' }).catch(() => {})
+                      setPlans((prev) => prev.filter((x) => x.id !== p.id))
+                    }}
+                    className="ml-2 hidden text-stone-300 hover:text-red-500 group-hover:block"
+                    title="Plan löschen"
+                  >
+                    🗑
+                  </button>
+                </div>
               )
             })}
           </div>

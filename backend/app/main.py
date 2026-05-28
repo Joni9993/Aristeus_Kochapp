@@ -1,3 +1,4 @@
+import logging
 from contextlib import asynccontextmanager
 from datetime import datetime, timezone
 
@@ -7,6 +8,15 @@ from fastapi.middleware.cors import CORSMiddleware
 from .config import get_settings
 from .routers import admin, auth, plans, profile, stores
 from .services.scheduler import start_scheduler, stop_scheduler
+
+# Show INFO-level logs from our app logger in the terminal
+_app_log = logging.getLogger("app")
+_app_log.setLevel(logging.INFO)
+if not _app_log.handlers:
+    _h = logging.StreamHandler()
+    _h.setFormatter(logging.Formatter("%(levelname)s: %(name)s — %(message)s"))
+    _app_log.addHandler(_h)
+_app_log.propagate = False
 
 settings = get_settings()
 

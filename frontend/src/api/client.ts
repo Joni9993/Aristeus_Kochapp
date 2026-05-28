@@ -21,7 +21,7 @@ export async function apiFetch<T>(
     method,
     credentials: 'include',
     headers: body ? { 'Content-Type': 'application/json' } : {},
-    body: body !== undefined ? JSON.stringify(body) : undefined,
+    body: body !== undefined ? (typeof body === 'string' ? body : JSON.stringify(body)) : undefined,
   })
 
   if (!res.ok) {
