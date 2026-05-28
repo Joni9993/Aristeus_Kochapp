@@ -12,6 +12,7 @@ export default function Register() {
     passwordConfirm: '',
     invite_token: params.get('token') ?? '',
   })
+  const [privacyAccepted, setPrivacyAccepted] = useState(false)
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
 
@@ -20,6 +21,10 @@ export default function Register() {
     setError('')
     if (form.password !== form.passwordConfirm) {
       setError('Passwörter stimmen nicht überein')
+      return
+    }
+    if (!privacyAccepted) {
+      setError('Bitte stimme der Datenschutzerklärung zu.')
       return
     }
     setLoading(true)
@@ -83,10 +88,25 @@ export default function Register() {
               required
             />
           </div>
+          <label className="flex items-start gap-2 text-sm text-stone-600">
+            <input
+              type="checkbox"
+              checked={privacyAccepted}
+              onChange={e => setPrivacyAccepted(e.target.checked)}
+              className="mt-0.5 h-4 w-4 accent-emerald-600"
+            />
+            <span>
+              Ich habe die{' '}
+              <a href="/privacy" target="_blank" className="underline hover:text-stone-900">
+                Datenschutzerklärung
+              </a>{' '}
+              gelesen und stimme der Verarbeitung meiner Daten zu.
+            </span>
+          </label>
           {error && <p className="text-sm text-red-600">{error}</p>}
           <button
             type="submit"
-            disabled={loading}
+            disabled={loading || !privacyAccepted}
             className="w-full rounded-lg bg-emerald-600 px-4 py-2 text-sm font-medium text-white hover:bg-emerald-700 disabled:opacity-50"
           >
             {loading ? 'Erstelle Konto…' : 'Konto erstellen'}

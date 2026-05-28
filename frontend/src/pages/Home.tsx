@@ -3,6 +3,27 @@ import { Link, useNavigate } from 'react-router-dom'
 import { apiFetch, ApiError } from '../api/client'
 import { useAuth } from '../hooks/useAuth'
 
+type PlanSummary = {
+  id: number
+  week_start_date: string
+  status: string
+}
+
+const PLAN_STATUS: Record<string, { label: string; cls: string }> = {
+  pending: { label: 'Läuft…', cls: 'text-stone-400' },
+  suggestions_ready: { label: 'Vorschläge bereit', cls: 'text-blue-600' },
+  confirmed: { label: 'Aktiv', cls: 'text-emerald-700' },
+  complete: { label: 'Abgeschlossen', cls: 'text-stone-400' },
+}
+
+function formatWeekRange(startIso: string): string {
+  const start = new Date(startIso)
+  const end = new Date(start)
+  end.setDate(end.getDate() + 6)
+  const fmt = (d: Date) => d.toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit' })
+  return `${fmt(start)} – ${fmt(end)}`
+}
+
 type StoreStatus = {
   label: string
   status: 'fresh' | 'stale' | 'outdated' | 'not_fetched'
@@ -37,10 +58,14 @@ export default function Home() {
   const [freshness, setFreshness] = useState<FreshnessResponse | null>(null)
   const [refreshing, setRefreshing] = useState(false)
   const [refreshMsg, setRefreshMsg] = useState('')
+  const [plans, setPlans] = useState<PlanSummary[]>([])
 
   useEffect(() => {
     apiFetch<FreshnessResponse>('/stores/freshness')
       .then(setFreshness)
+      .catch(() => {})
+    apiFetch<PlanSummary[]>('/plans')
+      .then(setPlans)
       .catch(() => {})
   }, [])
 
@@ -132,6 +157,28 @@ export default function Home() {
           </div>
         )}
       </section>
+
+      {/* Letzte Pläne */}
+      {plans.length > 0 && (
+        <section className="mb-6 rounded-xl border border-stone-200 bg-white p-4 shadow-sm">
+          <h2 className="mb-3 font-semibold">Letzte Pläne</h2>
+          <div className="space-y-1">
+            {plans.slice(0, 5).map((p) => {
+              const st = PLAN_STATUS[p.status] ?? { label: p.status, cls: 'text-stone-400' }
+              return (
+                <Link
+                  key={p.id}
+                  to={`/plan/${p.id}`}
+                  className="flex items-center justify-between rounded-lg px-2 py-2 hover:bg-stone-50"
+                >
+                  <span className="text-sm font-medium text-stone-700">{formatWeekRange(p.week_start_date)}</span>
+                  <span className={`text-xs ${st.cls}`}>{st.label}</span>
+                </Link>
+              )
+            })}
+          </div>
+        </section>
+      )}
 
       {/* Wochenplan-CTA */}
       <section className="rounded-xl border border-emerald-200 bg-emerald-50 p-5 text-center">

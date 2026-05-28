@@ -6,6 +6,7 @@ import { useAuth } from '../hooks/useAuth'
 type HouseholdRow = {
   id: number; username: string; email: string; is_admin: boolean
   created_at: string; last_login_at: string | null; has_profile: boolean; onboarding_complete: boolean
+  api_calls_count: number; total_tokens: number
 }
 type TokenRow = { token: string; created_at: string; used_by: number | null; used_at: string | null }
 
@@ -97,6 +98,8 @@ export default function Admin() {
                 <th className="px-3 py-2 text-left">E-Mail</th>
                 <th className="px-3 py-2 text-left">Onboarding</th>
                 <th className="px-3 py-2 text-left">Erstellt</th>
+                <th className="px-3 py-2 text-right">API-Calls</th>
+                <th className="px-3 py-2 text-right">Tokens</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-stone-100">
@@ -114,6 +117,10 @@ export default function Admin() {
                   </td>
                   <td className="px-3 py-2 text-stone-500">
                     {new Date(h.created_at).toLocaleDateString('de-DE')}
+                  </td>
+                  <td className="px-3 py-2 text-right text-stone-500">{h.api_calls_count}</td>
+                  <td className="px-3 py-2 text-right text-stone-500">
+                    {h.total_tokens > 0 ? h.total_tokens.toLocaleString('de-DE') : '–'}
                   </td>
                 </tr>
               ))}

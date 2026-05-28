@@ -1,8 +1,6 @@
 """Plans router — weekly plan lifecycle endpoints."""
 
 import json
-from datetime import date, datetime, timezone
-
 from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException
 from pydantic import BaseModel
 from sqlalchemy import select
@@ -12,6 +10,7 @@ from ..db import SessionLocal, get_db
 from ..models import Household, PlanDish, ShoppingItem, WeeklyPlan
 from ..security import get_current_household
 from ..ai.pipeline import run_confirm_step, run_suggestions_step
+from ..ai.learned_prefs import update_from_feedback
 
 router = APIRouter(prefix="/api/plans", tags=["plans"])
 
@@ -195,13 +194,14 @@ def dish_feedback(
     if body.thumbs is not None:
         dish.feedback_thumbs = body.thumbs
     if body.portion_note is not None:
-        dish.feedback_portion_note = body.portion_note
+        dish.feedback_portion_note = body.portion_note or None
     if body.free_text is not None:
-        dish.feedback_free_text = body.free_text
+        dish.feedback_free_text = body.free_text or None
     if body.is_favorite is not None:
         dish.is_favorite = body.is_favorite
 
     db.commit()
+    update_from_feedback(household.id, db)
     return {"ok": True}
 
 

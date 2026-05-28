@@ -112,3 +112,5 @@ class HouseholdAdminOut(BaseModel):
     last_login_at: datetime | None
     has_profile: bool
     onboarding_complete: bool
+    api_calls_count: int = 0
+    total_tokens: int = 0

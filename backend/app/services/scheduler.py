@@ -13,7 +13,8 @@ from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from sqlalchemy import select
 
 from ..db import SessionLocal
-from ..models import Profile
+from ..models import Household, Profile
+from ..ai.learned_prefs import aggregate_notes_with_llm, update_from_feedback
 from .kaufda import refresh_plz
 
 logger = logging.getLogger(__name__)
@@ -52,6 +53,26 @@ def _run_refresh_sync() -> None:
     asyncio.run(_run_nightly_refresh())
 
 
+async def _run_aggregation_async() -> None:
+    logger.info("Weekly feedback aggregation started")
+    db = SessionLocal()
+    try:
+        household_ids = db.scalars(select(Household.id)).all()
+        for hid in household_ids:
+            try:
+                update_from_feedback(hid, db)
+                await aggregate_notes_with_llm(hid, db)
+            except Exception as exc:
+                logger.error("Aggregation failed for household %d: %s", hid, exc)
+    finally:
+        db.close()
+    logger.info("Weekly feedback aggregation finished")
+
+
+def _run_weekly_aggregation() -> None:
+    asyncio.run(_run_aggregation_async())
+
+
 def start_scheduler() -> None:
     scheduler.add_job(
         _run_refresh_sync,
@@ -62,8 +83,18 @@ def start_scheduler() -> None:
         replace_existing=True,
         misfire_grace_time=3600,
     )
+    scheduler.add_job(
+        _run_weekly_aggregation,
+        trigger="cron",
+        day_of_week="mon",
+        hour=4,
+        minute=0,
+        id="weekly_feedback_aggregation",
+        replace_existing=True,
+        misfire_grace_time=3600,
+    )
     scheduler.start()
-    logger.info("APScheduler started — nightly Kaufda refresh at 03:00")
+    logger.info("APScheduler started — nightly Kaufda refresh at 03:00, weekly aggregation Mon 04:00")
 
 
 def stop_scheduler() -> None:

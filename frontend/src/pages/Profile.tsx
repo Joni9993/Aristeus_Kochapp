@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { apiFetch, ApiError } from '../api/client'
 
 const STORES = [
@@ -29,12 +29,14 @@ type Profile = {
 }
 
 export default function Profile() {
+  const navigate = useNavigate()
   const [profile, setProfile] = useState<Profile | null>(null)
   const [form, setForm] = useState<Partial<Profile>>({})
   const [noGoInput, setNoGoInput] = useState('')
   const [saved, setSaved] = useState(false)
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
+  const [deleting, setDeleting] = useState(false)
 
   useEffect(() => {
     apiFetch<Profile>('/me/profile').then((p) => { setProfile(p); setForm(p) }).catch(() => {})
@@ -54,6 +56,25 @@ export default function Profile() {
     } catch (err) {
       setError(err instanceof ApiError ? err.message : 'Fehler beim Speichern')
     } finally { setLoading(false) }
+  }
+
+  function handleExport() {
+    const a = document.createElement('a')
+    a.href = '/api/me/export'
+    a.download = ''
+    a.click()
+  }
+
+  async function handleDelete() {
+    if (!confirm('Konto und alle Daten unwiderruflich löschen?')) return
+    if (!confirm('Wirklich? Diese Aktion kann nicht rückgängig gemacht werden.')) return
+    setDeleting(true)
+    try {
+      await apiFetch('/me', { method: 'DELETE' })
+      navigate('/login', { replace: true })
+    } catch {
+      setDeleting(false)
+    }
   }
 
   if (!profile) return <div className="flex min-h-screen items-center justify-center text-stone-400">Laden…</div>
@@ -160,6 +181,24 @@ export default function Profile() {
           {loading ? 'Speichern…' : 'Profil speichern'}
         </button>
       </form>
+      <div className="mt-10 border-t border-stone-200 pt-6">
+        <h2 className="mb-4 text-sm font-semibold uppercase tracking-wide text-stone-500">Datenschutz</h2>
+        <div className="space-y-3">
+          <button
+            onClick={handleExport}
+            className="w-full rounded-lg border border-stone-300 px-4 py-2 text-sm text-stone-700 hover:bg-stone-50"
+          >
+            Daten exportieren (JSON)
+          </button>
+          <button
+            onClick={handleDelete}
+            disabled={deleting}
+            className="w-full rounded-lg border border-red-300 px-4 py-2 text-sm text-red-600 hover:bg-red-50 disabled:opacity-50"
+          >
+            {deleting ? 'Wird gelöscht…' : 'Konto und alle Daten löschen'}
+          </button>
+        </div>
+      </div>
     </main>
   )
 }

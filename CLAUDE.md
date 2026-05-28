@@ -10,10 +10,10 @@ Browser-basierte PWA-Familien-Kochapp. Liest Kaufda-Angebote, schlägt Gerichte 
 | 1 | ✅ fertig | Auth (bcrypt, HTTP-only Sessions), Passwort-Reset, Onboarding, Profil, Admin |
 | 2 | ✅ fertig | Kaufda-Scraper, nightly Refresh, Freshness-Endpoint, Store-Discovery |
 | 3 | ✅ fertig | AI-Harness: OpenRouter-Client, Prompts (DE), Pipeline, Plan-Endpoints, Frontend-Flow |
-| 4 | 🔜 nächste | Wochenplan-Flow (Feedback pro Gericht, Historie, Sternchen-Favoriten) |
-| 5 | 🔜 | Wochenfeedback + Lern-Aggregation (`learned_preferences`) |
-| 6 | 🔜 | PWA-Politur (Manifest, Service Worker, Offline-Liste, Teilen-Button) |
-| 7 | 🔜 | Admin-Übersicht + DSGVO (Export, Löschen) |
+| 4 | ✅ fertig | Wochenplan-Flow (Feedback pro Gericht, Historie, Sternchen-Favoriten) |
+| 5 | ✅ fertig | Wochenfeedback + Lern-Aggregation (`learned_preferences`) |
+| 6 | ✅ fertig | PWA-Politur (Manifest, Service Worker, Offline-Liste, Teilen-Button) |
+| 7 | ✅ fertig | Admin-Übersicht + DSGVO (Export, Löschen) |
 
 ## Stack
 

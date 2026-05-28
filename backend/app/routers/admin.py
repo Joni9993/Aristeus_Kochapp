@@ -3,10 +3,11 @@
 import secrets
 
 from fastapi import APIRouter, Depends
+from sqlalchemy import func, select
 from sqlalchemy.orm import Session as DbSession
 
 from ..db import get_db
-from ..models import Household, InviteToken
+from ..models import ApiCall, Household, InviteToken
 from ..schemas import HouseholdAdminOut, InviteTokenOut
 from ..security import get_current_admin
 
@@ -19,6 +20,18 @@ def list_households(
     db: DbSession = Depends(get_db),
 ) -> list[HouseholdAdminOut]:
     households = db.query(Household).order_by(Household.created_at).all()
+
+    usage_rows = db.execute(
+        select(
+            ApiCall.household_id,
+            func.count(ApiCall.id).label("cnt"),
+            func.coalesce(func.sum(ApiCall.input_tokens + ApiCall.output_tokens), 0).label("tokens"),
+        )
+        .where(ApiCall.household_id.isnot(None))
+        .group_by(ApiCall.household_id)
+    ).all()
+    usage: dict[int, tuple[int, int]] = {row.household_id: (row.cnt, row.tokens) for row in usage_rows}
+
     return [
         HouseholdAdminOut(
             id=h.id,
@@ -29,6 +42,8 @@ def list_households(
             last_login_at=h.last_login_at,
             has_profile=h.profile is not None,
             onboarding_complete=(h.profile is not None and h.profile.onboarding_complete),
+            api_calls_count=usage.get(h.id, (0, 0))[0],
+            total_tokens=usage.get(h.id, (0, 0))[1],
         )
         for h in households
     ]
