@@ -5,7 +5,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from .config import get_settings
-from .routers import admin, auth, profile, stores
+from .routers import admin, auth, plans, profile, stores
 from .services.scheduler import start_scheduler, stop_scheduler
 
 settings = get_settings()
@@ -20,7 +20,7 @@ async def lifespan(_app: FastAPI):
 
 app = FastAPI(
     title="Aristeus Kochapp API",
-    version="0.2.0",
+    version="0.3.0",
     docs_url="/api/docs",
     openapi_url="/api/openapi.json",
     lifespan=lifespan,
@@ -38,6 +38,7 @@ app.include_router(auth.router)
 app.include_router(profile.router)
 app.include_router(admin.router)
 app.include_router(stores.router)
+app.include_router(plans.router)
 
 
 @app.get("/api/health")

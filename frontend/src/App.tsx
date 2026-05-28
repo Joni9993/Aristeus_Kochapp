@@ -6,6 +6,8 @@ import Home from './pages/Home'
 import Login from './pages/Login'
 import Onboarding from './pages/Onboarding'
 import PasswordReset from './pages/PasswordReset'
+import Plan from './pages/Plan'
+import PlanNew from './pages/PlanNew'
 import Profile from './pages/Profile'
 import Register from './pages/Register'
 
@@ -36,6 +38,24 @@ export default function App() {
             element={
               <ProtectedRoute>
                 <Profile />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* Plan flow */}
+          <Route
+            path="/plan/new"
+            element={
+              <ProtectedRoute>
+                <PlanNew />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/plan/:planId"
+            element={
+              <ProtectedRoute>
+                <Plan />
               </ProtectedRoute>
             }
           />

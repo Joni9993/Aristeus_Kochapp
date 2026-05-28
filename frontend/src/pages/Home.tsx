@@ -143,13 +143,12 @@ export default function Home() {
             <p className="mt-1 text-sm text-emerald-700">
               Angebote aus deiner Region sind geladen.
             </p>
-            <button
-              disabled
-              className="mt-4 w-full rounded-lg bg-emerald-600 px-4 py-2 text-sm font-medium text-white opacity-50 cursor-not-allowed"
-              title="Kommt in Phase 4"
+            <Link
+              to="/plan/new"
+              className="mt-4 block w-full rounded-lg bg-emerald-600 px-4 py-2 text-center text-sm font-medium text-white hover:bg-emerald-700"
             >
-              Neue Woche planen (Phase 4)
-            </button>
+              Neue Woche planen
+            </Link>
           </>
         ) : (
           <>
@@ -163,14 +162,6 @@ export default function Home() {
         )}
       </section>
 
-      <div className="mt-6 rounded-xl border border-stone-200 p-4 text-sm text-stone-500">
-        <p className="font-medium text-stone-700">Nächste Phasen:</p>
-        <ul className="mt-1 list-inside list-disc space-y-1">
-          <li>Phase 3: AI-Harness (OpenRouter)</li>
-          <li>Phase 4: Wochenplan-Flow</li>
-          <li>Phase 5: Feedback & Lernen</li>
-        </ul>
-      </div>
     </main>
   )
 }
