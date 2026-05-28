@@ -1,0 +1,45 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.venv/
+venv/
+env/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Node
+node_modules/
+dist/
+.vite/
+*.log
+npm-debug.log*
+yarn-debug.log*
+
+# Env / Secrets
+.env
+.env.local
+.env.*.local
+!.env.example
+
+# Data
+*.db
+*.db-journal
+*.db-shm
+*.db-wal
+backend/data/
+backups/
+
+# OS / Editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+
+# Build artefacts
+*.tsbuildinfo
+frontend/vite.config.js
+frontend/vite.config.d.ts

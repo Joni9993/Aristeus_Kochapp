@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mkdir -p backend/app/routers backend/app/services backend/app/ai backend/alembic/versions frontend/src/pages frontend/src/components frontend/src/api frontend/src/hooks frontend/src/pwa frontend/public deploy)",
+      "Read(//c/c/Users/Joni9/p_projekte/**)",
+      "Bash(py -3.11 --version)",
+      "Bash(npm --version)",
+      "Bash(python -m venv .venv)",
+      "Bash(.venv/Scripts/python.exe -m pip install --upgrade pip)",
+      "Bash(.venv/Scripts/alembic.exe upgrade *)",
+      "Bash(.venv/Scripts/uvicorn.exe app.main:app --host 127.0.0.1 --port 8000)",
+      "Bash(curl -fsS http://127.0.0.1:8000/api/health)",
+      "Bash(npm install *)"
+    ]
+  }
+}

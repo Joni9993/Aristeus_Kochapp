@@ -1,0 +1,29 @@
+# Aristeus Kochapp — Caddy reverse proxy
+#
+# Drop on the VPS as /etc/caddy/Caddyfile, replace the host, then
+#   systemctl reload caddy
+#
+# Caddy obtains/renews a Let's Encrypt cert automatically.
+
+aristeus.deine-domain.de {
+    encode zstd gzip
+
+    # API → Uvicorn
+    handle /api/* {
+        reverse_proxy localhost:8000
+    }
+
+    # SPA — serve built static files, fall back to index.html for client routing
+    handle {
+        root * /opt/aristeus/frontend/dist
+        try_files {path} /index.html
+        file_server
+    }
+
+    log {
+        output file /var/log/caddy/aristeus.access.log {
+            roll_size 10mb
+            roll_keep 5
+        }
+    }
+}
