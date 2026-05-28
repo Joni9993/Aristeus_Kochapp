@@ -15,7 +15,14 @@ class Settings(BaseSettings):
 
     openrouter_api_key: str = ""
     openrouter_default_model: str = "google/gemini-2.0-flash-exp:free"
-    openrouter_fallback_model: str = "meta-llama/llama-3.3-70b-instruct:free"
+    # Comma-separated fallback chain, tried in order after default fails
+    openrouter_fallback_models: str = "meta-llama/llama-3.3-70b-instruct:free"
+
+    @property
+    def model_chain(self) -> list[str]:
+        """All models to try in order: default first, then each fallback."""
+        fallbacks = [m.strip() for m in self.openrouter_fallback_models.split(",") if m.strip()]
+        return [self.openrouter_default_model] + fallbacks
 
     smtp_host: str = ""
     smtp_port: int = 587

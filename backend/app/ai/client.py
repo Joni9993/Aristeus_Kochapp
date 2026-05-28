@@ -29,7 +29,7 @@ async def chat_completion(
     if not settings.openrouter_api_key:
         raise RuntimeError("OPENROUTER_API_KEY not set")
 
-    models = [settings.openrouter_default_model, settings.openrouter_fallback_model]
+    models = settings.model_chain
     headers = {
         "Authorization": f"Bearer {settings.openrouter_api_key}",
         "Content-Type": "application/json",
