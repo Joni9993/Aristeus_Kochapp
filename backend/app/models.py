@@ -123,6 +123,47 @@ class PasswordReset(Base):
     )
 
 
+class Brochure(Base):
+    __tablename__ = "brochures"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    store: Mapped[str] = mapped_column(String(20), nullable=False, index=True)
+    postal_code: Mapped[str] = mapped_column(String(10), nullable=False, index=True)
+    brochure_id_kaufda: Mapped[str] = mapped_column(String(200), nullable=False)
+    retailer_name: Mapped[str | None] = mapped_column(String(100), nullable=True)
+    valid_from: Mapped[str | None] = mapped_column(String(20), nullable=True)   # ISO date string
+    valid_to: Mapped[str | None] = mapped_column(String(20), nullable=True)
+    fetched_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
+    # active | stale | error
+    status: Mapped[str] = mapped_column(String(20), default="active", nullable=False)
+
+    offers: Mapped[list["Offer"]] = relationship(
+        "Offer", back_populates="brochure", cascade="all, delete-orphan"
+    )
+
+
+class Offer(Base):
+    __tablename__ = "offers"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    brochure_id: Mapped[int] = mapped_column(
+        ForeignKey("brochures.id", ondelete="CASCADE"), nullable=False, index=True
+    )
+    product_name: Mapped[str] = mapped_column(String(300), nullable=False)
+    price_text: Mapped[str | None] = mapped_column(String(80), nullable=True)
+    quantity_text: Mapped[str | None] = mapped_column(String(200), nullable=True)
+    base_price: Mapped[str | None] = mapped_column(String(80), nullable=True)
+    hint: Mapped[str | None] = mapped_column(String(300), nullable=True)
+    store: Mapped[str] = mapped_column(String(20), nullable=False)
+    # "live ab Mo. 11.5." — ISO date when the offer becomes valid
+    live_from_date: Mapped[str | None] = mapped_column(String(20), nullable=True)
+    category: Mapped[str | None] = mapped_column(String(200), nullable=True)
+    is_cooking_relevant: Mapped[bool] = mapped_column(Boolean, default=False, nullable=False)
+    page_no: Mapped[int | None] = mapped_column(Integer, nullable=True)
+
+    brochure: Mapped["Brochure"] = relationship("Brochure", back_populates="offers")
+
+
 class HealthPing(Base):
     """Kept from Phase 0."""
 
