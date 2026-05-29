@@ -14,7 +14,6 @@ Steps:
 import asyncio
 import json
 import logging
-from datetime import date, datetime, timezone
 
 from pydantic import ValidationError
 from sqlalchemy import select
@@ -189,12 +188,53 @@ async def generate_recipes_parallel(
 # Step 7: Aggregate shopping list
 # ---------------------------------------------------------------------------
 
+_KNOWN_STORES = {"rewe", "lidl", "aldi", "edeka", "penny", "netto", "kaufland"}
+
+
+def _normalize_store(laden: str) -> str | None:
+    """Map AI-reported store name ('Lidl', 'Aldi Süd') to the DB key ('lidl', 'aldi')."""
+    lower = laden.lower().strip()
+    for s in _KNOWN_STORES:
+        if s in lower:
+            return s
+    return None
+
+
+def _find_matching_offer(name_lower: str, offers: list[Offer]) -> Offer | None:
+    """Find the best-matching offer for an ingredient name."""
+    # Exact match first
+    for o in offers:
+        if o.product_name.lower() == name_lower:
+            return o
+    # Substring: ingredient name is contained in offer name or vice versa
+    for o in offers:
+        offer_lower = o.product_name.lower()
+        if name_lower in offer_lower or offer_lower in name_lower:
+            return o
+    # Word-based fallback: 2+ significant words in common
+    name_words = {w for w in name_lower.split() if len(w) > 3}
+    if name_words:
+        for o in offers:
+            offer_words = {w for w in o.product_name.lower().split() if len(w) > 3}
+            if len(name_words & offer_words) >= 2:
+                return o
+    return None
+
+
 def build_shopping_list(
     plan: WeeklyPlan,
     recipes: dict[int, RecipeResponse],
+    household: Household,
     db: DbSession,
 ) -> list[ShoppingItem]:
     """Aggregate ingredients from all recipe responses into shopping items."""
+    # Load active offers to resolve store for angebot ingredients
+    profile = household.profile
+    active_offers: list[Offer] = []
+    if profile and profile.postal_code:
+        stores = json.loads(profile.selected_stores_json or "[]")
+        active_offers = _get_active_offers(profile.postal_code, stores, db)
+
     # Aggregate by (ingredient_name_lower, unit)
     aggregated: dict[tuple[str, str], dict] = {}
 
@@ -212,18 +252,41 @@ def build_shopping_list(
                     "total": 0.0,
                     "unit": ing.einheit,
                     "is_angebot": ing.ist_angebot,
+                    "laden": ing.laden,  # AI-reported store name
                 }
             if ing.menge:
                 aggregated[key]["total"] += ing.menge
 
     items: list[ShoppingItem] = []
     for entry in aggregated.values():
-        qty = f"{entry['total']:.0f}" if entry["total"] > 0 else None
+        qty_rounded = round(entry["total"])
+        qty = str(qty_rounded) if qty_rounded > 0 else None
+
+        store: str | None = None
+        offer_id: int | None = None
+        price_text: str | None = None
+
+        if entry["is_angebot"]:
+            # Primary: use AI-reported store name
+            if entry["laden"]:
+                store = _normalize_store(entry["laden"])
+            # Find matching offer for offer_id and price_text
+            if active_offers:
+                matched = _find_matching_offer(entry["name"].lower(), active_offers)
+                if matched:
+                    offer_id = matched.id
+                    price_text = matched.price_text
+                    if not store:  # fallback if AI didn't report laden
+                        store = matched.store
+
         item = ShoppingItem(
             plan_id=plan.id,
             ingredient=entry["name"],
             quantity=qty,
             unit=entry["unit"],
+            store=store,
+            offer_id=offer_id,
+            price_text=price_text,
             is_checked=False,
             is_already_have=False,
         )
@@ -307,7 +370,7 @@ async def run_confirm_step(
     recipes = await generate_recipes_parallel(confirmed, household, db)
 
     # Step 7: shopping list
-    build_shopping_list(plan, recipes, db)
+    build_shopping_list(plan, recipes, household, db)
 
     plan.status = "confirmed"
     db.commit()

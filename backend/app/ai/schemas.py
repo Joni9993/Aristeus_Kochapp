@@ -36,6 +36,7 @@ class RecipeIngredient(BaseModel):
     menge: float | None = None
     einheit: str | None = None
     ist_angebot: bool = False
+    laden: str | None = None  # exact store key when ist_angebot=True
 
 
 class RecipeResponse(BaseModel):

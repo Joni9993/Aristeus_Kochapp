@@ -71,6 +71,8 @@ def _item_out(item: ShoppingItem) -> dict:
         "live_from_date": item.live_from_date,
         "is_checked": item.is_checked,
         "is_already_have": item.is_already_have,
+        "is_angebot": item.store is not None,
+        "price_text": item.price_text,
     }
 
 

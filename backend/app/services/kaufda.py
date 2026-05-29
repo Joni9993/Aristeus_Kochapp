@@ -126,6 +126,7 @@ class BrochureInfo:
     valid_to: str | None
     lat: float
     lng: float
+    web_url: str | None = None  # direct URL to the brochure on kaufda.de
 
 
 @dataclass
@@ -199,6 +200,16 @@ def _get_content(item: dict) -> dict:
     if isinstance(raw, dict):
         return raw
     return item
+
+
+def _extract_web_url(item: dict, content: dict) -> str | None:
+    """Try common field names that Kaufda/Bonial use for the brochure's web page URL."""
+    for src in (content, item):
+        for field in ("link", "webUrl", "url", "href", "canonicalUrl", "permalink", "brochureUrl"):
+            val = src.get(field)
+            if isinstance(val, str) and val.startswith("http"):
+                return val
+    return None
 
 
 def _parse_iso_date(ts: str | None) -> str | None:
@@ -312,6 +323,7 @@ def _extract_from_json_api(
             ),
             lat=store_data.get("latitude") or fallback_lat,
             lng=store_data.get("longitude") or fallback_lng,
+            web_url=_extract_web_url(item, content),
         )
 
     logger.info("  [diag:json] retailer names seen: %s", retailer_names_seen[:20])
@@ -389,6 +401,7 @@ def _collect_brochures_from_next_data(
             valid_to=_parse_iso_date(content.get("validUntil")),
             lat=closest_store.get("latitude", fallback_lat),
             lng=closest_store.get("longitude", fallback_lng),
+            web_url=_extract_web_url(item, content),
         ))
 
     return results
@@ -779,6 +792,7 @@ async def refresh_plz(plz: str, stores: list[str], db: DbSession) -> dict:
             valid_to=bi.valid_to,
             fetched_at=now,
             status="active",
+            web_url=bi.web_url,
         )
         db.add(brochure)
         db.flush()

@@ -83,7 +83,8 @@ Beschreibung: {dish_description}
 Gib exakt dieses JSON zurück:
 {{
   "zutaten": [
-    {{"name": "Zutatname", "menge": 200, "einheit": "g", "ist_angebot": true}}
+    {{"name": "Zutatname", "menge": 200, "einheit": "g", "ist_angebot": false, "laden": null}},
+    {{"name": "EXAKTER Produktname aus Angebotsliste", "menge": 400, "einheit": "g", "ist_angebot": true, "laden": "Lidl"}}
   ],
   "schritte": [
     "Schritt 1: ...",
@@ -94,7 +95,11 @@ Gib exakt dieses JSON zurück:
 }}
 
 Mengen für das angegebene Haushaltsprofil (Erwachsene + Kinder) anpassen.
-"ist_angebot": true nur wenn die Zutat in den Angeboten vorkommt."""
+WICHTIG für Angebots-Zutaten:
+- "ist_angebot": true NUR wenn die Zutat aus der Angebotsliste stammt
+- "name": verwende den EXAKTEN Produktnamen wie er in der Angebotsliste steht (z.B. "Gut Ponholz Hähnchen-Schenkel", nicht nur "Hähnchen")
+- "laden": der Ladenname in eckigen Klammern aus der Angebotsliste (z.B. "Lidl", "Rewe", "Aldi")
+Für normale Zutaten: "ist_angebot": false, "laden": null"""
 
     return [
         {"role": "system", "content": system},

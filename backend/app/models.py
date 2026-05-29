@@ -136,6 +136,7 @@ class Brochure(Base):
     fetched_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
     # active | stale | error
     status: Mapped[str] = mapped_column(String(20), default="active", nullable=False)
+    web_url: Mapped[str | None] = mapped_column(String(500), nullable=True)
 
     offers: Mapped[list["Offer"]] = relationship(
         "Offer", back_populates="brochure", cascade="all, delete-orphan"
@@ -226,6 +227,7 @@ class ShoppingItem(Base):
     offer_id: Mapped[int | None] = mapped_column(
         ForeignKey("offers.id", ondelete="SET NULL"), nullable=True
     )
+    price_text: Mapped[str | None] = mapped_column(String(80), nullable=True)
     is_checked: Mapped[bool] = mapped_column(Boolean, default=False, nullable=False)
     is_already_have: Mapped[bool] = mapped_column(Boolean, default=False, nullable=False)
 

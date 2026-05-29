@@ -67,6 +67,87 @@ cd backend
 
 Letzte Migration: `a1b2c3d4e5f6` (Phase 3 — weekly_plans, plan_dishes, shopping_items, learned_preferences, api_calls)
 
+## Keyword-Filter (`backend/app/services/keyword_filter.py`)
+
+### Architektur
+
+`is_cooking_relevant(product_name, quantity_text)` klassifiziert Angebote beim Scrapen.
+Das Flag `Offer.is_cooking_relevant` wird einmalig beim Scrapen gesetzt und in der DB gespeichert.
+Nach Filter-Änderungen muss die DB manuell reklassifiziert werden:
+
+```bash
+cd backend
+.venv\Scripts\python reclassify_offers.py  # Skript bei Bedarf neu anlegen (s.u.)
+```
+
+### Matching-Logik (Stand 2026-05-29)
+
+| Kategorie | Regel |
+|---|---|
+| Exclusion, len ≤ 4 | nur Word-Boundary (`bier`→`Bierwurst`, `tee`→`Teewurst`) |
+| Exclusion, len > 4 | auch Substring (`chips`→`Crunchips`, `kaffee`→`Röstkaffee`) |
+| `_EXCL_BOUNDARY_ONLY` | bilateral Word-Boundary erzwungen, egal wie lang (`"reise"` schützt `"Reisessig"`) |
+| Positiv, len ≤ 4 | nur Word-Boundary (`reis`→`Reise/Kreis`, `salz`→`Salzburg`) |
+| Positiv, len > 4 | auch Substring (`schwein`→`Schweinehalssteaks`) |
+| `_POS_COMPOUND_ALLOW` | Substring auch für len=4: `käse`, `mais`, `brot`, `kalb` |
+
+### Bekannte Restprobleme (nicht perfekt)
+
+**Akzeptierte False Positives** (LLM ignoriert sie im Kontext):
+- Getränke mit echten Zutaten im Namen: `Active O2 Apfel Kiwi`, `Almdudler` (wegen `kräuter`)
+- Dekoriative Blumen-/Pflanzenprodukte wenn Name echte Zutat enthält: `Bunter Maistauß`
+- `Nivea Creme` (wegen `creme`-Keyword) — `zahnpasta`/`zahncreme` greift für explizite Zahncreme
+
+**Akzeptierte False Negatives:**
+- Branded Käse ohne `käse` im Namen und ohne Beschreibung: `Parmigiano Reggiano DOP` → `parmigiano` Keyword ergänzt, aber weitere exotische Käsemarken möglich
+- `VITASIA Reisteigplatten` (Reisesnudeln) — `reis` ist word-boundary only, kein anderes Keyword greift
+- Produkte mit deutschen Namen ohne die hinterlegten Keywords (z.B. `Riesenfrikadelle`)
+
+### Typische Debugging-Muster
+
+Wenn ein Produkt falsch klassifiziert wird, prüfen:
+
+```python
+# In backend/ ausführen:
+import sys; sys.path.insert(0, ".")
+from app.services.keyword_filter import (
+    _EXCLUSION_KEYWORDS, _FOOD_POSITIVE, _EXCL_BOUNDARY_ONLY_MAX,
+    _POS_BOUNDARY_ONLY_MAX, _POS_COMPOUND_ALLOW, _EXCL_BOUNDARY_ONLY,
+    _normalize, _word_boundary_match,
+)
+
+combined = _normalize("Produktname") + " " + _normalize("Quantity Text")
+# Dann manuell prüfen welche Keywords matchen
+```
+
+Reklassifizierungs-Script (bei Bedarf neu anlegen als `backend/reclassify_offers.py`):
+
+```python
+import sqlite3, sys
+sys.path.insert(0, ".")
+from app.services.keyword_filter import is_cooking_relevant
+
+conn = sqlite3.connect("data/aristeus.db")
+conn.row_factory = sqlite3.Row
+cur = conn.cursor()
+cur.execute("SELECT id, product_name, quantity_text, is_cooking_relevant FROM offers")
+added, removed = [], []
+for row in cur.fetchall():
+    new_val = is_cooking_relevant(row["product_name"], row["quantity_text"])
+    if new_val != bool(row["is_cooking_relevant"]):
+        cur.execute("UPDATE offers SET is_cooking_relevant = ? WHERE id = ?",
+                    (1 if new_val else 0, row["id"]))
+        (added if new_val else removed).append(row["product_name"])
+conn.commit()
+print(f"+{len(added)} kochrelevant, -{len(removed)} entfernt")
+```
+
+### Nächste Verbesserungsideen
+
+- **Kategorie-basierter Pre-Filter:** Der Scraper schreibt `Offer.category` aus der Kaufda-API (z.B. "Tiernahrung", "Molkerei"). `is_cooking_relevant` könnte diese Kategorie als dritten Parameter entgegennehmen und vor dem Keyword-Check auswerten — deutlich zuverlässiger als Keywords.
+- **LLM-basierte Nachklassifizierung:** Zweideutige Produkte (weder klar food noch klar non-food) könnten per Batch-Aufruf vom LLM nachbewertet werden.
+- **Umlaut-Normalisierung:** `_normalize()` konvertiert keine Akzente (é, è, î etc.). Französische Produktnamen wie `Crème fraîche` matchen deshalb nur über das explizit ergänzte `"fraîche"`-Keyword.
+
 ## Was Phase 4 braucht (nächster Start)
 
 - **Frontend:** Feedback-Flow nach dem Essen (Daumen ↑/↓, Portion, Freitext) ist im Backend (`PATCH /api/plans/{id}/dishes/{dish_id}/feedback`) bereits implementiert, aber noch nicht als dedizierte UI-Seite vorhanden

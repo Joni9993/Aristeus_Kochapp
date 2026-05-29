@@ -96,6 +96,56 @@ async def trigger_refresh(
     return {"ok": True, "message": f"Refresh für PLZ {plz} gestartet"}
 
 
+@router.get("/{store_id}/offers")
+def get_store_offers(
+    store_id: str,
+    cooking_only: bool = True,
+    household: Household = Depends(get_current_household),
+    db: DbSession = Depends(get_db),
+) -> dict:
+    """Return offers for a specific store for the current household's PLZ."""
+    profile = household.profile
+    if not profile or not profile.postal_code:
+        raise HTTPException(400, "Profil oder PLZ fehlt")
+
+    plz = profile.postal_code
+    brochure = db.scalar(
+        select(Brochure)
+        .where(Brochure.store == store_id, Brochure.postal_code == plz)
+        .order_by(Brochure.fetched_at.desc())
+        .limit(1)
+    )
+    if not brochure:
+        raise HTTPException(404, "Keine Angebote gefunden")
+
+    offers = [o for o in brochure.offers if (not cooking_only or o.is_cooking_relevant)]
+    # Sort by category, then product name
+    offers.sort(key=lambda o: (o.category or "", o.product_name))
+
+    return {
+        "store": store_id,
+        "label": _STORE_LABELS.get(store_id, store_id),
+        "brochure_url": brochure.web_url or "https://www.kaufda.de/",
+        "valid_from": brochure.valid_from,
+        "valid_to": brochure.valid_to,
+        "total_count": len(brochure.offers),
+        "cooking_relevant_count": sum(1 for o in brochure.offers if o.is_cooking_relevant),
+        "offers": [
+            {
+                "id": o.id,
+                "product_name": o.product_name,
+                "price_text": o.price_text,
+                "quantity_text": o.quantity_text,
+                "base_price": o.base_price,
+                "hint": o.hint,
+                "category": o.category,
+                "is_cooking_relevant": o.is_cooking_relevant,
+            }
+            for o in offers
+        ],
+    }
+
+
 async def _bg_refresh(plz: str, stores: list[str]) -> None:
     db = DbSession.__new__(DbSession)  # will be created properly below
     from ..db import SessionLocal

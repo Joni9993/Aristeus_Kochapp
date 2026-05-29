@@ -44,6 +44,8 @@ type ShoppingItem = {
   live_from_date: string | null
   is_checked: boolean
   is_already_have: boolean
+  is_angebot: boolean
+  price_text: string | null
 }
 
 type Plan = {
@@ -460,10 +462,45 @@ function FeedbackRow({ planId, dish }: { planId: number; dish: Dish }) {
 // Shopping view
 // ---------------------------------------------------------------------------
 
+const STORE_LABELS: Record<string, string> = {
+  rewe: 'Rewe', lidl: 'Lidl', aldi: 'Aldi', edeka: 'Edeka',
+  penny: 'Penny', netto: 'Netto', kaufland: 'Kaufland',
+}
+
+const PANTRY_RE = /^(salz|pfeffer|paprikapulver|curry|kurkuma|zimt|zucker|mehl|essig|backpulver|natron|hefe)\b/i
+
+function isPantry(item: ShoppingItem): boolean {
+  if (item.quantity === '0') return true
+  const n = item.ingredient.toLowerCase()
+  return n.endsWith('öl') || PANTRY_RE.test(n)
+}
+
+function getFoodCategory(ingredient: string): number {
+  const n = ingredient.toLowerCase()
+  if (/paprika|brokkoli|tomate|zwiebel|knoblauch|karotte|salat|gurke|zucchini|spinat|kohl|pilz|champignon|petersilie|dill|zitrone|kräuter|avocado|mais/.test(n)) return 1
+  if (/hähnchen|hühnchen|pute|rind|schwein|wurst|aufschnitt|hack|schinken|gyros|geschnetzeltes|fleisch|speck/.test(n)) return 2
+  if (/lachs|thunfisch|garnelen|fisch|meeresfrüchte|forelle/.test(n)) return 3
+  if (/milch|käse|joghurt|skyr|schmand|frischkäse|kräuterbutter|cheddar|mozzarella|ei |eier|quark|sahne|butter/.test(n)) return 4
+  if (/brot|brötchen|toast|semmel|sesambrötchen/.test(n)) return 5
+  if (/nudeln|pasta|spaghetti|penne|reis|getreide|couscous|bulgur/.test(n)) return 6
+  if (/dose|bohnen|linsen|kichererbsen/.test(n)) return 7
+  return 8
+}
+
 function ShoppingView({ plan, onItemUpdate }: { plan: Plan; onItemUpdate: (id: number, changes: Partial<ShoppingItem>) => void }) {
-  const items = plan.shopping_items || []
-  const unchecked = items.filter((i) => !i.is_checked && !i.is_already_have)
-  const checked = items.filter((i) => i.is_checked || i.is_already_have)
+  const allItems = plan.shopping_items || []
+
+  // Build angebot ingredient set from recipe data (fallback for plans without store set)
+  const angebotNames = new Set<string>()
+  for (const dish of plan.dishes || []) {
+    if (!dish.recipe) continue
+    for (const ing of dish.recipe.zutaten) {
+      if (ing.ist_angebot) angebotNames.add(ing.name.toLowerCase())
+    }
+  }
+  function isAngebot(item: ShoppingItem) {
+    return item.is_angebot || angebotNames.has(item.ingredient.toLowerCase())
+  }
 
   async function toggle(item: ShoppingItem, field: 'is_checked' | 'is_already_have') {
     const newVal = !item[field]
@@ -474,32 +511,36 @@ function ShoppingView({ plan, onItemUpdate }: { plan: Plan; onItemUpdate: (id: n
         body: { [field]: newVal },
       })
     } catch {
-      onItemUpdate(item.id, { [field]: item[field] }) // revert
+      onItemUpdate(item.id, { [field]: item[field] })
     }
   }
 
-  function ItemRow({ item }: { item: ShoppingItem }) {
+  function ItemRow({ item, dimmed = false }: { item: ShoppingItem; dimmed?: boolean }) {
+    const angebot = isAngebot(item)
+    const showQty = item.quantity && item.quantity !== '0'
     return (
-      <div className="flex items-center gap-3 py-2">
+      <div className={`flex items-center gap-3 py-2.5 border-b border-stone-100 last:border-0 ${dimmed ? 'opacity-50' : ''}`}>
         <input
           type="checkbox"
           checked={item.is_checked}
           onChange={() => toggle(item, 'is_checked')}
-          className="h-4 w-4 accent-emerald-600"
+          className="h-4 w-4 shrink-0 accent-emerald-600"
         />
         <div className="flex-1 min-w-0">
           <span className={`text-sm ${item.is_checked ? 'line-through text-stone-400' : 'text-stone-700'}`}>
-            {item.quantity && <span className="font-medium">{item.quantity} {item.unit} </span>}
+            {showQty && <span className="font-medium">{item.quantity} {item.unit} </span>}
             {item.ingredient}
           </span>
-          {item.store && (
-            <span className="ml-2 text-xs text-stone-400">{item.store}</span>
+          {angebot && (
+            <span className="ml-1.5 inline-block rounded-full bg-emerald-100 px-1.5 py-0.5 text-xs font-medium text-emerald-700 align-middle">
+              Angebot{item.price_text ? ` · ${item.price_text}` : ''}
+            </span>
           )}
         </div>
         <button
           onClick={() => toggle(item, 'is_already_have')}
           title="Schon vorhanden"
-          className={`rounded-full px-2 py-0.5 text-xs ${item.is_already_have ? 'bg-blue-100 text-blue-700' : 'text-stone-300 hover:text-stone-500'}`}
+          className={`shrink-0 rounded-full px-2 py-0.5 text-xs ${item.is_already_have ? 'bg-sky-100 text-sky-700' : 'text-stone-300 hover:text-stone-500'}`}
         >
           Habe ich
         </button>
@@ -507,10 +548,47 @@ function ShoppingView({ plan, onItemUpdate }: { plan: Plan; onItemUpdate: (id: n
     )
   }
 
+  const active = allItems.filter((i) => !i.is_checked && !i.is_already_have)
+  const done = allItems.filter((i) => i.is_checked || i.is_already_have)
+
+  const pantryItems = active.filter(isPantry)
+  const shopItems = active.filter((i) => !isPantry(i))
+
+  // Group by store, sort each group by food category
+  const groups = new Map<string, ShoppingItem[]>()
+  for (const item of shopItems) {
+    const key = item.store || ''
+    if (!groups.has(key)) groups.set(key, [])
+    groups.get(key)!.push(item)
+  }
+  for (const items of groups.values()) {
+    items.sort((a, b) => getFoodCategory(a.ingredient) - getFoodCategory(b.ingredient))
+  }
+  const storeKeys = [...groups.keys()].sort((a, b) => {
+    if (!a && b) return 1
+    if (a && !b) return -1
+    return a.localeCompare(b)
+  })
+
   async function shareList() {
-    const text = unchecked
-      .map((i) => `☐ ${i.quantity ? i.quantity + ' ' + (i.unit || '') + ' ' : ''}${i.ingredient}`)
-      .join('\n')
+    const lines: string[] = []
+    for (const key of storeKeys) {
+      const label = STORE_LABELS[key] || (key || 'Sonstiges')
+      const its = groups.get(key)!
+      if (its.length) {
+        lines.push(`=== ${label} ===`)
+        for (const i of its) {
+          const q = i.quantity && i.quantity !== '0' ? `${i.quantity} ${i.unit || ''} ` : ''
+          lines.push(`☐ ${q}${i.ingredient}`)
+        }
+        lines.push('')
+      }
+    }
+    if (pantryItems.length) {
+      lines.push('=== Gewürze & Pantry ===')
+      for (const i of pantryItems) lines.push(`☐ ${i.ingredient}`)
+    }
+    const text = lines.join('\n').trim()
     if (navigator.share) {
       await navigator.share({ title: 'Einkaufsliste', text })
     } else {
@@ -523,29 +601,46 @@ function ShoppingView({ plan, onItemUpdate }: { plan: Plan; onItemUpdate: (id: n
     <div>
       <div className="mb-4 flex items-center justify-between">
         <h2 className="font-semibold text-stone-800">Einkaufsliste</h2>
-        <button
-          onClick={shareList}
-          className="rounded-lg border border-stone-300 px-3 py-1 text-xs hover:bg-stone-50"
-        >
+        <button onClick={shareList} className="rounded-lg border border-stone-300 px-3 py-1 text-xs hover:bg-stone-50">
           Teilen
         </button>
       </div>
 
-      {items.length === 0 && (
-        <p className="text-sm text-stone-400">Keine Zutaten.</p>
+      {allItems.length === 0 && <p className="text-sm text-stone-400">Keine Zutaten.</p>}
+
+      {storeKeys.map((storeKey) => {
+        const storeItems = groups.get(storeKey)!
+        const label = STORE_LABELS[storeKey] || (storeKey ? storeKey : null)
+        return (
+          <div key={storeKey || '__none__'} className="mb-4">
+            {label && (
+              <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-stone-500">{label}</p>
+            )}
+            <div className="rounded-xl border border-stone-200 bg-white px-3">
+              {storeItems.map((item) => <ItemRow key={item.id} item={item} />)}
+            </div>
+          </div>
+        )
+      })}
+
+      {pantryItems.length > 0 && (
+        <div className="mb-4">
+          <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-stone-400">
+            Gewürze &amp; Pantry — wahrscheinlich zuhause
+          </p>
+          <div className="rounded-xl border border-stone-100 bg-stone-50 px-3">
+            {pantryItems.map((item) => <ItemRow key={item.id} item={item} dimmed />)}
+          </div>
+        </div>
       )}
 
-      <div className="divide-y divide-stone-100">
-        {unchecked.map((item) => <ItemRow key={item.id} item={item} />)}
-      </div>
-
-      {checked.length > 0 && (
-        <details className="mt-4">
+      {done.length > 0 && (
+        <details className="mt-2">
           <summary className="cursor-pointer text-xs text-stone-400">
-            {checked.length} erledigt / vorhanden
+            {done.length} erledigt / vorhanden
           </summary>
-          <div className="mt-1 divide-y divide-stone-100 opacity-60">
-            {checked.map((item) => <ItemRow key={item.id} item={item} />)}
+          <div className="mt-2 rounded-xl border border-stone-200 bg-white px-3 opacity-60">
+            {done.map((item) => <ItemRow key={item.id} item={item} />)}
           </div>
         </details>
       )}
