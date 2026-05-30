@@ -10,10 +10,16 @@ DATA=/opt/aristeus/data
 echo "--- Deploy $(date '+%Y-%m-%d %H:%M:%S') ---"
 
 # DB-Sync: falls eine neue DB unter /tmp/aristeus_new.db bereitliegt, wird sie
-# vor dem Restart eingespielt. WAL-Dateien werden entfernt damit SQLite sauber startet.
+# vor dem Restart eingespielt. Sicherung der alten DB in backups/ BEVOR getauscht wird.
 if [ -f /tmp/aristeus_new.db ]; then
     echo "[0/5] DB-Sync: neue aristeus.db einspielen"
     systemctl stop aristeus-api || true
+    # Sicherung der aktuellen Produktions-DB
+    BACKUP="$DATA/backups/aristeus_$(date '+%Y%m%d_%H%M%S').db"
+    cp "$DATA/aristeus.db" "$BACKUP"
+    chown aristeus:aristeus "$BACKUP"
+    echo "      Backup: $BACKUP"
+    # Neue DB einspielen
     cp /tmp/aristeus_new.db "$DATA/aristeus.db"
     chown aristeus:aristeus "$DATA/aristeus.db"
     chmod 640 "$DATA/aristeus.db"
