@@ -56,7 +56,8 @@ sudo -u aristeus .venv/bin/pip install -e . --quiet
 echo "=== 6/8  Production .env ==="
 if [ ! -f /opt/aristeus/.env ]; then
     cp "$APP/backend/.env.example" /opt/aristeus/.env
-    chmod 600 /opt/aristeus/.env
+    chown root:aristeus /opt/aristeus/.env
+    chmod 640 /opt/aristeus/.env
     SECRET=$(python3 -c "import secrets; print(secrets.token_hex(32))")
     sed -i "s|change-me-to-a-long-random-string|$SECRET|g" /opt/aristeus/.env
     sed -i "s|APP_ENV=development|APP_ENV=production|g" /opt/aristeus/.env
