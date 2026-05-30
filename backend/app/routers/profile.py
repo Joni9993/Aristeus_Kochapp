@@ -60,6 +60,7 @@ def upsert_profile(
     p.postal_code = data.postal_code
     p.selected_stores_json = json.dumps(data.selected_stores, ensure_ascii=False)
     p.monday_only_offers = data.monday_only_offers
+    p.include_desserts = data.include_desserts
     p.updated_at = datetime.now(timezone.utc)
 
     db.commit()
@@ -182,6 +183,7 @@ def _profile_to_out(p: Profile) -> ProfileOut:
         postal_code=p.postal_code,
         selected_stores=json.loads(p.selected_stores_json),
         monday_only_offers=p.monday_only_offers,
+        include_desserts=p.include_desserts,
         onboarding_complete=p.onboarding_complete,
         updated_at=p.updated_at,
     )

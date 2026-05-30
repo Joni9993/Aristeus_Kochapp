@@ -24,8 +24,8 @@ type Profile = {
   adults: number; kids: number; diet: string; allergies: string[]
   allowed_meats: string[]; max_cook_time_min: number; preferred_cuisines: string[]
   no_gos: string[]; budget_sensitivity: number; postal_code: string
-  selected_stores: string[]; monday_only_offers: boolean; onboarding_complete: boolean
-  updated_at: string
+  selected_stores: string[]; monday_only_offers: boolean; include_desserts: boolean
+  onboarding_complete: boolean; updated_at: string
 }
 
 export default function Profile() {
@@ -172,6 +172,19 @@ export default function Profile() {
               </label>
             ))}
           </div>
+        </Section>
+
+        <Section title="Vorschläge">
+          <label className="flex cursor-pointer items-center gap-3">
+            <div className={`relative h-6 w-11 rounded-full transition-colors ${f.include_desserts ? 'bg-emerald-600' : 'bg-stone-300'}`}
+              onClick={() => setForm({ ...f, include_desserts: !f.include_desserts })}>
+              <span className={`absolute top-0.5 h-5 w-5 rounded-full bg-white shadow transition-transform ${f.include_desserts ? 'translate-x-5' : 'translate-x-0.5'}`} />
+            </div>
+            <div>
+              <span className="text-sm font-medium">Auch Desserts vorschlagen</span>
+              <p className="text-xs text-stone-500">Kuchen, Süßspeisen und Nachspeisen in den Wochenplan einbeziehen</p>
+            </div>
+          </label>
         </Section>
 
         {error && <p className="text-sm text-red-600">{error}</p>}

@@ -5,6 +5,7 @@ from datetime import datetime
 from sqlalchemy import (
     Boolean,
     DateTime,
+    Float,
     ForeignKey,
     Integer,
     String,
@@ -67,6 +68,7 @@ class Profile(Base):
     )
     # True = nur Angebote, die ab Montag gelten (für einmaliges Einkaufen)
     monday_only_offers: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
+    include_desserts: Mapped[bool] = mapped_column(Boolean, default=False, nullable=False)
     onboarding_complete: Mapped[bool] = mapped_column(Boolean, default=False, nullable=False)
     updated_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), server_default=func.now(), nullable=False
@@ -208,8 +210,13 @@ class PlanDish(Base):
     feedback_thumbs: Mapped[int | None] = mapped_column(Integer, nullable=True)  # 1=up, -1=down
     feedback_portion_note: Mapped[str | None] = mapped_column(String(50), nullable=True)
     feedback_free_text: Mapped[str | None] = mapped_column(Text, nullable=True)
+    # NULL for plans created before the recipe catalog was introduced
+    recipe_id: Mapped[int | None] = mapped_column(
+        ForeignKey("recipes.id", ondelete="SET NULL"), nullable=True
+    )
 
     plan: Mapped["WeeklyPlan"] = relationship("WeeklyPlan", back_populates="dishes")
+    recipe: Mapped["Recipe | None"] = relationship("Recipe")
 
 
 class ShoppingItem(Base):
@@ -266,6 +273,66 @@ class ApiCall(Base):
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), server_default=func.now(), nullable=False
     )
+
+
+class Recipe(Base):
+    __tablename__ = "recipes"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    source: Mapped[str] = mapped_column(String(50), nullable=False)
+    source_url: Mapped[str] = mapped_column(String(500), nullable=False, unique=True, index=True)
+    source_id: Mapped[str | None] = mapped_column(String(200), nullable=True)
+    name: Mapped[str] = mapped_column(String(300), nullable=False)
+    description: Mapped[str | None] = mapped_column(Text, nullable=True)
+    cuisine: Mapped[str | None] = mapped_column(String(100), nullable=True)
+    category: Mapped[str | None] = mapped_column(String(100), nullable=True)
+    cook_time_min: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    total_time_min: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    difficulty: Mapped[str | None] = mapped_column(String(20), nullable=True)
+    base_servings: Mapped[int] = mapped_column(Integer, default=4, nullable=False)
+    instructions_json: Mapped[str] = mapped_column(Text, default="[]", nullable=False)
+    tips_json: Mapped[str] = mapped_column(Text, default="[]", nullable=False)
+    image_url: Mapped[str | None] = mapped_column(String(500), nullable=True)
+    rating_avg: Mapped[float | None] = mapped_column(Float, nullable=True)
+    rating_count: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    # Diet flags derived from ingredients at scrape time
+    is_vegetarian: Mapped[bool] = mapped_column(Boolean, default=False, nullable=False)
+    is_vegan: Mapped[bool] = mapped_column(Boolean, default=False, nullable=False)
+    is_meat: Mapped[bool] = mapped_column(Boolean, default=False, nullable=False)
+    is_fish: Mapped[bool] = mapped_column(Boolean, default=False, nullable=False)
+    contains_pork: Mapped[bool] = mapped_column(Boolean, default=False, nullable=False)
+    contains_beef: Mapped[bool] = mapped_column(Boolean, default=False, nullable=False)
+    contains_chicken: Mapped[bool] = mapped_column(Boolean, default=False, nullable=False)
+    contains_turkey: Mapped[bool] = mapped_column(Boolean, default=False, nullable=False)
+    allergen_flags_json: Mapped[str] = mapped_column(Text, default="[]", nullable=False)
+    meat_kinds_json: Mapped[str] = mapped_column(Text, default="[]", nullable=False)
+    tags_json: Mapped[str] = mapped_column(Text, default="[]", nullable=False)
+    # hauptgericht | dessert | getraenk | grundrezept | sonstige
+    meal_type: Mapped[str] = mapped_column(String(30), default="hauptgericht", nullable=False)
+    scraped_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
+    last_seen_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
+
+    ingredients: Mapped[list["RecipeIngredient"]] = relationship(
+        "RecipeIngredient", back_populates="recipe", cascade="all, delete-orphan"
+    )
+
+
+class RecipeIngredient(Base):
+    __tablename__ = "recipe_ingredients"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    recipe_id: Mapped[int] = mapped_column(
+        ForeignKey("recipes.id", ondelete="CASCADE"), nullable=False, index=True
+    )
+    raw_name: Mapped[str] = mapped_column(String(300), nullable=False)
+    normalized_name: Mapped[str] = mapped_column(String(200), nullable=False, index=True)
+    quantity: Mapped[float | None] = mapped_column(Float, nullable=True)
+    unit: Mapped[str | None] = mapped_column(String(50), nullable=True)
+    is_main: Mapped[bool] = mapped_column(Boolean, default=False, nullable=False)
+    optional: Mapped[bool] = mapped_column(Boolean, default=False, nullable=False)
+    notes: Mapped[str | None] = mapped_column(String(200), nullable=True)
+
+    recipe: Mapped["Recipe"] = relationship("Recipe", back_populates="ingredients")
 
 
 class HealthPing(Base):

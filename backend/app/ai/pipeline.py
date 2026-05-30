@@ -1,14 +1,17 @@
-"""8-step AI pipeline for weekly plan generation.
+"""AI pipeline for weekly plan generation.
 
 Steps:
-  1. Filter cooking-relevant offers (optionally monday-only)
-  2. Build learning context from feedback history
-  3. Generate dish suggestions via LLM (10 initial, +5 on demand)
-  4. Validate suggestions (diet / allergy / cooktime)
+  1. Filter cooking-relevant offers
+  2. Build learning context from feedback history (for scoring)
+  3. Suggest dishes from recipe catalog (deterministic, no LLM)
+  4. (Validation built into matcher filters)
   5. User selects dishes + assigns days (UI — split point)
-  6. Generate recipes in parallel (one LLM call per dish)
+  6. Load recipe from catalog + scale to household size (no LLM)
   7. Aggregate shopping list
-  8. Weekly feedback aggregation (separate scheduled call)
+  8. Weekly feedback aggregation (separate scheduled call — still uses LLM)
+
+Old LLM paths for steps 3 and 6 are kept as fallback for plans created
+before the recipe catalog (dish.recipe_id IS NULL).
 """
 
 import asyncio
@@ -25,6 +28,8 @@ from ..models import (
     Household,
     Offer,
     PlanDish,
+    Recipe,
+    RecipeIngredient,
     ShoppingItem,
     WeeklyPlan,
 )
@@ -36,7 +41,7 @@ from .prompts import (
     format_offers,
     format_profile,
 )
-from .schemas import DishSuggestion, DishSuggestionsResponse, RecipeResponse
+from .schemas import DishSuggestionsResponse, RecipeIngredient as SchemaIngredient, RecipeResponse
 from .validators import validate_suggestions
 
 logger = logging.getLogger(__name__)
@@ -69,7 +74,6 @@ def _get_active_offers(plz: str, stores: list[str], db: DbSession) -> list[Offer
 
 
 def _filter_monday_only(offers: list[Offer], week_start: str) -> list[Offer]:
-    """Keep offers that are valid from the week_start date (monday) onwards."""
     filtered = []
     for o in offers:
         if not o.live_from_date:
@@ -81,7 +85,7 @@ def _filter_monday_only(offers: list[Offer], week_start: str) -> list[Offer]:
 
 
 # ---------------------------------------------------------------------------
-# Step 3: Generate suggestions
+# Step 3: Suggest dishes from catalog (deterministic)
 # ---------------------------------------------------------------------------
 
 async def generate_suggestions(
@@ -91,7 +95,73 @@ async def generate_suggestions(
     db: DbSession,
     count: int = 10,
     exclude_names: list[str] | None = None,
-) -> list[DishSuggestion]:
+    max_desserts: int = 2,
+) -> list[dict]:
+    """Return suggestion dicts from the recipe catalog.
+
+    Each dict has keys: name, beschreibung, kategorie, kochzeit_min, recipe_id.
+    Falls back to LLM if catalog is empty.
+    """
+    from ..services.recipe_matcher import suggest_dishes, ScoredRecipe
+
+    # Collect recipe_ids already suggested on this plan
+    existing_recipe_ids = [
+        d.recipe_id for d in plan.dishes
+        if d.dish_status == "suggestion" and d.recipe_id is not None
+    ]
+
+    scored = suggest_dishes(
+        household=household,
+        plan=plan,
+        db=db,
+        count=count,
+        exclude_recipe_ids=existing_recipe_ids or None,
+        max_desserts=max_desserts,
+    )
+
+    if scored:
+        results = []
+        for sr in scored:
+            r = sr.recipe
+            reasons_str = ", ".join(sr.match_reasons) if sr.match_reasons else ""
+            results.append({
+                "name": r.name,
+                "beschreibung": (r.description or reasons_str or "")[:300],
+                "kategorie": _map_diet_category(r),
+                "kochzeit_min": r.cook_time_min or 30,
+                "recipe_id": r.id,
+            })
+        return results
+
+    # Fallback: catalog empty → LLM
+    logger.warning("Recipe catalog empty — falling back to LLM suggestions for plan %d", plan.id)
+    return await _llm_suggestions_fallback(household=household, plan=plan, db=db, count=count, exclude_names=exclude_names)
+
+
+def _map_diet_category(recipe: Recipe) -> str:
+    if recipe.is_vegan:
+        return "vegan"
+    if recipe.is_vegetarian:
+        return "vegetarisch"
+    if recipe.is_fish and not recipe.is_meat:
+        return "Fisch"
+    if recipe.is_meat:
+        return "Fleisch"
+    return "gemischt"
+
+
+# ---------------------------------------------------------------------------
+# LLM fallback for suggestions (old Step 3)
+# ---------------------------------------------------------------------------
+
+async def _llm_suggestions_fallback(
+    *,
+    household: Household,
+    plan: WeeklyPlan,
+    db: DbSession,
+    count: int,
+    exclude_names: list[str] | None,
+) -> list[dict]:
     profile = household.profile
     plz = profile.postal_code
     stores = json.loads(profile.selected_stores_json or "[]")
@@ -122,20 +192,143 @@ async def generate_suggestions(
         logger.error("Suggestions parse error: %s — raw: %s", exc, str(raw)[:500])
         return []
 
-    # Step 4: validate
     valid = validate_suggestions(parsed.vorschlaege, profile)
-    logger.info(
-        "Suggestions: %d from LLM → %d after validation (plan %d)",
-        len(parsed.vorschlaege), len(valid), plan.id,
+    return [
+        {
+            "name": s.name,
+            "beschreibung": s.beschreibung,
+            "kategorie": s.kategorie,
+            "kochzeit_min": s.kochzeit_min,
+            "recipe_id": None,
+        }
+        for s in valid
+    ]
+
+
+# ---------------------------------------------------------------------------
+# Step 6: Load recipe from catalog + scale
+# ---------------------------------------------------------------------------
+
+_COUNTABLE_UNITS = {None, ""}  # eggs, onions, cloves, packets without a unit
+
+
+def _round_quantity(qty: float, unit: str | None) -> float:
+    """Round a scaled quantity to a kitchen-friendly value."""
+    u = (unit or "").lower().strip()
+
+    # Countable items (Eier, Zwiebeln, Zehen, Pck., …) → nearest integer, min 1
+    if u in ("", "stück", "stk", "pck", "pck.", "pkg"):
+        return max(1.0, round(qty))
+
+    # Pinches / small counts → nearest 0.5
+    if u in ("prise", "prisen", "msp", "mssp", "zehe", "zehen", "bund", "bunde"):
+        return max(0.5, round(qty * 2) / 2)
+
+    # Small spoon measures (tl, el) → nearest 0.25
+    if u in ("tl", "el"):
+        return max(0.25, round(qty * 4) / 4)
+
+    # Cup / glass / can → nearest 0.5
+    if u in ("tasse", "tassen", "glas", "dose", "dosen", "becher", "beutel"):
+        return max(0.5, round(qty * 2) / 2)
+
+    # Liquid (ml, cl, dl, l) → nearest 5ml equivalent
+    if u in ("ml", "cl", "dl"):
+        step = 5 if u == "ml" else (1 if u == "cl" else 0.5)
+        return max(step, round(qty / step) * step)
+    if u == "l":
+        return max(0.1, round(qty * 10) / 10)
+
+    # Weight (g, kg, mg)
+    if u == "g":
+        if qty < 10:
+            return max(1.0, round(qty))
+        if qty < 50:
+            return max(5.0, round(qty / 5) * 5)
+        return max(10.0, round(qty / 10) * 10)
+    if u == "kg":
+        return max(0.1, round(qty * 10) / 10)
+
+    # Default: 1 decimal
+    return round(qty, 1)
+
+
+def _load_recipe_from_catalog(
+    dish: PlanDish,
+    household: Household,
+    db: DbSession,
+) -> RecipeResponse | None:
+    """Build a RecipeResponse by scaling catalog ingredients to household size."""
+    recipe: Recipe | None = db.get(Recipe, dish.recipe_id)
+    if not recipe:
+        return None
+
+    profile = household.profile
+
+    # Children count as 0.5 portions (cleaner fractions, realistic for smaller appetites)
+    person_count = profile.adults + profile.kids * 0.5
+
+    # base_servings=1 usually means chefkoch returned "1 Blech/Torte" — treat as 4
+    effective_servings = recipe.base_servings if recipe.base_servings >= 2 else 4
+    scale = person_count / effective_servings
+
+    # Load all ingredients
+    ings: list[RecipeIngredient] = list(db.scalars(
+        select(RecipeIngredient).where(RecipeIngredient.recipe_id == recipe.id)
+    ).all())
+
+    # Match ingredients against active offers
+    stores: list[str] = json.loads(profile.selected_stores_json or "[]")
+    active_offers = _get_active_offers(profile.postal_code or "", stores, db)
+
+    from ..services.recipe_matcher import find_matching_offer
+
+    schema_ings: list[SchemaIngredient] = []
+    for ing in ings:
+        offer = find_matching_offer(ing.normalized_name, active_offers)
+        if ing.quantity:
+            scaled_qty = _round_quantity(ing.quantity * scale, ing.unit)
+        else:
+            scaled_qty = None
+        schema_ings.append(SchemaIngredient(
+            name=ing.raw_name,
+            menge=scaled_qty,
+            einheit=ing.unit,
+            ist_angebot=offer is not None,
+            laden=offer.store.capitalize() if offer else None,
+        ))
+
+    steps: list[str] = json.loads(recipe.instructions_json or "[]")
+    tips: list[str] = json.loads(recipe.tips_json or "[]")
+
+    return RecipeResponse(
+        zutaten=schema_ings,
+        schritte=steps,
+        geschaetzte_zeit_min=recipe.cook_time_min or 30,
+        tipps=tips,
     )
-    return valid
 
-
-# ---------------------------------------------------------------------------
-# Step 6: Generate recipes
-# ---------------------------------------------------------------------------
 
 async def generate_recipe_for_dish(
+    dish: PlanDish,
+    household: Household,
+    db: DbSession,
+) -> RecipeResponse | None:
+    # New path: catalog
+    if dish.recipe_id is not None:
+        result = _load_recipe_from_catalog(dish, household, db)
+        if result:
+            return result
+        logger.warning(
+            "Catalog recipe %d missing for dish '%s' — falling back to LLM",
+            dish.recipe_id, dish.name,
+        )
+
+    # Fallback: LLM (old plans or catalog miss)
+    return await _llm_recipe_fallback(dish, household, db)
+
+
+async def _llm_recipe_fallback(
     dish: PlanDish,
     household: Household,
     db: DbSession,
@@ -170,7 +363,7 @@ async def generate_recipes_parallel(
     household: Household,
     db: DbSession,
 ) -> dict[int, RecipeResponse]:
-    """Generate recipes for all confirmed dishes in parallel."""
+    """Generate/load recipes for all confirmed dishes."""
     tasks = [generate_recipe_for_dish(d, household, db) for d in dishes]
     results = await asyncio.gather(*tasks, return_exceptions=True)
 
@@ -192,7 +385,6 @@ _KNOWN_STORES = {"rewe", "lidl", "aldi", "edeka", "penny", "netto", "kaufland"}
 
 
 def _normalize_store(laden: str) -> str | None:
-    """Map AI-reported store name ('Lidl', 'Aldi Süd') to the DB key ('lidl', 'aldi')."""
     lower = laden.lower().strip()
     for s in _KNOWN_STORES:
         if s in lower:
@@ -201,17 +393,14 @@ def _normalize_store(laden: str) -> str | None:
 
 
 def _find_matching_offer(name_lower: str, offers: list[Offer]) -> Offer | None:
-    """Find the best-matching offer for an ingredient name."""
-    # Exact match first
+    """Find the best-matching offer for an ingredient name (kept public for recipe_matcher)."""
     for o in offers:
         if o.product_name.lower() == name_lower:
             return o
-    # Substring: ingredient name is contained in offer name or vice versa
     for o in offers:
         offer_lower = o.product_name.lower()
         if name_lower in offer_lower or offer_lower in name_lower:
             return o
-    # Word-based fallback: 2+ significant words in common
     name_words = {w for w in name_lower.split() if len(w) > 3}
     if name_words:
         for o in offers:
@@ -227,15 +416,12 @@ def build_shopping_list(
     household: Household,
     db: DbSession,
 ) -> list[ShoppingItem]:
-    """Aggregate ingredients from all recipe responses into shopping items."""
-    # Load active offers to resolve store for angebot ingredients
     profile = household.profile
     active_offers: list[Offer] = []
     if profile and profile.postal_code:
         stores = json.loads(profile.selected_stores_json or "[]")
         active_offers = _get_active_offers(profile.postal_code, stores, db)
 
-    # Aggregate by (ingredient_name_lower, unit)
     aggregated: dict[tuple[str, str], dict] = {}
 
     for dish in plan.dishes:
@@ -252,7 +438,7 @@ def build_shopping_list(
                     "total": 0.0,
                     "unit": ing.einheit,
                     "is_angebot": ing.ist_angebot,
-                    "laden": ing.laden,  # AI-reported store name
+                    "laden": ing.laden,
                 }
             if ing.menge:
                 aggregated[key]["total"] += ing.menge
@@ -267,16 +453,14 @@ def build_shopping_list(
         price_text: str | None = None
 
         if entry["is_angebot"]:
-            # Primary: use AI-reported store name
             if entry["laden"]:
                 store = _normalize_store(entry["laden"])
-            # Find matching offer for offer_id and price_text
             if active_offers:
                 matched = _find_matching_offer(entry["name"].lower(), active_offers)
                 if matched:
                     offer_id = matched.id
                     price_text = matched.price_text
-                    if not store:  # fallback if AI didn't report laden
+                    if not store:
                         store = matched.store
 
         item = ShoppingItem(
@@ -307,8 +491,8 @@ async def run_suggestions_step(
     household: Household,
     db: DbSession,
     count: int = 10,
+    max_desserts: int = 2,
 ) -> list[PlanDish]:
-    """Steps 1-4: Generate and persist suggestions. Returns saved PlanDish rows."""
     plan = db.get(WeeklyPlan, plan_id)
     if not plan:
         raise ValueError(f"Plan {plan_id} not found")
@@ -320,18 +504,20 @@ async def run_suggestions_step(
         db=db,
         count=count,
         exclude_names=existing_names if existing_names else None,
+        max_desserts=max_desserts,
     )
 
     saved: list[PlanDish] = []
     for s in suggestions:
         dish = PlanDish(
             plan_id=plan.id,
-            name=s.name,
-            description=s.beschreibung,
-            cuisine=s.kategorie,
-            cook_time_min=s.kochzeit_min,
+            name=s["name"],
+            description=s["beschreibung"],
+            cuisine=s.get("kategorie"),
+            cook_time_min=s.get("kochzeit_min", 30),
             dish_status="suggestion",
             used_offer_ids_json="[]",
+            recipe_id=s.get("recipe_id"),
         )
         db.add(dish)
         saved.append(dish)
@@ -344,16 +530,14 @@ async def run_suggestions_step(
 
 async def run_confirm_step(
     plan_id: int,
-    selections: list[dict],  # [{dish_id: int, cook_day: str}]
+    selections: list[dict],
     household: Household,
     db: DbSession,
 ) -> WeeklyPlan:
-    """Steps 5-7: Confirm selections, generate recipes, build shopping list."""
     plan = db.get(WeeklyPlan, plan_id)
     if not plan:
         raise ValueError(f"Plan {plan_id} not found")
 
-    # Mark confirmed dishes
     selection_map = {s["dish_id"]: s.get("cook_day") for s in selections}
     confirmed: list[PlanDish] = []
     for dish in plan.dishes:
@@ -366,10 +550,7 @@ async def run_confirm_step(
 
     db.flush()
 
-    # Step 6: recipes
     recipes = await generate_recipes_parallel(confirmed, household, db)
-
-    # Step 7: shopping list
     build_shopping_list(plan, recipes, household, db)
 
     plan.status = "confirmed"

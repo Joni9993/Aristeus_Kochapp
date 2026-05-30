@@ -85,6 +85,7 @@ class ProfileIn(BaseModel):
         default_factory=lambda: ["rewe", "lidl", "aldi", "edeka", "penny", "netto", "kaufland"]
     )
     monday_only_offers: bool = True
+    include_desserts: bool = False
 
 
 class ProfileOut(ProfileIn):

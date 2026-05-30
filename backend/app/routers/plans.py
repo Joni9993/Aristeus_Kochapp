@@ -154,7 +154,7 @@ async def more_suggestions(
     if plan.status not in ("suggestions_ready",):
         raise HTTPException(400, "Plan ist nicht im Vorschlagsschritt")
 
-    dishes = await run_suggestions_step(plan_id, household, db, count=5)
+    dishes = await run_suggestions_step(plan_id, household, db, count=5, max_desserts=1)
     return {
         "new_suggestions": [_dish_out(d) for d in dishes],
         "total_suggestions": len(plan.dishes),
