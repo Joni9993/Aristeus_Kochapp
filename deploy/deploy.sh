@@ -27,6 +27,13 @@ if [ -f /tmp/aristeus_new.db ]; then
     echo "      DB eingespielt."
 fi
 
+# Einmalig: Admin-User anlegen falls /tmp/create_admin2.py vorhanden (läuft als root)
+if [ -f /tmp/create_admin2.py ]; then
+    echo "[0b] Admin-User anlegen..."
+    /opt/aristeus/app/backend/.venv/bin/python /tmp/create_admin2.py
+    rm -f /tmp/create_admin2.py /tmp/create_admin.py
+fi
+
 echo "[1/5] git pull"
 cd "$APP"
 runuser -u aristeus -- git pull
