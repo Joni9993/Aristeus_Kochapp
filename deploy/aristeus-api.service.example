@@ -1,7 +1,5 @@
 # /etc/systemd/system/aristeus-api.service
 #
-# Aristeus FastAPI backend via Uvicorn.
-#
 # Setup:
 #   sudo cp aristeus-api.service.example /etc/systemd/system/aristeus-api.service
 #   sudo systemctl daemon-reload
@@ -16,10 +14,10 @@ Wants=network-online.target
 Type=simple
 User=aristeus
 Group=aristeus
-WorkingDirectory=/opt/aristeus/app
+WorkingDirectory=/opt/aristeus/app/backend
 Environment=PYTHONUNBUFFERED=1
 EnvironmentFile=/opt/aristeus/.env
-ExecStart=/opt/aristeus/app/.venv/bin/uvicorn app.main:app \
+ExecStart=/opt/aristeus/app/backend/.venv/bin/uvicorn app.main:app \
     --host 127.0.0.1 \
     --port 8000 \
     --proxy-headers \
@@ -32,7 +30,7 @@ NoNewPrivileges=true
 PrivateTmp=true
 ProtectSystem=strict
 ProtectHome=true
-ReadWritePaths=/opt/aristeus/data
+ReadWritePaths=/opt/aristeus/data /opt/aristeus/frontend/dist
 
 [Install]
 WantedBy=multi-user.target

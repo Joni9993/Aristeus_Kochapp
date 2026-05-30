@@ -1,62 +1,120 @@
-# Deployment auf dem VPS
+# Deployment — Aristeus Kochapp
 
-Vorlagen — werden auf dem Server angepasst und an die richtigen Pfade kopiert.
-
-## Layout auf dem VPS
+## Übersicht
 
 ```
+Lokaler Push → GitHub (main) → GitHub Actions → SSH → deploy.sh → Server neu starten
+```
+
+**Domain:** `aristeus.bulletodyssey.com`  
+**Server-Layout:**
+```
 /opt/aristeus/
-  app/                 # git pull dieses Repos (backend/)
-    .venv/             # python venv
-  frontend/dist/       # Output von `npm run build`
+  app/              ← git clone (dieser Repo)
+    backend/
+      .venv/
+      .env          ← Symlink auf /opt/aristeus/.env
+    frontend/
+    deploy/
   data/
     aristeus.db
     backups/
-  .env                 # secrets, root-only readable
+  frontend/
+    dist/           ← npm run build Output (von Caddy serviert)
+  .env              ← Secrets (nur root lesbar)
 ```
 
-## Erste Einrichtung (Skizze)
+---
 
-```bash
-# system user
-sudo useradd --system --create-home --shell /usr/sbin/nologin aristeus
+## Ersteinrichtung (einmalig auf dem Server)
 
-# code
-sudo mkdir -p /opt/aristeus
-sudo chown aristeus:aristeus /opt/aristeus
-sudo -u aristeus git clone <repo-url> /opt/aristeus/app
-
-# python
-cd /opt/aristeus/app/backend
-sudo -u aristeus python3.11 -m venv .venv
-sudo -u aristeus .venv/bin/pip install -e .
-
-# frontend
-cd /opt/aristeus/app/frontend
-sudo -u aristeus npm ci
-sudo -u aristeus npm run build
-sudo cp -r dist /opt/aristeus/frontend/
-
-# secrets
-sudo cp /opt/aristeus/app/backend/.env.example /opt/aristeus/.env
-sudo chmod 600 /opt/aristeus/.env
-sudo nano /opt/aristeus/.env   # set real values
-
-# systemd + caddy
-sudo cp deploy/aristeus-api.service.example /etc/systemd/system/aristeus-api.service
-sudo cp deploy/Caddyfile.example /etc/caddy/Caddyfile
-sudo systemctl daemon-reload
-sudo systemctl enable --now aristeus-api
-sudo systemctl reload caddy
+### 0. Voraussetzung: DNS
+Füge in deinem Domain-Provider einen **A-Record** hinzu:
+```
+aristeus.bulletodyssey.com  →  <Server-IP>
 ```
 
-## Updates (zukünftig: ein `deploy.sh`)
-
+### 1. Setup-Skript ausführen
 ```bash
-cd /opt/aristeus/app
-sudo -u aristeus git pull
-cd backend && sudo -u aristeus .venv/bin/pip install -e .
-cd ../frontend && sudo -u aristeus npm ci && sudo -u aristeus npm run build
-sudo cp -r dist/* /opt/aristeus/frontend/dist/
+# Auf dem Server als root/jonathan mit sudo:
+wget -qO setup-server.sh https://raw.githubusercontent.com/Joni9993/Aristeus_Kochapp/main/deploy/setup-server.sh
+chmod +x setup-server.sh
+sudo ./setup-server.sh
+```
+
+Das Skript installiert alles automatisch (Python 3.11, Node 20, Caddy, systemd-Service).
+
+### 2. OpenRouter API Key eintragen
+```bash
+sudo nano /opt/aristeus/.env
+# OPENROUTER_API_KEY=sk-or-v1-...  eintragen
 sudo systemctl restart aristeus-api
+```
+
+### 3. GitHub Actions einrichten (Auto-Deploy)
+
+**a) SSH-Deploy-Key generieren (lokal auf Windows):**
+```powershell
+ssh-keygen -t ed25519 -f "$env:USERPROFILE\.ssh\aristeus_deploy" -C "aristeus-deploy" -N ""
+```
+
+**b) Public Key auf den Server übertragen:**
+```bash
+# Den Inhalt von ~/.ssh/aristeus_deploy.pub
+# auf dem Server zu jonathan's authorized_keys hinzufügen:
+cat ~/.ssh/aristeus_deploy.pub | ssh jonathan@<server-ip> "cat >> ~/.ssh/authorized_keys"
+```
+
+**c) Passwordlosen sudo für deploy.sh erlauben:**
+```bash
+sudo visudo -f /etc/sudoers.d/aristeus-deploy
+```
+Folgendes eintragen:
+```
+jonathan ALL=(ALL) NOPASSWD: /opt/aristeus/app/deploy/deploy.sh
+```
+
+**d) GitHub Secrets setzen:**  
+GitHub Repo → Settings → Secrets and variables → Actions → New repository secret:
+
+| Secret | Wert |
+|--------|------|
+| `SERVER_HOST` | IP-Adresse deines Servers |
+| `SERVER_SSH_KEY` | Inhalt von `~/.ssh/aristeus_deploy` (privater Schlüssel) |
+
+---
+
+## Updates (automatisch nach Setup)
+
+```
+git push origin main
+```
+
+GitHub Actions SSHt auf den Server und ruft `deploy.sh` auf — kein manuelles Eingreifen.
+
+## Manuelles Deployment
+
+```bash
+ssh jonathan@<server-ip>
+sudo /opt/aristeus/app/deploy/deploy.sh
+```
+
+## Logs
+
+```bash
+# Backend-Logs:
+sudo journalctl -u aristeus-api -f
+
+# Caddy-Logs:
+sudo journalctl -u caddy -f
+sudo tail -f /var/log/caddy/aristeus.access.log
+
+# Service-Status:
+sudo systemctl status aristeus-api caddy
+```
+
+## Datenbank-Backup
+
+```bash
+sudo -u aristeus sqlite3 /opt/aristeus/data/aristeus.db ".backup /opt/aristeus/data/backups/aristeus-$(date +%F).db"
 ```

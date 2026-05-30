@@ -5,7 +5,7 @@
 #
 # Caddy obtains/renews a Let's Encrypt cert automatically.
 
-aristeus.deine-domain.de {
+aristeus.bulletodyssey.com {
     encode zstd gzip
 
     # API → Uvicorn
