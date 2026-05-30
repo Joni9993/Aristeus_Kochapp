@@ -12,7 +12,7 @@ FRONTEND=/opt/aristeus/frontend
 
 echo "=== 1/8  System packages ==="
 apt-get update -q
-apt-get install -y -q python3.11 python3.11-venv python3-pip git curl
+apt-get install -y -q python3 python3-venv python3-pip git curl
 
 # Node.js 20 LTS
 if ! command -v node &>/dev/null; then
@@ -48,7 +48,7 @@ fi
 echo "=== 5/8  Python venv + deps ==="
 cd "$APP/backend"
 if [ ! -d ".venv" ]; then
-    sudo -u aristeus python3.11 -m venv .venv
+    sudo -u aristeus python3 -m venv .venv
 fi
 sudo -u aristeus .venv/bin/pip install --upgrade pip --quiet
 sudo -u aristeus .venv/bin/pip install -e . --quiet
