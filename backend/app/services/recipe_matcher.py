@@ -9,12 +9,15 @@ Scoring weights:
     Lieblingsrezept in loved_dishes  +30
     Bevorzugte Küche                 +20
     Gutes Rating (≥4.5, ≥50 votes)   +5
-    Kürzlich gekocht (≤4 Wochen)    -25
-    Cuisine-Duplikat in Top-N       -15  (greedy, applied during selection)
+    Kürzlich gekocht/confirmed (≤4 Wochen)  -25
+    Kürzlich vorgeschlagen (letzte 2 Pläne) -15
+    Cuisine-Duplikat in Top-N               -15  (greedy, applied during selection)
+    Zufalls-Tiebreaker                      ±3   (rotation between plans)
 """
 
 import json
 import logging
+import random
 from dataclasses import dataclass, field
 from datetime import date, timedelta
 
@@ -125,6 +128,25 @@ def _recently_cooked_recipe_ids(household_id: int, weeks: int, db: DbSession) ->
     return {d.recipe_id for d in dishes}
 
 
+def _recently_suggested_per_plan(
+    household_id: int, current_plan_id: int, plan_count: int, db: DbSession
+) -> list[set[int]]:
+    """Returns [last_plan_ids, second_last_ids, ...] — one set per recent plan, newest first."""
+    recent_plans = db.scalars(
+        select(WeeklyPlan)
+        .where(
+            WeeklyPlan.household_id == household_id,
+            WeeklyPlan.id != current_plan_id,
+        )
+        .order_by(WeeklyPlan.id.desc())
+        .limit(plan_count)
+    ).all()
+    return [
+        {d.recipe_id for d in plan.dishes if d.recipe_id is not None}
+        for plan in recent_plans
+    ]
+
+
 def _loved_recipe_names(household_id: int, db: DbSession) -> set[str]:
     prefs = db.scalar(
         select(LearnedPreferences).where(LearnedPreferences.household_id == household_id)
@@ -177,10 +199,14 @@ def suggest_dishes(
 
     # History / preferences
     recently_cooked = _recently_cooked_recipe_ids(household.id, weeks=4, db=db)
+    # [0] = last plan (hard-excluded), [1] = second-last plan (soft penalty)
+    suggested_per_plan = _recently_suggested_per_plan(household.id, plan.id, plan_count=2, db=db)
+    last_plan_ids = suggested_per_plan[0] if len(suggested_per_plan) > 0 else set()
+    prev_plan_ids = suggested_per_plan[1] if len(suggested_per_plan) > 1 else set()
     loved_names = _loved_recipe_names(household.id, db)
     disliked_names = _disliked_recipe_names(household.id, db)
 
-    excluded_ids: set[int] = set(exclude_recipe_ids or [])
+    excluded_ids: set[int] = set(exclude_recipe_ids or []) | last_plan_ids
 
     include_desserts: bool = getattr(profile, "include_desserts", False)
 
@@ -273,9 +299,16 @@ def suggest_dishes(
             score += 5
             reasons.append("top Bewertung")
 
-        # Recently cooked penalty
+        # Recently cooked (confirmed) — strong penalty
         if recipe.id in recently_cooked:
             score -= 25
+
+        # Suggested in the plan before last — soft penalty
+        if recipe.id in prev_plan_ids:
+            score -= 20
+
+        # Small random tiebreaker so equal-score recipes rotate between plans
+        score += random.uniform(-3, 3)
 
         scored.append(ScoredRecipe(
             recipe=recipe,
