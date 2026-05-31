@@ -290,7 +290,7 @@ export default function Profile() {
               className={`relative ml-4 h-6 w-11 shrink-0 rounded-full transition-colors ${f.include_desserts ? 'bg-emerald-600' : 'bg-stone-300'}`}
               onClick={() => setForm({ ...f, include_desserts: !f.include_desserts })}
             >
-              <span className={`absolute top-0.5 h-5 w-5 rounded-full bg-white shadow transition-transform ${f.include_desserts ? 'translate-x-5' : 'translate-x-0.5'}`} />
+              <span className={`toggle-knob absolute top-0.5 h-5 w-5 rounded-full bg-white shadow transition-transform ${f.include_desserts ? 'translate-x-5' : 'translate-x-0.5'}`} />
             </div>
           </label>
         </Card>

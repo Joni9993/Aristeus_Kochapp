@@ -10,6 +10,15 @@
     <meta name="mobile-web-app-capable" content="yes" />
     <link rel="apple-touch-icon" href="/pwa-192.png" />
     <title>Aristeus Kochapp</title>
+    <script>
+      (function () {
+        var s = localStorage.getItem('darkMode');
+        var p = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (s === 'true' || (s === null && p)) {
+          document.documentElement.classList.add('dark');
+        }
+      })();
+    </script>
   </head>
   <body class="bg-stone-50 text-stone-900 antialiased">
     <div id="root"></div>

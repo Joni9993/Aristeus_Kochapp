@@ -2,11 +2,13 @@ import { useState } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { apiFetch } from '../api/client'
 import { useAuth } from '../hooks/useAuth'
+import { useDarkMode } from '../hooks/useDarkMode'
 
 export default function BottomNav() {
   const { household, refresh } = useAuth()
   const navigate = useNavigate()
   const [showOptions, setShowOptions] = useState(false)
+  const { dark, toggle: toggleDark } = useDarkMode()
 
   async function handleLogout() {
     setShowOptions(false)
@@ -65,6 +67,22 @@ export default function BottomNav() {
             <p className="mb-4 text-center text-xs font-semibold uppercase tracking-wide text-stone-400">
               Optionen
             </p>
+
+            {/* Dark mode toggle */}
+            <div className="mb-3 flex items-center justify-between rounded-xl bg-stone-100 px-4 py-3.5">
+              <span className="text-sm font-medium text-stone-800">Dunkles Design</span>
+              <button
+                type="button"
+                onClick={toggleDark}
+                className={`relative h-6 w-11 rounded-full transition-colors ${dark ? 'bg-emerald-600' : 'bg-stone-300'}`}
+                aria-label="Dunkles Design umschalten"
+              >
+                <span
+                  className={`toggle-knob absolute top-0.5 h-5 w-5 rounded-full bg-white shadow transition-transform ${dark ? 'translate-x-5' : 'translate-x-0.5'}`}
+                />
+              </button>
+            </div>
+
             <button
               onClick={handleLogout}
               className="w-full rounded-xl border border-red-200 py-3.5 text-sm font-medium text-red-600 active:bg-red-50"
