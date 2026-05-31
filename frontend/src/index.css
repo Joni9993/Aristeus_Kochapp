@@ -13,7 +13,3 @@ textarea {
   font-size: 16px !important;
 }
 
-/* Safe area padding for iPhone home indicator in PWA mode */
-main {
-  padding-bottom: max(1.5rem, env(safe-area-inset-bottom)) !important;
-}

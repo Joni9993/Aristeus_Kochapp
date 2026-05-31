@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { apiFetch, ApiError } from '../api/client'
 import { useAuth } from '../hooks/useAuth'
 
@@ -222,8 +222,7 @@ function OffersDrawer({
 }
 
 export default function Home() {
-  const { household, refresh } = useAuth()
-  const navigate = useNavigate()
+  const { household } = useAuth()
   const [freshness, setFreshness] = useState<FreshnessResponse | null>(null)
   const [refreshing, setRefreshing] = useState(false)
   const [refreshMsg, setRefreshMsg] = useState('')
@@ -245,12 +244,6 @@ export default function Home() {
       }
     }).catch(() => {})
   }, [])
-
-  async function handleLogout() {
-    await apiFetch('/auth/logout', { method: 'POST' })
-    await refresh()
-    navigate('/login', { replace: true })
-  }
 
   async function handleRefresh() {
     setRefreshing(true)
@@ -274,15 +267,8 @@ export default function Home() {
 
   return (
     <main className="mx-auto max-w-xl p-6">
-      <header className="mb-8 flex items-center justify-between">
+      <header className="mb-8">
         <h1 className="text-2xl font-semibold tracking-tight">Aristeus</h1>
-        <div className="flex items-center gap-3">
-          {household?.is_admin && (
-            <Link to="/admin" className="text-sm text-stone-500 underline hover:text-stone-700">Admin</Link>
-          )}
-          <Link to="/profile" className="text-sm text-stone-500 underline hover:text-stone-700">Profil</Link>
-          <button onClick={handleLogout} className="text-sm text-stone-500 underline hover:text-stone-700">Abmelden</button>
-        </div>
       </header>
 
       {/* Angebots-Freshness */}

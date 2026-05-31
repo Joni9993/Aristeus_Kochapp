@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
 import { apiFetch, ApiError } from '../api/client'
 import { useAuth } from '../hooks/useAuth'
 
@@ -73,19 +72,22 @@ export default function Admin() {
   }
 
   return (
-    <main className="mx-auto max-w-3xl p-6">
-      <div className="mb-6 flex items-center gap-4">
-        <Link to="/" className="text-sm text-stone-500 underline hover:text-stone-700">← Zurück</Link>
-        <h1 className="text-xl font-semibold">Admin-Übersicht</h1>
-        <span className="ml-auto text-sm text-stone-500">{household?.username}</span>
+    <main className="mx-auto max-w-xl p-6">
+      <div className="mb-6">
+        <h1 className="text-xl font-semibold">Admin</h1>
+        <p className="text-sm text-stone-500">{household?.username}</p>
       </div>
 
+      {/* Einladungs-Tokens */}
       <section className="mb-8">
         <div className="mb-3 flex items-center justify-between">
           <h2 className="font-semibold">Einladungs-Tokens</h2>
-          <button onClick={createToken} disabled={creating}
-            className="rounded-lg bg-emerald-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-emerald-700 disabled:opacity-50">
-            {creating ? '…' : '+ Neuer Token'}
+          <button
+            onClick={createToken}
+            disabled={creating}
+            className="rounded-lg bg-emerald-600 px-3 py-2 text-sm font-medium text-white hover:bg-emerald-700 disabled:opacity-50"
+          >
+            {creating ? '…' : '+ Token'}
           </button>
         </div>
         {error && <p className="mb-2 text-sm text-red-600">{error}</p>}
@@ -94,17 +96,28 @@ export default function Admin() {
         ) : (
           <div className="space-y-2">
             {tokens.map(t => (
-              <div key={t.token} className={`flex items-center justify-between rounded-lg border px-3 py-2 text-sm ${t.used_by ? 'border-stone-200 bg-stone-50 opacity-60' : 'border-emerald-200 bg-emerald-50'}`}>
-                <code className="font-mono text-xs">{t.token}</code>
-                <div className="flex items-center gap-2">
+              <div
+                key={t.token}
+                className={`rounded-xl border p-3 ${t.used_by ? 'border-stone-200 bg-stone-50 opacity-60' : 'border-emerald-200 bg-emerald-50'}`}
+              >
+                <code className="block font-mono text-xs break-all text-stone-700">{t.token}</code>
+                <div className="mt-2 flex items-center gap-3">
                   {t.used_by ? (
                     <span className="text-xs text-stone-400">Verwendet</span>
                   ) : (
                     <>
-                      <button onClick={() => copyLink(t.token)} className="text-xs text-emerald-700 underline hover:text-emerald-900">
-                        {copied === t.token ? 'Kopiert!' : 'Link kopieren'}
+                      <button
+                        onClick={() => copyLink(t.token)}
+                        className="text-sm font-medium text-emerald-700 active:text-emerald-900"
+                      >
+                        {copied === t.token ? '✓ Kopiert' : 'Link kopieren'}
                       </button>
-                      <button onClick={() => revokeToken(t.token)} className="text-xs text-red-500 underline hover:text-red-700">Widerrufen</button>
+                      <button
+                        onClick={() => revokeToken(t.token)}
+                        className="text-sm text-red-500 active:text-red-700"
+                      >
+                        Widerrufen
+                      </button>
                     </>
                   )}
                 </div>
@@ -114,59 +127,49 @@ export default function Admin() {
         )}
       </section>
 
+      {/* Haushalte */}
       <section>
         <h2 className="mb-3 font-semibold">Haushalte ({households.length})</h2>
-        <p className="mb-2 text-xs text-stone-400">Zeile anklicken für Profil & Präferenzen</p>
-        <div className="overflow-hidden rounded-xl border border-stone-200">
-          <table className="w-full text-sm">
-            <thead className="bg-stone-50 text-xs uppercase text-stone-500">
-              <tr>
-                <th className="px-3 py-2 text-left">Nutzer</th>
-                <th className="px-3 py-2 text-left">E-Mail</th>
-                <th className="px-3 py-2 text-left">Onboarding</th>
-                <th className="px-3 py-2 text-left">Erstellt</th>
-                <th className="px-3 py-2 text-right">API-Calls</th>
-                <th className="px-3 py-2 text-right">Tokens</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-stone-100">
-              {households.map(h => (
-                <>
-                  <tr
-                    key={h.id}
-                    onClick={() => toggleRow(h.id)}
-                    className="cursor-pointer hover:bg-stone-50"
-                  >
-                    <td className="px-3 py-2">
-                      <span className="mr-1 text-stone-400">{expanded === h.id ? '▼' : '▶'}</span>
-                      {h.username}
-                      {h.is_admin && <span className="ml-1 text-xs text-amber-600">(Admin)</span>}
-                    </td>
-                    <td className="px-3 py-2 text-stone-600">{h.email}</td>
-                    <td className="px-3 py-2">
-                      {h.onboarding_complete
-                        ? <span className="text-emerald-600">✓ Fertig</span>
-                        : <span className="text-stone-400">Ausstehend</span>}
-                    </td>
-                    <td className="px-3 py-2 text-stone-500">
-                      {new Date(h.created_at).toLocaleDateString('de-DE')}
-                    </td>
-                    <td className="px-3 py-2 text-right text-stone-500">{h.api_calls_count}</td>
-                    <td className="px-3 py-2 text-right text-stone-500">
-                      {h.total_tokens > 0 ? h.total_tokens.toLocaleString('de-DE') : '–'}
-                    </td>
-                  </tr>
-                  {expanded === h.id && (
-                    <tr key={`${h.id}-detail`}>
-                      <td colSpan={6} className="bg-stone-50 px-4 py-3">
-                        <HouseholdDetailPanel detail={details[h.id] ?? null} />
-                      </td>
-                    </tr>
-                  )}
-                </>
-              ))}
-            </tbody>
-          </table>
+        <div className="space-y-2">
+          {households.map(h => (
+            <div key={h.id}>
+              <button
+                onClick={() => toggleRow(h.id)}
+                className="w-full rounded-xl border border-stone-200 bg-white px-4 py-3 text-left active:bg-stone-50"
+              >
+                <div className="flex items-start justify-between gap-2">
+                  <div className="min-w-0 flex-1">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className="font-medium text-stone-800">{h.username}</span>
+                      {h.is_admin && (
+                        <span className="rounded-full bg-amber-100 px-2 py-0.5 text-xs text-amber-700">Admin</span>
+                      )}
+                      <span className={`rounded-full px-2 py-0.5 text-xs ${h.onboarding_complete ? 'bg-emerald-100 text-emerald-700' : 'bg-stone-100 text-stone-500'}`}>
+                        {h.onboarding_complete ? '✓ Fertig' : 'Ausstehend'}
+                      </span>
+                    </div>
+                    <p className="mt-0.5 text-xs text-stone-500 truncate">{h.email}</p>
+                    <div className="mt-1.5 flex flex-wrap gap-x-3 gap-y-0.5 text-xs text-stone-400">
+                      <span>{h.api_calls_count} API-Calls</span>
+                      {h.total_tokens > 0 && (
+                        <span>{h.total_tokens.toLocaleString('de-DE')} Tokens</span>
+                      )}
+                      <span>seit {new Date(h.created_at).toLocaleDateString('de-DE')}</span>
+                    </div>
+                  </div>
+                  <span className="mt-1 shrink-0 text-stone-400 text-sm">
+                    {expanded === h.id ? '▼' : '▶'}
+                  </span>
+                </div>
+              </button>
+
+              {expanded === h.id && (
+                <div className="rounded-b-xl border-x border-b border-stone-200 bg-stone-50 px-4 py-3 -mt-1">
+                  <HouseholdDetailPanel detail={details[h.id] ?? null} />
+                </div>
+              )}
+            </div>
+          ))}
         </div>
       </section>
     </main>
@@ -179,36 +182,38 @@ function HouseholdDetailPanel({ detail }: { detail: HouseholdDetails | null }) {
   const { profile: p, learned_preferences: lp } = detail
 
   return (
-    <div className="grid grid-cols-2 gap-6 text-xs">
+    <div className="space-y-4 text-xs">
       <div>
-        <p className="mb-1 font-semibold text-stone-600">Profil</p>
+        <p className="mb-1.5 font-semibold text-stone-600">Profil</p>
         {!p ? (
           <p className="text-stone-400">Kein Profil</p>
         ) : (
-          <dl className="space-y-0.5 text-stone-600">
+          <dl className="space-y-1 text-stone-600">
             <Row label="PLZ" value={p.postal_code || '–'} />
             <Row label="Haushalt" value={`${p.adults} Erw. / ${p.kids} Kinder`} />
             <Row label="Ernährung" value={p.diet} />
             <Row label="Max. Kochzeit" value={`${p.max_cook_time_min} Min`} />
-            <Row label="Angebots-Prio" value={String(p.budget_sensitivity) + '/5'} />
+            <Row label="Angebots-Prio" value={`${p.budget_sensitivity}/5`} />
             <Row label="Läden" value={p.selected_stores.join(', ') || '–'} />
             {p.allergies.length > 0 && <Row label="Allergien" value={p.allergies.join(', ')} />}
             {p.no_gos.length > 0 && <Row label="No-Gos" value={p.no_gos.join(', ')} />}
-            {p.preferred_cuisines.length > 0 && <Row label="Küchen" value={p.preferred_cuisines.join(', ')} />}
           </dl>
         )}
       </div>
 
       <div>
-        <p className="mb-1 font-semibold text-stone-600">Gelernte Präferenzen</p>
+        <p className="mb-1.5 font-semibold text-stone-600">Gelernte Präferenzen</p>
         {!lp ? (
           <p className="text-stone-400">Noch keine Präferenzen</p>
         ) : (
-          <dl className="space-y-0.5 text-stone-600">
+          <dl className="space-y-1 text-stone-600">
             <Row label="Beliebt" value={lp.loved_dishes.join(', ') || '–'} />
             <Row label="Nicht gemocht" value={lp.disliked_dishes.join(', ') || '–'} />
             {Object.keys(lp.portion_adjustments).length > 0 && (
-              <Row label="Portionen" value={Object.entries(lp.portion_adjustments).map(([k, v]) => `${k}: ${v}`).join(', ')} />
+              <Row
+                label="Portionen"
+                value={Object.entries(lp.portion_adjustments).map(([k, v]) => `${k}: ${v}`).join(', ')}
+              />
             )}
             {lp.recurring_notes && <Row label="Notizen" value={lp.recurring_notes} />}
           </dl>
@@ -221,8 +226,8 @@ function HouseholdDetailPanel({ detail }: { detail: HouseholdDetails | null }) {
 function Row({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex gap-2">
-      <dt className="w-28 shrink-0 text-stone-400">{label}</dt>
-      <dd className="break-words">{value}</dd>
+      <dt className="w-24 shrink-0 text-stone-400">{label}</dt>
+      <dd className="break-words min-w-0">{value}</dd>
     </div>
   )
 }

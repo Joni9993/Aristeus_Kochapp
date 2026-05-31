@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { apiFetch, ApiError } from '../api/client'
 
 const STORES = [
@@ -83,9 +83,8 @@ export default function Profile() {
 
   return (
     <main className="mx-auto max-w-xl p-6">
-      <div className="mb-6 flex items-center gap-4">
-        <Link to="/" className="text-sm text-stone-500 underline hover:text-stone-700">← Zurück</Link>
-        <h1 className="text-xl font-semibold">Profil bearbeiten</h1>
+      <div className="mb-6">
+        <h1 className="text-xl font-semibold">Profil</h1>
       </div>
 
       <form onSubmit={handleSave} className="space-y-8">

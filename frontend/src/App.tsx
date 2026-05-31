@@ -1,4 +1,5 @@
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
+import AppLayout from './components/AppLayout'
 import { AdminRoute, ProtectedRoute } from './components/ProtectedRoute'
 import { AuthProvider } from './hooks/useAuth'
 import Admin from './pages/Admin'
@@ -20,55 +21,20 @@ export default function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/password-reset" element={<PasswordReset />} />
-
-          {/* Onboarding (logged-in, but not yet complete) */}
           <Route path="/onboarding" element={<Onboarding />} />
 
-          {/* Protected */}
-          <Route
-            path="/"
-            element={
-              <ProtectedRoute>
-                <Home />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/profile"
-            element={
-              <ProtectedRoute>
-                <Profile />
-              </ProtectedRoute>
-            }
-          />
+          {/* Protected — with bottom nav */}
+          <Route element={<ProtectedRoute><AppLayout /></ProtectedRoute>}>
+            <Route path="/" element={<Home />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/plan/new" element={<PlanNew />} />
+            <Route path="/plan/:planId" element={<Plan />} />
+          </Route>
 
-          {/* Plan flow */}
-          <Route
-            path="/plan/new"
-            element={
-              <ProtectedRoute>
-                <PlanNew />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/plan/:planId"
-            element={
-              <ProtectedRoute>
-                <Plan />
-              </ProtectedRoute>
-            }
-          />
-
-          {/* Admin */}
-          <Route
-            path="/admin"
-            element={
-              <AdminRoute>
-                <Admin />
-              </AdminRoute>
-            }
-          />
+          {/* Admin — with bottom nav */}
+          <Route element={<AdminRoute><AppLayout /></AdminRoute>}>
+            <Route path="/admin" element={<Admin />} />
+          </Route>
 
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
