@@ -317,7 +317,16 @@ function RecipesView({ plan }: { plan: Plan }) {
             </button>
 
             {open === d.id && d.recipe && (
-              <div className="border-t border-stone-100 p-4 text-sm">
+              <div className="border-t border-stone-100 text-sm">
+                {d.image_url && (
+                  <img
+                    src={d.image_url}
+                    alt={d.name}
+                    className="w-full h-48 object-cover"
+                    loading="lazy"
+                  />
+                )}
+                <div className="p-4">
                 <h3 className="mb-2 font-semibold text-stone-700">Zutaten</h3>
                 <ul className="mb-4 space-y-1">
                   {d.recipe.zutaten.map((ing, i) => (
@@ -350,6 +359,7 @@ function RecipesView({ plan }: { plan: Plan }) {
                 )}
 
                 <FeedbackRow planId={plan.id} dish={d} />
+                </div>
               </div>
             )}
             {open === d.id && !d.recipe && (
