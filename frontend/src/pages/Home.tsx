@@ -353,7 +353,7 @@ export default function Home() {
             {plans.slice(0, 10).map((p) => {
               const st = PLAN_STATUS[p.status] ?? { label: p.status, cls: 'text-stone-400' }
               return (
-                <div key={p.id} className="group flex items-center rounded-lg px-2 py-2 hover:bg-stone-50">
+                <div key={p.id} className="flex items-center rounded-lg px-2 py-2 hover:bg-stone-50">
                   <Link
                     to={`/plan/${p.id}`}
                     className="flex flex-1 items-center justify-between"
@@ -368,7 +368,7 @@ export default function Home() {
                       await apiFetch(`/plans/${p.id}`, { method: 'DELETE' }).catch(() => {})
                       setPlans((prev) => prev.filter((x) => x.id !== p.id))
                     }}
-                    className="ml-2 hidden text-stone-300 hover:text-red-500 group-hover:block"
+                    className="ml-2 shrink-0 opacity-30 hover:opacity-100 active:opacity-100"
                     title="Plan löschen"
                   >
                     🗑

@@ -157,12 +157,12 @@ function DishCard({
       </div>
 
       {sel.checked && (
-        <div className="mt-3 ml-7">
+        <div className="px-4 pb-4">
           <label className="mb-1 block text-xs text-stone-500">Wochentag</label>
           <select
             value={sel.cook_day}
             onChange={(e) => onChange({ ...sel, cook_day: e.target.value })}
-            className="rounded-lg border border-stone-300 px-2 py-1 text-sm"
+            className="w-full rounded-lg border border-stone-300 px-2 py-2"
           >
             <option value="">— Tag wählen —</option>
             {DAYS.map((d) => (
@@ -559,7 +559,7 @@ function ShoppingView({ plan, onItemUpdate }: { plan: Plan; onItemUpdate: (id: n
         <button
           onClick={() => toggle(item, 'is_already_have')}
           title="Schon vorhanden"
-          className={`shrink-0 rounded-full px-2 py-0.5 text-xs ${item.is_already_have ? 'bg-sky-100 text-sky-700' : 'text-stone-300 hover:text-stone-500'}`}
+          className={`shrink-0 rounded-full px-3 py-1.5 text-xs ${item.is_already_have ? 'bg-sky-100 text-sky-700' : 'text-stone-400 hover:text-stone-600 active:text-stone-600'}`}
         >
           Habe ich
         </button>
@@ -767,13 +767,13 @@ export default function Plan() {
           <div className="mb-4 flex gap-2">
             <button
               onClick={() => setTab('recipes')}
-              className={`rounded-full px-4 py-1.5 text-sm font-medium transition-colors ${tab === 'recipes' ? 'bg-emerald-600 text-white' : 'bg-stone-100 text-stone-600 hover:bg-stone-200'}`}
+              className={`flex-1 rounded-full px-4 py-2.5 text-sm font-medium transition-colors ${tab === 'recipes' ? 'bg-emerald-600 text-white' : 'bg-stone-100 text-stone-600 hover:bg-stone-200'}`}
             >
               Rezepte ({confirmed.length})
             </button>
             <button
               onClick={() => setTab('shopping')}
-              className={`rounded-full px-4 py-1.5 text-sm font-medium transition-colors ${tab === 'shopping' ? 'bg-emerald-600 text-white' : 'bg-stone-100 text-stone-600 hover:bg-stone-200'}`}
+              className={`flex-1 rounded-full px-4 py-2.5 text-sm font-medium transition-colors ${tab === 'shopping' ? 'bg-emerald-600 text-white' : 'bg-stone-100 text-stone-600 hover:bg-stone-200'}`}
             >
               Einkaufsliste ({(plan.shopping_items || []).filter((i) => !i.is_checked && !i.is_already_have).length})
             </button>
