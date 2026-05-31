@@ -707,7 +707,7 @@ def _best_price(deals: list[dict]) -> str | None:
     deal = plain or deals[0]
     min_p = deal.get("min")
     max_p = deal.get("max")
-    if min_p is None:
+    if not min_p:
         return None
     if min_p == max_p or max_p is None:
         return f"{float(min_p):.2f} €"

@@ -58,6 +58,7 @@ def _dish_out(dish: PlanDish) -> dict:
         "feedback_portion_note": dish.feedback_portion_note,
         "feedback_free_text": dish.feedback_free_text,
         "recipe": recipe,
+        "image_url": dish.recipe.image_url if dish.recipe else None,
     }
 
 

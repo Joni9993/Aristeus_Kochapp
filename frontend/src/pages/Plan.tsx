@@ -19,6 +19,7 @@ type Dish = {
   feedback_portion_note: string | null
   feedback_free_text: string | null
   recipe: Recipe | null
+  image_url: string | null
 }
 
 type RecipeIngredient = {
@@ -118,11 +119,19 @@ function DishCard({
 
   return (
     <div
-      className={`rounded-xl border p-4 transition-all ${
+      className={`rounded-xl border overflow-hidden transition-all ${
         sel.checked ? 'border-emerald-400 bg-emerald-50' : 'border-stone-200 bg-white'
       }`}
     >
-      <div className="flex items-start gap-3">
+      {dish.image_url && (
+        <img
+          src={dish.image_url}
+          alt={dish.name}
+          className="w-full h-36 object-cover"
+          loading="lazy"
+        />
+      )}
+      <div className="flex items-start gap-3 p-4">
         <input
           type="checkbox"
           checked={sel.checked}
