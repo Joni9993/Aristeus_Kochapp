@@ -1,0 +1,23 @@
+﻿TABLES: ['alembic_version', 'api_calls', 'brochures', 'health_pings', 'households', 'invite_tokens', 'learned_preferences', 'offers', 'password_resets', 'plan_dishes', 'profiles', 'recipe_ingredients', 'recipes', 'shopping_items', 'user_sessions', 'weekly_plans']
+
+RECIPE_INGREDIENTS SCHEMA: CREATE TABLE recipe_ingredients (
+	id INTEGER NOT NULL, 
+	recipe_id INTEGER NOT NULL, 
+	raw_name VARCHAR(300) NOT NULL, 
+	normalized_name VARCHAR(200) NOT NULL, 
+	quantity FLOAT, 
+	unit VARCHAR(50), 
+	is_main BOOLEAN DEFAULT '0' NOT NULL, 
+	optional BOOLEAN DEFAULT '0' NOT NULL, 
+	notes VARCHAR(200), 
+	PRIMARY KEY (id), 
+	FOREIGN KEY(recipe_id) REFERENCES recipes (id) ON DELETE CASCADE
+)
+{'id': 1582, 'recipe_id': 154, 'raw_name': 'Mascarpone', 'normalized_name': 'mascarpone', 'quantity': 500.0, 'unit': 'g', 'is_main': 1, 'optional': 0, 'notes': None}
+{'id': 1583, 'recipe_id': 154, 'raw_name': 'Puderzucker', 'normalized_name': 'puderzucker', 'quantity': 100.0, 'unit': 'g', 'is_main': 1, 'optional': 0, 'notes': None}
+{'id': 1584, 'recipe_id': 154, 'raw_name': 'Löffelbiskuits', 'normalized_name': 'löffelbiskuits', 'quantity': 200.0, 'unit': 'g', 'is_main': 1, 'optional': 0, 'notes': None}
+{'id': 1585, 'recipe_id': 154, 'raw_name': 'Eigelb', 'normalized_name': 'eigelb', 'quantity': 4.0, 'unit': None, 'is_main': 1, 'optional': 0, 'notes': None}
+{'id': 1586, 'recipe_id': 154, 'raw_name': 'Eiweiß', 'normalized_name': 'eiweiß', 'quantity': 2.0, 'unit': None, 'is_main': 1, 'optional': 0, 'notes': None}
+{'id': 1587, 'recipe_id': 154, 'raw_name': 'Tasse/n Kaffee, gekochter (abgekühlt)', 'normalized_name': 'tasse/n kaffee', 'quantity': 3.0, 'unit': None, 'is_main': 0, 'optional': 0, 'notes': None}
+{'id': 1588, 'recipe_id': 154, 'raw_name': 'Amaretto (evtl. auch 3)', 'normalized_name': 'amaretto', 'quantity': 2.0, 'unit': 'el', 'is_main': 0, 'optional': 0, 'notes': None}
+{'id': 1589, 'recipe_id': 154, 'raw_name': 'Kakaopulver, ungesüßtes (zum Bestreuen)', 'normalized_name': 'kakaopulver', 'quantity': None, 'unit': None, 'is_main': 0, 'optional': 0, 'notes': None}

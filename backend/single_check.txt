@@ -1,0 +1,40 @@
+﻿ID 772
+  URL: https://www.chefkoch.de/rezepte/2339451372339818/Single-Abendessen-Nr-18.html
+  DESC: Geflügelgericht mit Kartoffeln, Möhren und Schalotten.
+  INSTR: ["In einem Kochtopf Wasser mit Salz und Gemüsebrühe aufkochen. Kartoffeln schälen, in Scheiben schneiden, würfeln und in den Topf geben. Hitze auf mittlere Stufe drosseln. Möhren schälen, längs halbie
+
+ID 788
+  URL: https://www.chefkoch.de/rezepte/2422471382258742/Single-Abendessen-Nr-28.html
+  DESC: Vegetarisches Gericht mit Spitzpaprika, dünne Lauchzwiebeln und Fett. Vegetarisch.
+  INSTR: ["Die Paprika halbieren und entkernen.", "Die Lauchzwiebel in feine Röllchen schneiden.", "Tomaten- Mozzarella- und Gurkenscheiben schneiden und beiseitelegen.", "Fett auf mittlerer Stufe in einer gro
+
+ID 789
+  URL: https://www.chefkoch.de/rezepte/2333891371642997/Single-Abendessen-Nr-15.html
+  DESC: Fischgericht mit Bandnudeln, Spargel, Gemüsebrühe, verfeinert mit Zucker. Mit fisch.
+  INSTR: ["In einem größeren Topf Wasser mit Salz und Gemüsebrühe zum Kochen bringen und die Nudeln einlegen.", "Die letzten 8 Minuten der Garzeit eine Prise Zucker dazu und den Spargel zu den Nudeln in den To
+
+ID 794
+  URL: https://www.chefkoch.de/rezepte/2547231398721009/Single-Abendessen-Nr-81.html
+  DESC: Vegetarisches Gericht mit Butter und Lauchzwiebeln. Vegetarisch.
+  INSTR: ["Brotscheiben mit Butter bestreichen, mit Käse belegen - auf einer kleinen Platte anrichten.", "Das Ei hart kochen, abkühlen, pellen, in Scheiben schneiden - neben das Brot legen.", "Tomaten und Gurk
+
+ID 795
+  URL: https://www.chefkoch.de/rezepte/2469771389037528/Single-Abendessen-Nr-33.html
+  DESC: Gemüsegericht mit Rinderbraten, Schalotten, Lauchzwiebeln, verfeinert mit Senf.
+  INSTR: ["Fett in einer Pfanne auf mittlerer Stufe erhitzen. Das Rindergeschnetzelte kurz rundum anbraten, würzen und an die Seite legen.", "Die Hitze zurück nehmen und Schalotte, Lauchzwiebel und Knoblauch a
+
+ID 798
+  URL: https://www.chefkoch.de/rezepte/2519761395146692/Single-Abendessen-Nr-62.html
+  DESC: Vegetarisches Gericht mit Butter, Tomaten und Meersalz. Vegetarisch.
+  INSTR: ["Kontaktgrill einfetten und vorheizen.", "4 Toastscheiben buttern und 2 Scheiben mit jeweils 1 Scheibe Käse belegen.", "Tomaten vom Stielansatz befreien, in ca. 1cm-dicke Scheiben schneiden, jeweils 
+
+ID 799
+  URL: https://www.chefkoch.de/rezepte/2495821392195517/Single-Abendessen-Nr-55.html
+  DESC: Gemüsegericht mit Kugel, Tomaten, Paprikaschoten, verfeinert mit dünne Lauchzwiebeln. Vegetarisch.
+  INSTR: ["Brot mit etwas Fett in der (nur sanft erhitzten) Pfanne von beiden Seiten etwas bräunen lassen.", "Senf auf der Brotscheibe mit dem Löffel verstreichen. Die Hälfte der Lauchzwiebel, in Röllchen gesc
+
+ID 800
+  URL: https://www.chefkoch.de/rezepte/2370231376128115/Single-Abendessen-Nr-24.html
+  DESC: Vegetarisches Gericht mit Würstchen, Weintrauben), Käse, verfeinert mit Tomaten. Vegetarisch.
+  INSTR: ["Die Lauchzwiebel im unteren Teil einmal längs durchschneiden und in feine Röllchen schneiden.", "Den Käse in 15 kleine Dreiecke schneiden.", "Jeweils ein Würstchen, eine Traube und ein Stück Käse au
+

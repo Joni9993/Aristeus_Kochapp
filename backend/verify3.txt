@@ -1,0 +1,42 @@
+﻿Remaining 'Single' names: 0
+
+ID 772: Kartoffeln mit Möhren und Schalotten
+  Geflügelgericht mit Kartoffeln, Möhren und Schalotten.
+
+ID 788: Spitzpaprika mit dünne Lauchzwiebeln und Fett
+  Vegetarisches Gericht mit Spitzpaprika, dünne Lauchzwiebeln und Fett. Vegetarisch.
+
+ID 789: Bandnudeln mit Spargel und Gemüsebrühe
+  Fischgericht mit Bandnudeln, Spargel, Gemüsebrühe, verfeinert mit Zucker. Mit fisch.
+
+ID 808: Reis gekochter vom Vortag) mit Zwiebeln und Möhren
+  Gemüsegericht mit Reis gekochter vom Vortag), Zwiebeln, Möhren, verfeinert mit Käse) und Paniermehl. Vegetarisch.
+
+ID 824: Butter mit dünne Lauchzwiebeln
+  Gebratenes mit Butter und dünne Lauchzwiebeln.
+
+ID 841: Kartoffeltaler mit Kräuterquark
+  Kartoffelgericht mit Kartoffeln, Kümmel, Butterschmalz, verfeinert mit Frühlingszwiebeln und Blattpetersilie.
+
+ID 853: Port. Putenbrustfilets mit Kartoffeln und Milch
+  Geflügelgericht mit Port. Putenbrustfilets, Kartoffeln, Milch, verfeinert mit Butter.
+
+--- Andere Checks ---
+ID 24: Schwarzes Schokoladeneis
+  Dessert mit Schokolade, Milch, Kakaopulver, verfeinert mit Puderzucker und Rumaroma. Vegetarisch.
+ID 140: Ananas - Mandarinen - Blechkuchen
+  Kuchen mit Butter und Zucker. Vegetarisch.
+ID 142: Apfelkuchen mit Vanillepudding und Zimtstreuseln
+  Kuchen mit Mehl, Zucker, Vanillezucker, verfeinert mit Butter. Vegetarisch.
+ID 150: Apfelmuswaffeln
+  Gebackenes mit Apfelmus, Butter, Mehl, verfeinert mit Backpulver. Vegetarisch.
+ID 153: Haselnüsse mit Mandeln und Pistazien
+  Kuchen mit Haselnüsse, Mandeln, Pistazien, verfeinert mit Zucker und Zimtpulver. Türkisch, vegetarisch.
+ID 154: Tiramisu klassisch
+  Dessert mit Mascarpone, Puderzucker, Löffelbiskuits, verfeinert mit Eigelb und Eiweiß. Italienisch, vegetarisch.
+ID 589: Reiterschnitzel
+  Überbackenes Gericht mit Schweineschnitzel, Tomaten und Zwiebeln.
+ID 638: Lachs-Spinat-Rolle mit Zitronenreis
+  Leichtes Gericht mit Räucherlachs, Vollkornreis, Blattspinat, verfeinert mit Frischkäse. Mit fisch.
+ID 973: Gefüllte Paprika mit Hackfleisch, Feta und Zucchini
+  Leichtes Gericht mit Putenhackfleisch, Feta-Käse, Paprikaschoten, verfeinert mit Zucchini und Zwiebeln.

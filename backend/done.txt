@@ -1,0 +1,26 @@
+﻿Mit ) in name/desc: 3
+Single-Namen: 0
+
+ID 153: Baklava
+  Kuchen mit Haselnüsse, Mandeln, Pistazien, verfeinert mit Zucker und Zimtpulver. Türkisch, vegetarisch.
+
+ID 154: Tiramisu klassisch
+  Dessert mit Mascarpone, Puderzucker, Löffelbiskuits, verfeinert mit Eigelb und Eiweiß. Italienisch, vegetarisch.
+
+ID 556: Knackiger bunter Brokkolisalat
+  Vegetarisches Gericht mit Kopf Brokkoli, Feta-Käse, Cocktailtomaten, verfeinert mit Cashewnüsse. Vegetarisch.
+
+ID 638: Lachs-Spinat-Rolle mit Zitronenreis
+  Leichtes Gericht mit Räucherlachs, Vollkornreis, Blattspinat, verfeinert mit Frischkäse. Fisch.
+
+ID 808: Reis gekochter vom Vortag mit Zwiebeln und Möhren
+  Gemüsegericht mit Reis, Zwiebeln, Möhren, verfeinert mit Käse und Paniermehl. Vegetarisch.
+
+ID 853: Putenbrustfilets mit Kartoffeln und Milch
+  Geflügelgericht mit Putenbrustfilets, Kartoffeln, Milch, verfeinert mit Butter.
+
+ID 973: Gefüllte Paprika mit Hackfleisch, Feta und Zucchini
+  Leichtes Gericht mit Putenhackfleisch, Feta-Käse, Paprikaschoten, verfeinert mit Zucchini und Zwiebeln.
+
+ID 24: Schwarzes Schokoladeneis
+  Dessert mit Schokolade, Milch, Kakaopulver, verfeinert mit Puderzucker und Rumaroma. Vegetarisch.

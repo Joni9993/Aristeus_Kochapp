@@ -1,0 +1,30 @@
+﻿Rezepte gesamt: 610
+Batches: 204 à 3
+
+[Batch 1/204] IDs 20–23
+  OK via openai/gpt-oss-120b:free → 3 Rezepte
+  [DRY] id=20 name='Weintrauben‑Quark‑Dessert'
+        desc='Ein süßes Dessert aus kernlosen Weintrauben, Magerquark, Zucker, Vanillinzucker und Schlagsahne. Es ist vegetarisch.'
+  [DRY] id=22 name='Weincreme Lisa'
+        desc='Eine cremige Nachspeise aus weißem Wein, Vanilleschote, Stärkemehl, Zucker und Zitronensaft. Sie ist vegetarisch.'
+  [DRY] id=23 name='Marzipanmousse'
+        desc='Eine luftige Mousse aus Marzipanrohmasse, Eigelb, Vanillezucker, Amaretto und Crème fraîche.'
+  DB aktualisiert. Gesamt: 3/610
+
+[Batch 2/204] IDs 24–28
+  FEHLER mit openai/gpt-oss-120b:free: 'choices'
+  FEHLER mit meta-llama/llama-3.3-70b-instruct:free: Client error '429 Too Many Requests' for url 'https://openrouter.ai/api/v1/chat/completions'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429
+  FEHLER mit google/gemini-2.0-flash:free: Client error '400 Bad Request' for url 'https://openrouter.ai/api/v1/chat/completions'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/400
+  SKIP: alle Modelle fehlgeschlagen
+
+[Batch 3/204] IDs 29–130
+  OK via openai/gpt-oss-120b:free → 3 Rezepte
+  [DRY] id=29 name='Warmer Apfelstreusel'
+        desc='Ein warmes Dessert aus großen Äpfeln, Zitronensaft, Mehl, Zucker und Zimt. Vegetarisch.'
+  [DRY] id=30 name='Russische Quittenmousse'
+        desc='Eine samtige Mousse aus Quittenfleisch, weißem Portwein, Zucker, Sternanis und Nelken. Klassisches Dessert aus der russischen Küche.'
+  [DRY] id=130 name='Hamburger‑Brötchen'
+        desc='Fluffige Brötchen aus Weizenmehl, lauwarmer Milch, weicher Butter, Ei und Trockenhefe. Vegetarisch.'
+  DB aktualisiert. Gesamt: 6/610

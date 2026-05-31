@@ -1,0 +1,80 @@
+﻿Rezepte gesamt: 610
+Batches: 51 à 12
+
+[Batch 1/51] IDs 20–141
+  FEHLER mit google/gemini-2.0-flash-exp:free: Client error '404 Not Found' for url 'https://openrouter.ai/api/v1/chat/completions'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
+  FEHLER mit meta-llama/llama-3.3-70b-instruct:free: Client error '429 Too Many Requests' for url 'https://openrouter.ai/api/v1/chat/completions'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429
+  SKIP: alle Modelle fehlgeschlagen
+
+[Batch 2/51] IDs 142–161
+  FEHLER mit google/gemini-2.0-flash-exp:free: Client error '404 Not Found' for url 'https://openrouter.ai/api/v1/chat/completions'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
+  FEHLER mit meta-llama/llama-3.3-70b-instruct:free: Client error '429 Too Many Requests' for url 'https://openrouter.ai/api/v1/chat/completions'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429
+  SKIP: alle Modelle fehlgeschlagen
+
+[Batch 3/51] IDs 189–275
+  FEHLER mit google/gemini-2.0-flash-exp:free: Client error '404 Not Found' for url 'https://openrouter.ai/api/v1/chat/completions'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
+  FEHLER mit meta-llama/llama-3.3-70b-instruct:free: Client error '429 Too Many Requests' for url 'https://openrouter.ai/api/v1/chat/completions'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429
+  SKIP: alle Modelle fehlgeschlagen
+
+[Batch 4/51] IDs 276–319
+  FEHLER mit google/gemini-2.0-flash-exp:free: Client error '404 Not Found' for url 'https://openrouter.ai/api/v1/chat/completions'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
+  FEHLER mit meta-llama/llama-3.3-70b-instruct:free: Client error '429 Too Many Requests' for url 'https://openrouter.ai/api/v1/chat/completions'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429
+  SKIP: alle Modelle fehlgeschlagen
+
+[Batch 5/51] IDs 321–362
+  FEHLER mit google/gemini-2.0-flash-exp:free: Client error '404 Not Found' for url 'https://openrouter.ai/api/v1/chat/completions'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
+  FEHLER mit meta-llama/llama-3.3-70b-instruct:free: Client error '429 Too Many Requests' for url 'https://openrouter.ai/api/v1/chat/completions'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429
+  SKIP: alle Modelle fehlgeschlagen
+
+[Batch 6/51] IDs 370–476
+  FEHLER mit google/gemini-2.0-flash-exp:free: Client error '404 Not Found' for url 'https://openrouter.ai/api/v1/chat/completions'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
+  FEHLER mit meta-llama/llama-3.3-70b-instruct:free: Client error '429 Too Many Requests' for url 'https://openrouter.ai/api/v1/chat/completions'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429
+  SKIP: alle Modelle fehlgeschlagen
+
+[Batch 7/51] IDs 477–509
+  FEHLER mit google/gemini-2.0-flash-exp:free: Client error '404 Not Found' for url 'https://openrouter.ai/api/v1/chat/completions'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
+  FEHLER mit meta-llama/llama-3.3-70b-instruct:free: Client error '429 Too Many Requests' for url 'https://openrouter.ai/api/v1/chat/completions'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429
+  SKIP: alle Modelle fehlgeschlagen
+
+[Batch 8/51] IDs 510–524
+  FEHLER mit google/gemini-2.0-flash-exp:free: Client error '404 Not Found' for url 'https://openrouter.ai/api/v1/chat/completions'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
+  FEHLER mit meta-llama/llama-3.3-70b-instruct:free: Client error '429 Too Many Requests' for url 'https://openrouter.ai/api/v1/chat/completions'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429
+  SKIP: alle Modelle fehlgeschlagen
+
+[Batch 9/51] IDs 525–536
+  FEHLER mit google/gemini-2.0-flash-exp:free: Client error '404 Not Found' for url 'https://openrouter.ai/api/v1/chat/completions'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
+  FEHLER mit meta-llama/llama-3.3-70b-instruct:free: Client error '429 Too Many Requests' for url 'https://openrouter.ai/api/v1/chat/completions'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429
+  SKIP: alle Modelle fehlgeschlagen
+
+[Batch 10/51] IDs 537–548
+  FEHLER mit google/gemini-2.0-flash-exp:free: Client error '404 Not Found' for url 'https://openrouter.ai/api/v1/chat/completions'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
+  FEHLER mit meta-llama/llama-3.3-70b-instruct:free: Client error '429 Too Many Requests' for url 'https://openrouter.ai/api/v1/chat/completions'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429
+  SKIP: alle Modelle fehlgeschlagen
+
+[Batch 11/51] IDs 549–560
+  FEHLER mit google/gemini-2.0-flash-exp:free: Client error '404 Not Found' for url 'https://openrouter.ai/api/v1/chat/completions'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
+  FEHLER mit meta-llama/llama-3.3-70b-instruct:free: Client error '429 Too Many Requests' for url 'https://openrouter.ai/api/v1/chat/completions'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429
+  SKIP: alle Modelle fehlgeschlagen
+

@@ -1,0 +1,2441 @@
+﻿Total: 610
+ID: 20
+Name: Dessert mit Weintrauben
+Desc: Dessert mit Weintrauben. Über 1058 Bewertungen und für super befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps! Jetzt entdecken und ausprobieren!
+---
+ID: 22
+Name: Weincreme Lisa
+Desc: Weincreme Lisa. Eine Bewertung und für lecker befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps! Jetzt entdecken und ausprobieren!
+---
+ID: 23
+Name: Marzipanmousse
+Desc: Marzipanmousse - dafür ernte ich immer Lob! Über 12 Bewertungen und für raffiniert befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 24
+Name: Schwarzes Schokoladeneis
+Desc: Schwarzes Schokoladeneis - mit schwarzer Schokolade, das beste, das es für Schokofans gibt. Über 119 Bewertungen und für raffiniert befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 25
+Name: Kekstraum
+Desc: Kekstraum. Über 6 Bewertungen und für raffiniert befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps! Jetzt entdecken und ausprobieren!
+---
+ID: 28
+Name: Philadelphia - Creme mit Kirschen
+Desc: Philadelphia - Creme mit Kirschen. Über 32 Bewertungen und für sehr gut befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps! Jetzt entdecken und ausprobieren!
+---
+ID: 29
+Name: Warme Apfelstreusel
+Desc: Warme Apfelstreusel. Über 6 Bewertungen und für schmackhaft befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps! Jetzt entdecken und ausprobieren!
+---
+ID: 30
+Name: Quitten-Sambuk - russische Quittenmousse
+Desc: Quitten-Sambuk - russische Quittenmousse - elegante Resteverwertung für Eiweiß, intensiver Fruchtgeschmack. Über 10 Bewertungen und für schmackhaft befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 130
+Name: Brötchen für Hamburger
+Desc: Brötchen für Hamburger - für 12 Brötchen. Über 586 Bewertungen und für köstlich befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 139
+Name: Rhabarber-Schmandkuchen
+Desc: Rhabarber-Schmandkuchen - Saftiger Kuchen mit Vanille-Pudding und Mürbeteig. Eine Bewertung und für sehr gut befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 140
+Name: Ananas - Mandarinen - Blechkuchen von Elli K.
+Desc: Ananas - Mandarinen - Blechkuchen. Über 46 Bewertungen und für mega befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps! Jetzt entdecken und ausprobieren!
+---
+ID: 141
+Name: No Bake Schoko-Cheesecake
+Desc: No Bake Schoko-Cheesecake - für eine 20 cm Springform. Über 18 Bewertungen und für raffiniert befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 142
+Name: Dirks Apfelkuchen mit Vanillepudding und Zimtstreuseln
+Desc: Dirks Apfelkuchen mit Vanillepudding und Zimtstreuseln. Über 26 Bewertungen und für köstlich befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps! Jetzt entdecken und ausprobieren!
+---
+ID: 143
+Name: Buttermilch Sandwichbrot
+Desc: Buttermilch Sandwichbrot. Über 35 Bewertungen und für sehr lecker befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps! Jetzt entdecken und ausprobieren!
+---
+ID: 148
+Name: Dicke Waffeln
+Desc: Dicke Waffeln. Über 2 Bewertungen und für sehr gut befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps! Jetzt entdecken und ausprobieren!
+---
+ID: 150
+Name: K's Apfelmuswaffeln
+Desc: K's Apfelmuswaffeln. Über 14 Bewertungen und für ausgezeichnet befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps! Jetzt entdecken und ausprobieren!
+---
+ID: 153
+Name: Baklava – türkische Süßspeise selber machen
+Desc: Baklava - türkisches Originalrezept. Über 422 Bewertungen und für sehr gut befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 154
+Name: Tiramisu klassisch - unwiderstehlich lecker
+Desc: Probier unser einfaches Tiramisu-Rezept! Wenige Zutaten, unkomplizierte Schritte und ein köstliches italienisches Original-Dessert zum Genießen.
+---
+ID: 155
+Name: Schichtdessert mit Weintrauben
+Desc: Schichtdessert mit Weintrauben. Über 451 Bewertungen und für sehr gut befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps! Jetzt entdecken und ausprobieren!
+---
+ID: 156
+Name: Traubendessert
+Desc: Traubendessert. Über 27 Bewertungen und für ausgezeichnet befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps! Jetzt entdecken und ausprobieren!
+---
+ID: 157
+Name: Mousse au Chocolat
+Desc: Mousse au Chocolat - (schnell und einfach mmhh...). Über 76 Bewertungen und für super befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 159
+Name: Spaghetti-Eis-Dessert
+Desc: Spaghetti-Eis-Dessert - ohne Eis. Über 1110 Bewertungen und für beliebt befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 160
+Name: Joghurt-Bombe
+Desc: Joghurt-Bombe - extrem einfach, macht was her und ist super vorzubereiten. Über 1232 Bewertungen und für köstlich befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 161
+Name: Solero Dessert - schnell & einfach
+Desc: Solero Dessert - schmeckt genau wie das Eis. Über 643 Bewertungen und für lecker befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 189
+Name: Himbeertraum
+Desc: Himbeertraum - einfach gemacht und super lecker. Über 175 Bewertungen und für super befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 203
+Name: Schoko-Bananenbrot mit Joghurt
+Desc: Schoko-Bananenbrot mit Joghurt - aus einer 26er Kastenform. Über 235 Bewertungen und für vorzüglich befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 205
+Name: Feiner Apfel-Birnenkuchen mit Quark-Joghurtcreme und mürben Butter-Mandelstreuseln
+Desc: Feiner Apfel-Birnenkuchen mit Quark-Joghurtcreme und mürben Butter-Mandelstreuseln - saftig und knusprig. Über 35 Bewertungen und für köstlich befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 208
+Name: Affen-Schnitten
+Desc: Affen-Schnitten - Bananen-Schokokuchen auf dem Blech. Über 569 Bewertungen und für schmackhaft befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 209
+Name: Bananenkuchen
+Desc: Bananenkuchen - so locker und saftig... Über 345 Bewertungen und für schmackhaft befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 211
+Name: Trauben - Schoko - Nuss - Gugelhupf
+Desc: Trauben - Schoko - Nuss - Gugelhupf. Über 13 Bewertungen und für raffiniert befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps! Jetzt entdecken und ausprobieren!
+---
+ID: 212
+Name: Amerikanischer Schokoladen-Sauerkraut Kuchen mit Sour Cream Frosting
+Desc: Amerikanischer Schokoladen-Sauerkraut Kuchen mit Sour Cream Frosting - Chocolate Sauerkraut Cake with Sour Cream Frosting - ungewöhnlich - aber schmeckt super! Über 4 Bewertungen und für schmackhaft befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 243
+Name: 1-2-3 Mürbeteig vom Konditor
+Desc: 1-2-3 Mürbeteig vom Konditor. Über 186 Bewertungen und für schmackhaft befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps! Jetzt entdecken und ausprobieren!
+---
+ID: 271
+Name: Käsekuchen
+Desc: Käsekuchen - Quarkkuchen. Über 120 Bewertungen und für sehr gut befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 272
+Name: Biskuitrolle mit Erdbeerfüllung – Grundrezept
+Desc: Biskuitrolle mit Erdbeerfüllung. Über 552 Bewertungen und für ausgezeichnet befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps! Jetzt entdecken und ausprobieren!
+---
+ID: 274
+Name: Käsekuchen mit 2 Schichten
+Desc: Käsekuchen mit 2 Schichten - aus einer 28er Springorm. Über 1491 Bewertungen und für raffiniert befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 275
+Name: Karottenkuchen, Rüblikuchen oder Möhrenkuchen
+Desc: Karottenkuchen, Rüblikuchen oder Möhrenkuchen - Der Name ist eigentlich egal - Hauptsache lecker. Über 3090 Bewertungen und für vorzüglich befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 276
+Name: Zimtschnecken 'Cinnabon Style'
+Desc: Zimtschnecken 'Cinnabon Style' - amerikanische Zimtschnecken mit Cream-Cheese-Frosting. Über 1769 Bewertungen und für lecker befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 277
+Name: Zimtschnecken - Kanelbullar selber machen
+Desc: Schwedische Zimtschnecken - Kanelbullar. Über 1250 Bewertungen und für mega befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps! Jetzt entdecken und ausprobieren!
+---
+ID: 278
+Name: Saftige Zimtschnecken
+Desc: Saftige Zimtschnecken - einfach, saftig und superlecker. Über 80 Bewertungen und für super befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 279
+Name: Schokoladen-Brownie-Cookies
+Desc: Schokoladen-Brownie-Cookies - super soft, ergibt ca. 15 Cookies. Über 100 Bewertungen und für raffiniert befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 280
+Name: Aprikosenkuchen
+Desc: Aprikosenkuchen. Über 19 Bewertungen und für köstlich befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps! Jetzt entdecken und ausprobieren!
+---
+ID: 281
+Name: Aprikosen - Käsekuchen
+Desc: Aprikosen - Käsekuchen - besonders fein. Über 106 Bewertungen und für köstlich befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 303
+Name: Schokomuffins
+Desc: Schokomuffins. Über 391 Bewertungen und für sehr gut befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps! Jetzt entdecken und ausprobieren!
+---
+ID: 304
+Name: Lion - Muffins
+Desc: Lion - Muffins - ergibt 12 Muffins. Über 6 Bewertungen und für sehr lecker befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 305
+Name: Schoko-Jumbo-Muffins
+Desc: Schoko-Jumbo-Muffins - Chocoholics Medizin. Über 240 Bewertungen und für lecker befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 317
+Name: Solerokuchen
+Desc: Solerokuchen - ohne Backen. Über 3 Bewertungen und für sehr gut befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 318
+Name: Blechkuchen "Gebrannte Mandeln"
+Desc: Blechkuchen "Gebrannte Mandeln" - Der perfekte Blechkuchen für die kalte Winterzeit. Über 409 Bewertungen und für beliebt befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 319
+Name: Buttermilchkuchen mit Mandeln
+Desc: Buttermilchkuchen mit Mandeln. Über 25 Bewertungen und für köstlich befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps! Jetzt entdecken und ausprobieren!
+---
+ID: 321
+Name: Donauwellen-Cupcakes
+Desc: Donauwellen-Cupcakes - für 12 Stück. Über 124 Bewertungen und für sehr lecker befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 322
+Name: Cupcakes nach Germknödel Art
+Desc: Cupcakes nach Germknödel Art - angelehnt an das österreichische Original, aber ohne Hefe. Über 4 Bewertungen und für köstlich befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 324
+Name: Leichte Erdbeermousse
+Desc: Leichte Erdbeermousse - fruchtig frische Mousse, fettarm und kalorienarm, da ohne Sahne. Über 15 Bewertungen und für ausgezeichnet befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 325
+Name: Erdbeer - Holundercreme - Torte
+Desc: Erdbeer - Holundercreme - Torte - schön fruchtig. Über 25 Bewertungen und für sehr gut befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 326
+Name: Mousse au Chocolat – einfach selber machen
+Desc: Mousse au chocolat. Über 1266 Bewertungen und für sehr lecker befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps! Jetzt entdecken und ausprobieren!
+---
+ID: 327
+Name: Vanille-Frischkäse-Frosting
+Desc: Vanille-Frischkäse-Frosting - Vanilla Cream Cheese Frosting für Cupcakes - nicht zu buttrig, nicht zu süß. Über 544 Bewertungen und für sehr lecker befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 328
+Name: Erdbeer-Vanille-Buttercreme
+Desc: Erdbeer-Vanille-Buttercreme - leichte und fruchtige Buttercreme - Variante. Über 546 Bewertungen und für beliebt befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 356
+Name: Cremige Mandarinchen
+Desc: Cremige Mandarinchen - Ein einfaches und schnelles Dessert. Über 3 Bewertungen und für mega befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 358
+Name: Mascarpone - Mango - Creme
+Desc: Mascarpone - Mango - Creme. Über 53 Bewertungen und für sehr lecker befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps! Jetzt entdecken und ausprobieren!
+---
+ID: 359
+Name: Bratapfel-Parfait
+Desc: Bratapfel-Parfait. Über 36 Bewertungen und für mega befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps! Jetzt entdecken und ausprobieren!
+---
+ID: 360
+Name: Weißweincreme mit Pfirsichen
+Desc: Weißweincreme mit Pfirsichen. Über 7 Bewertungen und für vorzüglich befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps! Jetzt entdecken und ausprobieren!
+---
+ID: 362
+Name: Beeren - Baiser - Amarettinidessert
+Desc: Beeren - Baiser - Amarettinidessert. Über 26 Bewertungen und für mega befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps! Jetzt entdecken und ausprobieren!
+---
+ID: 370
+Name: Die Erdbeerbowle mit dem sagenhaften Aroma
+Desc: Die Erdbeerbowle mit dem sagenhaften Aroma - der absolute Partyknüller im Frühsommer. Über 119 Bewertungen und für lecker befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 412
+Name: Persiki
+Desc: Persiki. Über 2 Bewertungen und für sehr gut befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps! Jetzt entdecken und ausprobieren!
+---
+ID: 427
+Name: Mini-Donuts für den Donut Maker
+Desc: Mini-Donuts für den Donut Maker - reicht für ca. 18 Stück. Über 218 Bewertungen und für köstlich befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 429
+Name: Eierlikörwaffeln
+Desc: Eierlikörwaffeln. Über 9 Bewertungen und für schmackhaft befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps! Jetzt entdecken und ausprobieren!
+---
+ID: 431
+Name: Sahnewaffeln
+Desc: Sahnewaffeln - Waffeln. Über 52 Bewertungen und für super befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 432
+Name: Waffelteig Grundrezept - schnell und einfach
+Desc: Geheimes Waffelrezept - wie bei Oma – Waffelteig reicht für ca. 30 Waffeln. Über 3666 Bewertungen und für schmackhaft befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 433
+Name: Knusprige Cornflakeswaffeln
+Desc: Knusprige Cornflakeswaffeln - ergibt 12 Stück. Über 6 Bewertungen und für super befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 437
+Name: Joghurtwaffeln
+Desc: Joghurtwaffeln. Gib jetzt die erste Bewertung für das Rezept von rezeptina ab! Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 438
+Name: Schokowaffeln mit Himbeersahne
+Desc: Schokowaffeln mit Himbeersahne - für 16 Waffeln. Eine Bewertung und für mega befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 469
+Name: Geröstete Maronen
+Desc: Geröstete Maronen - aus dem Backofen, wie vom Weihnachtsmarkt. Über 119 Bewertungen und für vorzüglich befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 475
+Name: Apple - Crumble
+Desc: Apple - Crumble. Über 139 Bewertungen und für beliebt befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps! Jetzt entdecken und ausprobieren!
+---
+ID: 476
+Name: Erdbeer-Kuss
+Desc: Erdbeer-Kuss - einfach nur lecker. Über 20 Bewertungen und für super befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 477
+Name: Beeren Crumble
+Desc: Beeren Crumble - lecker, warm und saftig, gut für die kalten Tage, eigentlich Red Berry Crumble. Über 78 Bewertungen und für lecker befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 480
+Name: Schokosoufflee medium
+Desc: Schokosoufflee medium - das besondere Dessert. Über 656 Bewertungen und für sehr gut befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 481
+Name: Mousse au chocolat, supereinfach
+Desc: Mousse au chocolat, supereinfach - ohne Ei. Über 7 Bewertungen und für vorzüglich befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 482
+Name: Schneewittchen Dessert
+Desc: Schneewittchen Dessert - schnell und einfach zubereitet. Über 282 Bewertungen und für raffiniert befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 483
+Name: Bratäpfel im Nussmantel
+Desc: Bratäpfel im Nussmantel - besonders lecker: heiß auf Eis. Über 643 Bewertungen und für ausgezeichnet befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 484
+Name: Tiramisu
+Desc: Tiramisu - fettarm. Über 222 Bewertungen und für vorzüglich befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 500
+Name: Ayran - Brot
+Desc: Ayran - Brot - Türkisches Ayran - Brot mit schwarzem Sesam. Über 46 Bewertungen und für super befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 502
+Name: Strudelteig
+Desc: Strudelteig - Grundrezept, schön elastisch. Über 31 Bewertungen und für sehr gut befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 505
+Name: Schokobananen auf  Kokoscreme
+Desc: Schokobananen auf  Kokoscreme. Über 6 Bewertungen und für sehr lecker befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps! Jetzt entdecken und ausprobieren!
+---
+ID: 507
+Name: Schneller Apfelkuchen vom Blech
+Desc: Schneller Apfelkuchen vom Blech. Über 205 Bewertungen und für mega befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps! Jetzt entdecken und ausprobieren!
+---
+ID: 508
+Name: Apfelkuchen schnell und fein
+Desc: Apfelkuchen schnell und fein - schneller Blechkuchen. Über 1046 Bewertungen und für lecker befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 509
+Name: Rhabarberkuchen mit Vanillepudding und Baiser
+Desc: Rhabarberkuchen mit Vanillepudding und Baiser. Über 114 Bewertungen und für ausgezeichnet befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps! Jetzt entdecken und ausprobieren!
+---
+ID: 510
+Name: Zwetschgendatschi mit Butterstreuseln
+Desc: Zwetschgendatschi mit Butterstreuseln - superlocker und saftig. Über 877 Bewertungen und für sehr lecker befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 512
+Name: Rias Mohnkuchen
+Desc: Rias Mohnkuchen - saftiger Mohnkuchen mit Kirschen. Über 25 Bewertungen und für beliebt befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 513
+Name: Kanelbullar (Zimtschnecken)
+Desc: Kanelbullar (Zimtschnecken) - aus einem schwedischen Kochbuch. Über 37 Bewertungen und für ausgezeichnet befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 514
+Name: Coconut Crisp Cookies
+Desc: Coconut Crisp Cookies - knusprige Kokos-Cookies mit Schokostückchen. Über 23 Bewertungen und für sehr lecker befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 515
+Name: Lemon White Chocolate Cookies
+Desc: Lemon White Chocolate Cookies - ergibt ca. 35 Cookies. Über 46 Bewertungen und für sehr lecker befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 518
+Name: Vitamin - Fruchttorte
+Desc: Vitamin - Fruchttorte. Über 75 Bewertungen und für köstlich befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps! Jetzt entdecken und ausprobieren!
+---
+ID: 519
+Name: Mediterranes Ofengemüse
+Desc: Mediterranes Ofengemüse - schnell und einfach und super lecker. Über 989 Bewertungen und für schmackhaft befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 520
+Name: Schnelles Thai-Curry mit Huhn, Paprika und feiner Erdnussnote
+Desc: Schnelles Thai-Curry mit Huhn, Paprika und feiner Erdnussnote - in roter Curry-Kokosmilch-Sauce. Über 1423 Bewertungen und für super befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 521
+Name: Gebackene Süßkartoffeln mit Avocado-Paprika-Creme
+Desc: Gebackene Süßkartoffeln mit Avocado-Paprika-Creme - vegetarisch und lecker. Über 972 Bewertungen und für vorzüglich befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 522
+Name: Tomaten-Couscous
+Desc: Tomaten-Couscous. Über 462 Bewertungen und für raffiniert befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps! Jetzt entdecken und ausprobieren!
+---
+ID: 523
+Name: Tortellini alla panna - Schinken-Sahnesauce wie beim Italiener
+Desc: Tortellini alla panna - Schinken-Sahne-Sauce wie beim Italiener. Über 2268 Bewertungen und für vorzüglich befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 524
+Name: Rigatoni al forno -  – das Original Rezept
+Desc: Rigatoni al forno - mit Käse überbackene Rigatoni in Sauce mit Hackfleisch und Schinken. Über 2140 Bewertungen und für mega befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 525
+Name: Vegetarische Tortellini-Pfanne
+Desc: Vegetarische Tortellini-Pfanne. Über 741 Bewertungen und für ausgezeichnet befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps! Jetzt entdecken und ausprobieren!
+---
+ID: 526
+Name: Blätterteig-Schinken-Käse-Stangen
+Desc: Blätterteig-Schinken-Käse-Stangen - herzhafte Knabberei für den Fernsehabend oder fürs Buffet. Über 1556 Bewertungen und für mega befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 527
+Name: Spinatlasagne
+Desc: Spinatlasagne - vegetarisch und kalorienarm. Über 1431 Bewertungen und für ausgezeichnet befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 528
+Name: Bunter Hackfleisch-Gemüse-Eintopf
+Desc: Bunter Hackfleisch-Gemüse-Eintopf - schnelles Essen für alle Tage mit Faschiertem. Über 814 Bewertungen und für sehr lecker befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 529
+Name: Omas Pizzasuppe
+Desc: Omas Pizzasuppe. Über 2013 Bewertungen und für super befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps! Jetzt entdecken und ausprobieren!
+---
+ID: 530
+Name: Zucchini-Karotten-Bandnudeln mit Hähnchen und Tomate
+Desc: Zucchini-Karotten-Bandnudeln mit Hähnchen und Tomate - Low carb, Logi, Montignac. Über 845 Bewertungen und für beliebt befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 531
+Name: Chicken Wrap mit Gemüse, Guacamole und Crème fraîche
+Desc: Chicken Wrap mit Gemüse, Guacamole und Crème fraîche. Über 429 Bewertungen und für beliebt befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps! Jetzt entdecken und ausprobieren!
+---
+ID: 532
+Name: Koelkasts Spaghetti Carbonara
+Desc: Koelkasts Spaghetti Carbonara - so mach ich die Carbonara seit mindestens 20 Jahren. Über 3351 Bewertungen und für raffiniert befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 533
+Name: Bestes Hühnerfrikassee nach Mamas Art
+Desc: Hühnerfrikassee - nach Mamas Art. Über 748 Bewertungen und für mega befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 534
+Name: Paprika-Sahne-Hähnchen
+Desc: Paprika-Sahne-Hähnchen. Über 2709 Bewertungen und für schmackhaft befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps! Jetzt entdecken und ausprobieren!
+---
+ID: 535
+Name: Lachs-Sahnesoße zu Nudeln
+Desc: Lachs-Sahnesoße zu Nudeln. Über 1571 Bewertungen und für super befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps! Jetzt entdecken und ausprobieren!
+---
+ID: 536
+Name: Schwedische Kartoffeln
+Desc: Schwedische Kartoffeln. Über 1147 Bewertungen und für sehr lecker befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps! Jetzt entdecken und ausprobieren!
+---
+ID: 537
+Name: Zucchini-Spaghetti
+Desc: Zucchini-Spaghetti - low carb, fettarm, kalorienarm, gesund, vegetarisch. Über 1087 Bewertungen und für raffiniert befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 538
+Name: Low Carb Pizzarolle
+Desc: Low Carb Pizzarolle - ohne Mehl, keto-geeignet. Über 1028 Bewertungen und für vorzüglich befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 539
+Name: Gnocchi-Auflauf
+Desc: Gnocchi-Auflauf - für alle, die gerne Klöße und Nudeln essen. Über 1617 Bewertungen und für raffiniert befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 540
+Name: Chili con Carne - unwiderstehlich lecker
+Desc: Chili con Carne - mein Lieblings-Chili nach Jamies Art. Über 1886 Bewertungen und für schmackhaft befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 541
+Name: Saftiger Hackbraten im Ofen
+Desc: Hackbraten supersaftig - klassischer saftiger Hackbraten mit viel Soße. Über 1451 Bewertungen und für lecker befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 542
+Name: Schnelles Hühnerfrikassee
+Desc: Schnelles Hühnerfrikassee. Über 682 Bewertungen und für lecker befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps! Jetzt entdecken und ausprobieren!
+---
+ID: 543
+Name: Yvonnes Wikingertopf
+Desc: Yvonnes Wikingertopf - meine 6 Wikinger lieben es. Über 1425 Bewertungen und für vorzüglich befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 544
+Name: Low-Carb Big Mac Rolle - schmeckt wie der Burger
+Desc: Low-Carb Big Mac Rolle - schmeckt wie der bekannte Burger. Über 2145 Bewertungen und für mega befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 545
+Name: Paprika-Reis-Pfanne mit Joghurtsauce
+Desc: Paprika-Reis-Pfanne mit Joghurtsauce. Über 1358 Bewertungen und für mega befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps! Jetzt entdecken und ausprobieren!
+---
+ID: 546
+Name: Das beste Kartoffelgratin
+Desc: Entdecke das beste Kartoffelgratin Rezept: Unglaublich cremig, köstlich knusprig und einfach zubereitet. Dieses unwiderstehliche Gericht wird Dich und Deine Gäste begeistern
+---
+ID: 547
+Name: Schnelle Käsespätzle
+Desc: Schnelle Käsespätzle. Über 1327 Bewertungen und für sehr gut befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps! Jetzt entdecken und ausprobieren!
+---
+ID: 548
+Name: Blätterteig-Dreiecke mit Spinat und Feta
+Desc: Blätterteig-Dreiecke mit Spinat und Feta - einfach, lecker, schnell und ergiebig. Über 514 Bewertungen und für köstlich befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 549
+Name: Gefüllte Pizzabrötchen
+Desc: Gefüllte Pizzabrötchen - Mit Schinken und Käse, jedoch auch ohne Füllung gut. Ergibt ca. 30 kleine Brötchen. Über 449 Bewertungen und für beliebt befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 550
+Name: Gnocchi aus dem Ofen in Paprika-Tomaten-Sauce
+Desc: Gnocchi aus dem Ofen in Paprika-Tomaten-Sauce. Über 1449 Bewertungen und für raffiniert befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps! Jetzt entdecken und ausprobieren!
+---
+ID: 551
+Name: Hackbällchen Toscana
+Desc: Hackbällchen Toscana - Hackbällchen in Tomatensauce mit Mozzarella überbacken. Über 1699 Bewertungen und für sehr lecker befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 552
+Name: Quinoa Powersalat mit Tomaten und Avocado
+Desc: Quinoa Powersalat mit Tomaten und Avocado - gesund und auch noch lecker! Über 500 Bewertungen und für beliebt befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 553
+Name: Bester vegetarischer Nudelauflauf
+Desc: Bester vegetarischer Nudelauflauf - sehr schnell und günstig. Über 2138 Bewertungen und für raffiniert befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 554
+Name: Omas Kohlrouladen
+Desc: Omas Kohlrouladen. Über 965 Bewertungen und für vorzüglich befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps! Jetzt entdecken und ausprobieren!
+---
+ID: 555
+Name: Sandwich im Glas
+Desc: Sandwich im Glas - Kreatives Frühstücks-Rezept. Über 44 Bewertungen und für lecker befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 556
+Name: Knackiger bunter Brokkolisalat
+Desc: Knackiger bunter Brokkolisalat - roh, gut vorzubereiten, ideal zum Mitnehmen. Über 307 Bewertungen und für ausgezeichnet befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 557
+Name: Gnocchi mit Käse-Knoblauch-Schinkensauce
+Desc: Gnocchi mit Käse-Knoblauch-Schinkensauce. Über 675 Bewertungen und für mega befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps! Jetzt entdecken und ausprobieren!
+---
+ID: 558
+Name: Gnocchi-Salat mit Zucchini und Paprika
+Desc: Gnocchi-Salat mit Zucchini und Paprika. Über 776 Bewertungen und für sehr lecker befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps! Jetzt entdecken und ausprobieren!
+---
+ID: 559
+Name: Fitness Sandwich
+Desc: Fitness Sandwich - vegetarisch, italienisch, gesund. Über 90 Bewertungen und für schmackhaft befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 560
+Name: New York Club Sandwich
+Desc: New York Club Sandwich - Klassiker aus den USA. Über 336 Bewertungen und für raffiniert befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 561
+Name: Maultaschen-Spinat-Auflauf
+Desc: Maultaschen-Spinat-Auflauf - Saftiger Auflauf mit fruchtigen Kirschtomaten. Über 18 Bewertungen und für ausgezeichnet befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 562
+Name: Cremiges Kartoffelgratin
+Desc: Cremiges Kartoffelgratin - Köstlich, sowohl als Beilage als auch als Hauptgericht. Über 13 Bewertungen und für sehr gut befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 563
+Name: Hefekränze
+Desc: Hefekränze - Nicht nur fürs Osterfrühstück. Gib jetzt die erste Bewertung für das Rezept von Henglein ab! Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 564
+Name: Bunte Gemüse-Spätzle-Pfanne
+Desc: Bunte Gemüse-Spätzle-Pfanne - superschnell etwas Leckeres auf den Tisch gezaubert. Über 5 Bewertungen und für beliebt befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 565
+Name: Hackfleisch-Sauerkraut-Auflauf mit Schupfnudeln
+Desc: Hackfleisch-Sauerkraut-Auflauf mit Schupfnudeln - Deftiger Auflaufklassiker – mit Schupfnudeln, Sauerkraut und viel Geschmack. Über 196 Bewertungen und für ausgezeichnet befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 566
+Name: Aromatisches Chili con Carne
+Desc: Aromatisches Chili con Carne - Der Klassiker der mexikanischen Küche. Über 21 Bewertungen und für super befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 567
+Name: Rucola-Schinken-Wraps
+Desc: Rucola-Schinken-Wraps - Super als Partysnack oder Fingerfood, fürs Picknick oder auch beim DVD-Abend mit Freunden! Über 167 Bewertungen und für schmackhaft befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 568
+Name: Pfannkuchenrolle vom Blech
+Desc: Pfannkuchenrolle vom Blech. Über 251 Bewertungen und für ausgezeichnet befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps! Jetzt entdecken und ausprobieren!
+---
+ID: 569
+Name: Couscous-Bratlinge mit Käse
+Desc: Couscous-Bratlinge mit Käse - super vegetarisches Gericht. Über 754 Bewertungen und für sehr lecker befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 570
+Name: Kartoffel-Brokkoli-Curry mit Kokosmilch
+Desc: Kartoffel-Brokkoli-Curry mit Kokosmilch. Über 1005 Bewertungen und für raffiniert befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps! Jetzt entdecken und ausprobieren!
+---
+ID: 571
+Name: Thunfisch-Wrap
+Desc: Thunfisch-Wrap. Über 224 Bewertungen und für sehr gut befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps! Jetzt entdecken und ausprobieren!
+---
+ID: 572
+Name: Hähnchen Wraps
+Desc: Hähnchen Wraps - ein schnelles Essen. Über 22 Bewertungen und für köstlich befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 573
+Name: Cream - das Mittagessen
+Desc: Cream - das Mittagessen - Salzkartoffeln, Gemüse und/ oder Fleisch in Schlemmersauce. Über 14 Bewertungen und für raffiniert befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 574
+Name: Leichtes Mittagessen
+Desc: Leichtes Mittagessen - superschnell. Über 29 Bewertungen und für sehr lecker befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 575
+Name: Mittagessen: Hafer-Pancakes mit Hummus
+Desc: Mittagessen: Hafer-Pancakes mit Hummus - vegan. Gib jetzt die erste Bewertung für das Rezept von caroline_nichols ab! Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 576
+Name: Schnelles Mittagessen (Mikrowelle)
+Desc: Schnelles Mittagessen (Mikrowelle) - Quark, Leinöl, Nudeln. Gib jetzt eine raffinierte Bewertung ab! Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 577
+Name: Claudis Kartoffel-Gemüse-Käsesuppe
+Desc: Claudis Kartoffel-Gemüse-Käsesuppe - gemüsehaltige Abwandlung zur Käsesuppe, super als Mittagessen geeignet. Über 269 Bewertungen und für super befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 578
+Name: Zucchini-Schinken-Pfannkuchen für kleine Feinschmecker
+Desc: Zucchini-Schinken-Pfannkuchen für kleine Feinschmecker - tageskinderprobt, schnelles, leckeres und kalziumreiches Mittagessen für 6 Kleinkinder oder 3 Erwachsene. Über 59 Bewertungen und für sehr gut befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 579
+Name: Asia-Nudelsalat aus dem Glas mit Erdnussdressing
+Desc: Asia-Nudelsalat aus dem Glas mit Erdnussdressing - Vegan und glutenfrei, perfekt für den Lunch im Büro oder beim Picknick! Über 25 Bewertungen und für sehr gut befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 580
+Name: Weltbeste Reispuffer
+Desc: Weltbeste Reispuffer - Geniales Mittagessen zur Reisresteverwertung. Über 40 Bewertungen und für köstlich befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 581
+Name: Exotische Thunfisch - Soße zu Reis
+Desc: Exotische Thunfisch - Soße zu Reis - schnelles Mittagessen. Über 120 Bewertungen und für sehr gut befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 582
+Name: Marinierter Hering mit Salzkartoffeln nach Mama-Art
+Desc: Marinierter Hering mit Salzkartoffeln nach Mama-Art - ein ideales leichtes Mittagessen an heißen Sommertagen. Über 13 Bewertungen und für sehr gut befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 583
+Name: Supereinfacher Party - Backschinken
+Desc: Supereinfacher Party - Backschinken - für Feiern oder als deftiges Mittagessen. Über 55 Bewertungen und für sehr gut befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 584
+Name: Mit Käse gefüllte Paprikaschoten
+Desc: Mit Käse gefüllte Paprikaschoten - Ein leckeres, vegetarisches und schnelles Mittagessen für die ganze Familie. Über 29 Bewertungen und für lecker befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 585
+Name: Hörnchennudeln mit Hackfleisch-Tomatensoße
+Desc: Hörnchennudeln mit Hackfleisch-Tomatensoße - schnelles und leckeres Mittagessen für Kinder. Über 14 Bewertungen und für beliebt befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 586
+Name: Vanillepudding mit Quark und Obst
+Desc: Vanillepudding mit Quark und Obst - herrlich `schlabberig` im Sommer, auch als Ersatz fürs Mittagessen. Über 139 Bewertungen und für lecker befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 587
+Name: Waldpilzpfanne mit Nudeln
+Desc: Waldpilzpfanne mit Nudeln - schnelles Mittagessen für Zwei. Über 29 Bewertungen und für schmackhaft befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 588
+Name: Hähnchenbrust kurzgebraten mit Champignons
+Desc: Hähnchenbrust kurzgebraten mit Champignons - ein schnelles Mittagessen mit saftigem Fleisch, da mehliert. Über 5 Bewertungen und für ausgezeichnet befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 589
+Name: Reiterschnitzel
+Desc: Reiterschnitzel - überbackenes Schweineschnitzel, günstiges Mittagessen. Über 23 Bewertungen und für super befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 590
+Name: Leckerer Käsetopf
+Desc: Leckerer Käsetopf - schnelles, einfaches Mittagessen oder Abendbrot. Über 46 Bewertungen und für beliebt befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 591
+Name: American Club Sandwich
+Desc: American Club Sandwich - Mittagessen für SiS, bzw. Insulintrennkost. Über 10 Bewertungen und für beliebt befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 592
+Name: Türkischer Milchreis mit Quitte, Safran und Granatapfel
+Desc: Türkischer Milchreis mit Quitte, Safran und Granatapfel - Zerde-Variation als farbenfrohes Dessert oder süßes Mittagessen. Über 14 Bewertungen und für raffiniert befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 593
+Name: Couscous Omelette
+Desc: Couscous Omelette - einfaches, vegetarisches Mittagessen für Mama (oder Papa) und ein Kleinkind. Über 6 Bewertungen und für beliebt befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 594
+Name: Quinoa-Gemüse-Pfanne
+Desc: Quinoa-Gemüse-Pfanne - Veganes, leichtes Mittagessen. Über 6 Bewertungen und für beliebt befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 595
+Name: Bulgursalat mit Kichererbsen
+Desc: Bulgursalat mit Kichererbsen - ein tolles leichtes Mittagessen für den Sommer. Über 11 Bewertungen und für ausgezeichnet befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 596
+Name: Süßer Reisauflauf
+Desc: Süßer Reisauflauf - kann als Mittagessen oder Dessert gegessen werden, nach Großmutters Art. Über 16 Bewertungen und für köstlich befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 597
+Name: Backfisch Goldene Möwe
+Desc: Backfisch Goldene Möwe - einfaches, schnelles Mittagessen. Über 7 Bewertungen und für köstlich befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 598
+Name: Brokkoli-Erdnuss-Reis
+Desc: Brokkoli-Erdnuss-Reis - Clean Eating - einfach, vegan, eiweißreich, vegetarisch. Ein eiweißreiches gesundes Mittagessen - perfekt zum Vorkochen und für die Arbeit! Über 50 Bewertungen und für köstlich befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 599
+Name: Gefüllte Paprika mit Feta und Mozzarella
+Desc: Gefüllte Paprika mit Feta und Mozzarella - ein leckeres und schnelles Mittagessen für die ganze Familie. Über 9 Bewertungen und für vorzüglich befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 600
+Name: Rigatoni mit Thunfisch, Zimt und Parmesan
+Desc: Rigatoni mit Thunfisch, Zimt und Parmesan - ein sehr leckeres Mittagsessen. Über 10 Bewertungen und für beliebt befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 601
+Name: Clubsandwich mit Bacon und Hähnchenfilet
+Desc: Clubsandwich mit Bacon und Hähnchenfilet - schnelles Mittagsessen. Über 6 Bewertungen und für beliebt befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 602
+Name: Kartoffel - Zucchini - Paprika - Durcheinander
+Desc: Kartoffel - Zucchini - Paprika - Durcheinander - ein schnelles und leckeres Resteverwertungs - Mittagessen. Über 16 Bewertungen und für köstlich befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 603
+Name: Schnelles Pastrami Sandwich
+Desc: Schnelles Pastrami Sandwich - schneller und einfacher Lunch. Über 10 Bewertungen und für sehr gut befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 604
+Name: Gnocchi mit Brokkoli und Pesto Rosso
+Desc: Gnocchi mit Brokkoli und Pesto Rosso - vegetarisches, schnelles Mittagessen. Über 11 Bewertungen und für beliebt befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 605
+Name: Leckerer Nudelauflauf mit Fleischkäse/Leberkäse
+Desc: Leckerer Nudelauflauf mit Fleischkäse/Leberkäse - günstiges, schnell gemachtes Mittagessen für die ganze Familie. Über 36 Bewertungen und für raffiniert befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 606
+Name: Dänischer Nudelsalat
+Desc: Dänischer Nudelsalat - ideal zur Party und an warmen Tagen als Mittagessen. Über 22 Bewertungen und für lecker befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 607
+Name: Leberkäse-Roulade
+Desc: Leberkäse-Roulade - schnelles leckeres Mittagsessen. Über 4 Bewertungen und für lecker befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 608
+Name: Goldene Mais - Taler
+Desc: Goldene Mais - Taler - als kleines Mittagessen oder einfach so. Über 30 Bewertungen und für mega befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 609
+Name: Leichter Kartoffelsalat
+Desc: Leichter Kartoffelsalat - Die leichte Beilage für jede Gelegenheit. Über 16 Bewertungen und für sehr lecker befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 610
+Name: One-Pot-Spätzle mit Räuchertofu
+Desc: One-Pot-Spätzle mit Räuchertofu - Goldgelbe Spätzle, zart schmelzender Mozzarella und herzhafter Tofu – alles aus einer Pfanne. Über 53 Bewertungen und für schmackhaft befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 611
+Name: Schnelle Maultaschen-Pilz-Pfanne
+Desc: Schnelle Maultaschen-Pilz-Pfanne - Pfannengericht mit Maultaschen und Champignons in Weißweinsauce. Über 122 Bewertungen und für sehr lecker befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 612
+Name: Currysuppe mit Maultaschen
+Desc: Currysuppe mit Maultaschen - Maultaschensuppe mal anders: Mit indischen Gewürzen und vegan! Über 132 Bewertungen und für ausgezeichnet befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 613
+Name: Herzhafte Kartoffel-Muffins
+Desc: Herzhafte Kartoffel-Muffins - Leckerer Snack, aber auch als Beilage geeignet. Gib jetzt die erste Bewertung für das Rezept von Henglein ab! Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 614
+Name: Pizzaschnecken pikant
+Desc: Pizzaschnecken pikant - Perfekt für Partys, als pikantes Abend-, Mittagessen oder als Snack zwischendurch. Über 11 Bewertungen und für mega befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 615
+Name: Dorle-Nudeln
+Desc: Dorle-Nudeln - schnelles Mittagessen aus der Pfanne. Über 9 Bewertungen und für raffiniert befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 616
+Name: Omelette mit Käse, Tomaten und Basilikum
+Desc: Omelette mit Käse, Tomaten und Basilikum - am besten zum Sonntagsfrühstück, ein schnelles Mittagessen oder Abendsnack. Über 8 Bewertungen und für schmackhaft befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 617
+Name: Kärntner Schweinsbraten
+Desc: Kärntner Schweinsbraten - deftiges Mittagessen. Über 7 Bewertungen und für ausgezeichnet befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 618
+Name: Gnocchi mit Thunfisch, Zitrone, Kapern & Oliven
+Desc: Gnocchi mit Thunfisch, Zitrone, Kapern & Oliven - ein leichtes Mittagessen. Über 6 Bewertungen und für ausgezeichnet befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 619
+Name: Thunfisch-Tomaten Salat mit Quinoa und Reis
+Desc: Thunfisch-Tomaten Salat mit Quinoa und Reis - glutenfreies Mittagessen, für Büro, Uni, Baustelle... Über 5 Bewertungen und für köstlich befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 620
+Name: Milchreis, irgendwie 'arabisch'
+Desc: Milchreis, irgendwie 'arabisch' - Milchreis als Nachtisch oder für 4 Personen als süßes Mittagessen. Über 5 Bewertungen und für ausgezeichnet befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 621
+Name: Axels Hacksteak mit Schmorgemüse
+Desc: Axels Hacksteak mit Schmorgemüse - ein lecker-leichtes Mittagessen. Über 20 Bewertungen und für sehr lecker befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 622
+Name: Pizza Hackfleischbrötchen überbacken
+Desc: Pizza Hackfleischbrötchen überbacken - Ein super schnelles Abend- oder Mittagessen für die ganze Familie. Über 3 Bewertungen und für sehr gut befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 623
+Name: Blumenkohl-Kuchen
+Desc: Blumenkohl-Kuchen - ein herzhafter Kuchen zum Mittagessen. Über 7 Bewertungen und für sehr gut befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 624
+Name: Überbackenes Omelett
+Desc: Überbackenes Omelett - schnelles Gericht zum Frühstück oder Mittagessen. Über 2 Bewertungen und für ausgezeichnet befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 625
+Name: Couscous-Bratwurst-Lauch-Auflauf
+Desc: Couscous-Bratwurst-Lauch-Auflauf - Kleines Mittagessen, auch prima Resteverwertung, ganz einfach zu machen. Über 2 Bewertungen und für sehr gut befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 626
+Name: Röstkartoffeln mit Speck und Champignons
+Desc: Röstkartoffeln mit Speck und Champignons - schnelles einfaches Mittagessen, um Reste aufzubrauchen. Über 2 Bewertungen und für beliebt befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 627
+Name: Schnelle Quarkspeise
+Desc: Schnelle Quarkspeise - bei Kindern beliebt, im Sommer auch mal ideal als Mittagessen. Über 5 Bewertungen und für lecker befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 628
+Name: Kirsch - Clafoutis
+Desc: Kirsch - Clafoutis - auch als Kindermittagessen geeignet. Über 5 Bewertungen und für super befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 629
+Name: Kartoffelpfanne
+Desc: Kartoffelpfanne - Schnelles und günstiges Mittagessen. Über 15 Bewertungen und für raffiniert befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 630
+Name: Penne mit cremiger Käsesauce
+Desc: Penne mit cremiger Käsesauce - schnelles, einfaches Mittagessen. Über 6 Bewertungen und für ausgezeichnet befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 631
+Name: Grießauflauf mit Obst
+Desc: Grießauflauf mit Obst - ein schnelles Mittagessen, nicht nur für Kinder. Über 8 Bewertungen und für raffiniert befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 632
+Name: Eier-Speck-Nudelpfanne
+Desc: Eier-Speck-Nudelpfanne - Gutes und schnelles Mittagessen für ein Kind und gleichzeitig eine gute Resteverwertung. Über 3 Bewertungen und für super befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 633
+Name: Mandel - Schmarren
+Desc: Mandel - Schmarren - wir essen den als süßes Mittagessen anstatt Pfannkuchen ab und zu. Über 3 Bewertungen und für lecker befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 634
+Name: Käseomelett mit Kräutern und Lauch
+Desc: Käseomelett mit Kräutern und Lauch - Schnelles Mittagessen mit viel Eiweißgehalt; für Trennkost geeignet. Über 7 Bewertungen und für ausgezeichnet befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 635
+Name: Süßsaure Kürbis - Kartoffel - Weintrauben Pfanne
+Desc: Süßsaure Kürbis - Kartoffel - Weintrauben Pfanne - warmes Kürbis Chutney zum Mittagessen. Über 7 Bewertungen und für ausgezeichnet befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 636
+Name: Pfiffige Tomatensauce mit Auberginen
+Desc: Pfiffige Tomatensauce mit Auberginen - mein Lieblingsmittagessen. Über 2 Bewertungen und für schmackhaft befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 637
+Name: Grießpudding mit Früchten
+Desc: Grießpudding mit Früchten - das beste Mittagessen für heiße Tage - Familienrezept aus der DDR. Über 2 Bewertungen und für sehr gut befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 638
+Name: Lachs-Spinat-Rolle mit Zitronenreis
+Desc: Lachs-Spinat-Rolle mit Zitronenreis - für Meta-Typ Delta, gesundes Mittagessen, mit Genuss abnehmen. Über 2 Bewertungen und für sehr gut befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 639
+Name: Bratkartoffel-Rösti mit Münsterkäse und Schinken
+Desc: Bratkartoffel-Rösti mit Münsterkäse und Schinken - kräftiges Mittagessen. Über 2 Bewertungen und für schmackhaft befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 640
+Name: Dunkle Bohnen-Mais-Avocado Salat mit Reis und Quinoa
+Desc: Dunkle Bohnen-Mais-Avocado Salat mit Reis und Quinoa - glutenfreies Mittagessen, für Büro, Uni, Baustelle... Über 2 Bewertungen und für raffiniert befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 641
+Name: Fettuccini mit Lauch und Chorizo
+Desc: Fettuccini mit Lauch und Chorizo - ein schnelles Mittagessen. Über 2 Bewertungen und für super befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 642
+Name: Pizza mit Tomaten, Basilikum, Mozzarella und Parmesan
+Desc: Pizza mit Tomaten, Basilikum, Mozzarella und Parmesan - einfaches, kleines Mittagessen. Über 2 Bewertungen und für raffiniert befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 643
+Name: Buttermilchsuppe
+Desc: Buttermilchsuppe - unser schnellstes Mittagessen. Über 9 Bewertungen und für super befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 644
+Name: Hähnchenschenkel mal anders
+Desc: Hähnchenschenkel mal anders - ein schnelles Abend- oder Mittagessen. Über 5 Bewertungen und für köstlich befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 645
+Name: Petersilienwurzel-Frittata mit Tomaten-Avocado-Salat
+Desc: Petersilienwurzel-Frittata mit Tomaten-Avocado-Salat - Leckeres low carb Mittagessen. Über 5 Bewertungen und für super befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 646
+Name: Karotten-Thunfisch-Salat
+Desc: Karotten-Thunfisch-Salat - leichter Snack oder Büro-Mittagessen. Über 3 Bewertungen und für sehr lecker befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 647
+Name: Bohnen - Mais - Pfanne
+Desc: Bohnen - Mais - Pfanne - Schnelles Lunch - Essen. Über 3 Bewertungen und für super befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 648
+Name: Mediterrane Blätterteigtaschen
+Desc: Mediterrane Blätterteigtaschen - vegetarisch, schnell gemacht, ergibt 8 Stück. Ein schnell zubereitetes Mittagessen - oder als Snack für zwischendurch. Über 9 Bewertungen und für vorzüglich befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 649
+Name: Erdbeer-Zwieback-Schale
+Desc: Erdbeer-Zwieback-Schale - sommerlich-leichtes (Mittag-)Essen. Eine Bewertung und für köstlich befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 650
+Name: Rheinischer Feldsalat mit Blutwurst, Apfel und Zwiebel
+Desc: Rheinischer Feldsalat mit Blutwurst, Apfel und Zwiebel - als Lunch oder Picknick im Glas. Eine Bewertung und für köstlich befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 651
+Name: Belegtes Fladenbrot
+Desc: Belegtes Fladenbrot - einfach und perfekt für das schnelle Mittagessen. Eine Bewertung und für schmackhaft befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 652
+Name: Zucchinistrudel
+Desc: Zucchinistrudel - ein leichtes Mittagessen für den Sommer oder auch als Vorspeise geeignet. Eine Bewertung und für raffiniert befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 653
+Name: Vollkornnudeln mit einer Soße aus getrockneten Pilzen und Soja-Cuisine
+Desc: Vollkornnudeln mit einer Soße aus getrockneten Pilzen und Soja-Cuisine - ein schnelles Mittagessen. Eine Bewertung und für ausgezeichnet befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 654
+Name: Apfel - Pie
+Desc: Apfel - Pie - Englische Süßspeise für ein spätes Mittagessen oder zum Kaffeetrinken. Über 8 Bewertungen und für super befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 655
+Name: 5-Min-Gericht: Couscous mediterran
+Desc: 5-Min-Gericht: Couscous mediterran - klasse als schnelles und einfaches Mittagessen. Über 5 Bewertungen und für vorzüglich befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 656
+Name: Schupfnudel-Wirsing-Gratin
+Desc: Schupfnudel-Wirsing-Gratin - Kräftig im Geschmack, einfach in der Zubereitung – der perfekte Wohlfühl-Auflauf. Über 291 Bewertungen und für mega befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 657
+Name: Cheese-Burger-Muffins
+Desc: Cheese-Burger-Muffins - Mini-Burger mal anders – herzhafte Muffins für Party, Buffet und Picknick. Über 95 Bewertungen und für sehr gut befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 658
+Name: Odenwälder Frühstückscroissants
+Desc: Odenwälder Frühstückscroissants - auch prima als kleines Mittagessen im Büro. Über 5 Bewertungen und für schmackhaft befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 659
+Name: Wildlachs auf Gemüsebett
+Desc: Wildlachs auf Gemüsebett - leichtes Mittagessen. Über 2 Bewertungen und für lecker befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 660
+Name: Schnelles Ofengemüse mit Joghurtdip
+Desc: Schnelles Ofengemüse mit Joghurtdip - leichtes, gesundes Mittagessen. Über 2 Bewertungen und für sehr gut befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 661
+Name: Hackfleischbällchen Toskana
+Desc: Hackfleischbällchen Toskana - ein schnelles italienisches Mittagessen. Über 3 Bewertungen und für sehr lecker befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 662
+Name: Lachsfilet mit Wirsing und Zitronensauce
+Desc: Lachsfilet mit Wirsing und Zitronensauce - ein super Mittagessen. Über 3 Bewertungen und für schmackhaft befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 663
+Name: Leipziger Allerlei mit Hackbällchen
+Desc: Leipziger Allerlei mit Hackbällchen - Ein schnelles Mittagessen aus der Resteküche. Eine Bewertung und für köstlich befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 664
+Name: Tonis Reissalat - super zum Mitnehmen
+Desc: Tonis Reissalat - super zum Mitnehmen - einfach, schnell, perfekt als Lunch im Büro. Eine Bewertung und für ausgezeichnet befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 665
+Name: Hähnchenbrust-Paprikapfanne mit Käse überbacken
+Desc: Hähnchenbrust-Paprikapfanne mit Käse überbacken - ein leckeres und deftiges Abend- oder Mittagessen. Eine Bewertung und für sehr gut befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 666
+Name: Radieschen und Rettich mit Kürbiskernpesto
+Desc: Radieschen und Rettich mit Kürbiskernpesto - IBDMS Snack / WE Mittagessen. Eine Bewertung und für raffiniert befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 667
+Name: Veganes Sushi XXL, gefüllt mit Gemüse und Hülsenfrüchtecreme
+Desc: Veganes Sushi XXL, gefüllt mit Gemüse und Hülsenfrüchtecreme - als schnelles Mittagessen, zum Imbiss oder praktisch für unterwegs. Über 2 Bewertungen und für lecker befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 668
+Name: Wirsing-Champignon-Sahnesoße
+Desc: Wirsing-Champignon-Sahnesoße - mit fertigen Semmelknödeln ein leichtes und schnelles Mittagessen. Eine Bewertung und für mega befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 669
+Name: Smokeys Orangen-Sesam-Hüttenkäse
+Desc: Smokeys Orangen-Sesam-Hüttenkäse - kleines Mittagessen oder Frühstück. Eine Bewertung und für vorzüglich befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 670
+Name: Schinken-Pilz-Sandwich
+Desc: Schinken-Pilz-Sandwich - perfekter Lunch. Eine Bewertung und für mega befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 671
+Name: Zucchini-Blätterteigkuchen mit Käse
+Desc: Zucchini-Blätterteigkuchen mit Käse - sommerliches vegetarisches Mittagessen. Eine Bewertung und für sehr lecker befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 672
+Name: Champignonpfanne und Gurkentoast
+Desc: Champignonpfanne und Gurkentoast - mein superschnelles und leichtes Mittagessen. Über 5 Bewertungen und für sehr gut befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 673
+Name: Zucchini - Carpaccio mit Champignonsalat
+Desc: Zucchini - Carpaccio mit Champignonsalat - Ein leichtes und doch sättigendes Sommer - Mittagessen oder das etwas andere Nachtessen. Über 4 Bewertungen und für vorzüglich befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 674
+Name: Paella-Valenciana
+Desc: Paella-Valenciana - für Meta-Typ Alpha, gesundes Mittagessen, spanisches Essen. Über 3 Bewertungen und für super befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 675
+Name: Salsa - Hähnchen mit Sesamkartoffeln
+Desc: Salsa - Hähnchen mit Sesamkartoffeln - leckeres, gesundes Mittagessen. Über 3 Bewertungen und für lecker befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 676
+Name: Brokkoli mit Kichererbsen und Hähnchenbrust in Kokossauce
+Desc: Brokkoli mit Kichererbsen und Hähnchenbrust in Kokossauce - schnelles Mittagessen. Über 2 Bewertungen und für vorzüglich befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 677
+Name: Milchreis mit Himbeeren
+Desc: Milchreis mit Himbeeren - Dessert oder auch mal süßes Mittagessen. Über 2 Bewertungen und für raffiniert befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 678
+Name: Teigwaren - Fisch - Salat
+Desc: Teigwaren - Fisch - Salat - Ein Mittagessen im Sommer oder ein leichtes Nachtessen. Eine Bewertung und für sehr gut befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 679
+Name: Fusilli mit Tomaten - Thunfisch - Sauce
+Desc: Fusilli mit Tomaten - Thunfisch - Sauce - Mittagessen mit nur 504 Kalorien! Über 3 Bewertungen und für super befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 680
+Name: Brotpudding
+Desc: Brotpudding - Pudding als Mittagessen nach der Schule oder als Nachtisch. Über 5 Bewertungen und für lecker befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 681
+Name: Currynudeln mit Hähnchen
+Desc: Currynudeln mit Hähnchen - schnelles Mittagessen. Über 6 Bewertungen und für vorzüglich befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 682
+Name: Asiatischer Spitzkohl-Möhren-Salat mit Mango
+Desc: Asiatischer Spitzkohl-Möhren-Salat mit Mango - Gut geeignet als kleiner Salat zum Lunch oder als Beilage zum Grillen. Gib jetzt die erste Bewertung für das Rezept von Lotte3864 ab! Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 683
+Name: Bauernstuten-Apfelauflauf mit Zuckerrübensirup
+Desc: Bauernstuten-Apfelauflauf mit Zuckerrübensirup - als süßes Mittagessen, Dessert oder Kuchen. Gib jetzt die erste Bewertung für das Rezept von vanzi7mon ab! Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 684
+Name: Matjes mit Sommersalat
+Desc: Matjes mit Sommersalat - ein Mittagsessen an heißen Tagen. Gib jetzt die erste Bewertung für das Rezept von eisbobby ab! Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 685
+Name: Lachsfilets in Backpapier gegart
+Desc: Lachsfilets in Backpapier gegart - ein schnelles Mittagessen aus dem Ofen. Gib jetzt die erste Bewertung für das Rezept von eisbobby ab! Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 686
+Name: Überbackenes Omelett
+Desc: Überbackenes Omelett - ein schnelles Mittagessen mit Resteverwertung. Gib jetzt die erste Bewertung für das Rezept von eisbobby ab! Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 687
+Name: Gewiegtebrutl'n mit Zwiebelsoße und Zucchinigemüse
+Desc: Gewiegtebrutl'n mit Zwiebelsoße und Zucchinigemüse - ein einfaches Mittagessen. Gib jetzt die erste Bewertung für das Rezept von KochKurtD ab! Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 688
+Name: Apfelflammkuchen
+Desc: Apfelflammkuchen - süßes Mittagessen, mal was anderes. Gib jetzt die erste Bewertung für das Rezept von Lillycupcake ab! Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 689
+Name: Orangen-Bananen-Auflauf
+Desc: Orangen-Bananen-Auflauf - Süßes Mittagessen mit Biskuithaube. Über 3 Bewertungen und für sehr lecker befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 690
+Name: Mais-Erbsen Muffins in Blätterteig
+Desc: Mais-Erbsen Muffins in Blätterteig - Super als Mittagessen oder Snack zum Mitnehmen. Über 2 Bewertungen und für ausgezeichnet befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 691
+Name: Fisch-Tacos
+Desc: Fisch-Tacos - Köstlich als Lunch oder leichtes Abendessen. Über 2 Bewertungen und für raffiniert befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 692
+Name: Herzhafte Dinkelwaffeln
+Desc: Herzhafte Dinkelwaffeln - als Mittagessen. Eine Bewertung und für lecker befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 693
+Name: Cilbir - das Trendfrühstück aus der Türkei
+Desc: Cilbir - das Trendfrühstück aus der Türkei - für Meta-Typ Beta, kann als Frühstück oder auch als Mittagessen zubereitet werden. Eine Bewertung und für lecker befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 694
+Name: Kalorienarme Topfenknödel
+Desc: Kalorienarme Topfenknödel - low calorie, schnell, einfach, Frühstück, Abendbrot, Mittagessen, süß und salzig möglich. Eine Bewertung und für beliebt befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 695
+Name: Russische Okroschka mit Kwass
+Desc: Russische Okroschka mit Kwass - kalte Suppe, Mittagessen für den Sommer. Eine Bewertung und für beliebt befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 696
+Name: Spinatsalat mit Ziegenkäse, Walnüssen und Äpfeln
+Desc: Spinatsalat mit Ziegenkäse, Walnüssen und Äpfeln - ein einfaches und leckeres Mittagessen. Eine Bewertung und für sehr gut befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 697
+Name: Calzone-Omelett
+Desc: Calzone-Omelett - Schnelles, leckeres, variables und sättigendes Mittagessen... Eine Bewertung und für ausgezeichnet befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 698
+Name: Kartoffelpfannkuchen
+Desc: Kartoffelpfannkuchen - Beilage zu Geschnetzeltem oder auch zu Pilzragout, auch lecker als Kindermittagessen. Eine Bewertung und für sehr gut befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 699
+Name: Nudelauflauf à la mona
+Desc: Nudelauflauf à la mona - leckeres und günstiges Mittagessen. Eine Bewertung und für raffiniert befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 700
+Name: Spinat-Tomaten-Spätzle-Pfanne
+Desc: Spinat-Tomaten-Spätzle-Pfanne - Eine schnelle Mahlzeit mit Spätzle und Gemüse. Gib jetzt die erste Bewertung für das Rezept von buerger ab! Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 701
+Name: Buntes Ofengemüse
+Desc: Buntes Ofengemüse - Ein farbenfroher Genuss aus dem Ofen für jede Jahreszeit. Über 17 Bewertungen und für ausgezeichnet befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 702
+Name: Penne mit kalter Thunfischcreme
+Desc: Penne mit kalter Thunfischcreme - schnelles Mittagessen (oder auch Abendessen). Eine Bewertung und für schmackhaft befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 703
+Name: Schweinefilet mit Suchtfaktor
+Desc: Schweinefilet mit Suchtfaktor - ob zum Mittagessen oder zur Party, kommt immer an. Über 3 Bewertungen und für mega befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 704
+Name: Kartoffel mit Kiri - Aufstrich
+Desc: Kartoffel mit Kiri - Aufstrich - zum Mittagessen. Über 2 Bewertungen und für raffiniert befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 705
+Name: Philipps Bockwurst Ninja
+Desc: Philipps Bockwurst Ninja - Ein zweckgebundenes Mittagessen aus der Mikrowelle für die schnelle IT - Mittagspause. Über 12 Bewertungen und für mega befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 706
+Name: Bohnen-Auflauf mit Mozzarella
+Desc: Bohnen-Auflauf mit Mozzarella - IBDMS Mittagessen. Eine Bewertung und für sehr lecker befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 707
+Name: Gemüsepfanne mit Bandnudeln
+Desc: Gemüsepfanne mit Bandnudeln - geundes Mittagessen. Eine Bewertung und für sehr lecker befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 708
+Name: Grosis Weihnachtsdessert
+Desc: Grosis Weihnachtsdessert - dieses Dessert gabs bei meiner Großmutter immer am 25. Dezember  nach dem Mittagessen, es schmeckt aber eigentlich das ganze Jahr über. Eine Bewertung und für beliebt befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 709
+Name: Bohnen - Eintopf Italia
+Desc: Bohnen - Eintopf Italia - Diät, Mittagessen. Gib jetzt eine aufrichtige Bewertung ab! Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 710
+Name: Älpler Rösti
+Desc: Älpler Rösti - Mittagessen. Gib jetzt die erste Bewertung für das Rezept von LavaCHilli ab! Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 711
+Name: Spaghetti "Surf & Turf"
+Desc: Spaghetti "Surf & Turf" - kleines Mittagessen für zwei. Gib jetzt die erste Bewertung für das Rezept von agnusdie ab! Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 712
+Name: Linsen-Ragout
+Desc: Linsen-Ragout - IBDMS Mittagessen. Gib jetzt die erste verlässliche Bewertung für das Rezept ab! Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 713
+Name: Eiszapfensalat mit Zitronenmelisse
+Desc: Eiszapfensalat mit Zitronenmelisse - vegetarisch, für das Büro, Lunch. Gib jetzt die erste Bewertung für das Rezept von Lunchpacker ab! Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 714
+Name: Geröstete Aubergine mit Zahtar auf Quinoa und Reis
+Desc: Geröstete Aubergine mit Zahtar auf Quinoa und Reis - glutenfreies Mittagessen, für Büro, Uni, Baustelle... Gib jetzt die erste Bewertung für das Rezept von Sabeth14565 ab! Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 715
+Name: Bandnudeln mit Kohlrabi und Pesto
+Desc: Bandnudeln mit Kohlrabi und Pesto - sehr kalorienarmes Mittagessen. Gib jetzt die erste Bewertung für das Rezept von Vickybackt ab! Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 716
+Name: Lauchremesuppe, badisch
+Desc: Lauchremesuppe, badisch - dieses Rezpt ist vielseitig verwendbar. Die Suppe läßt sich sehr gut (z. B. für ein warmes Buffet, festliches Mittagessen usw.)  am Tag zuvor zubereiten. Gib jetzt die erste Bewertung für das Rezept von Neue_Gärtnerin ab! Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 717
+Name: Gefüllte Auberginen
+Desc: Gefüllte Auberginen - lecker leichtes Mittagessen. Gib jetzt die erste Bewertung für das Rezept von wunschkindx3 ab! Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 718
+Name: Ferdinandeln
+Desc: Ferdinandeln - Mittagessen oder auch zum Kaffee. Gib jetzt die erste Bewertung für das Rezept von hexefischer ab! Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 719
+Name: Verrückter Kartoffelsalat
+Desc: Verrückter Kartoffelsalat - Resteverwertung aus DDR-Zeiten. Gib jetzt die erste Bewertung für das Rezept von Else69 ab! Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 720
+Name: Marokkanischer Shepherds Pie
+Desc: Marokkanischer Shepherds Pie - Sehr leckeres Essen, was alles beinhaltet! Egal ob Abendessen oder Mittag. Über 28 Bewertungen und für lecker befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 721
+Name: Schnelle Puten-Pilz Pfanne für 2 Personen
+Desc: Schnelle Puten-Pilz Pfanne für 2 Personen - mit Brot oder Brötchen dazu in 15 Minuten ein Mittag- oder Abendessen. Über 16 Bewertungen und für schmackhaft befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 722
+Name: Mediterraner Vorspeisenteller Surf & Turf
+Desc: Mediterraner Vorspeisenteller Surf & Turf - auch ein leichtes Mittag- oder Abendessen. Über 3 Bewertungen und für mega befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 723
+Name: Biersauce mit Schweinesteak
+Desc: Biersauce mit Schweinesteak - ein schnelles Gericht zum Mittag- oder Abendessen. Über 2 Bewertungen und für super befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 724
+Name: Zwiebelfleisch mit Tomaten
+Desc: Zwiebelfleisch mit Tomaten - ein schnelles Mittag- oder Abendessen mit frischen Produkten. Über 2 Bewertungen und für super befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 725
+Name: Braunschweiger Barbecue-Knoblauchwurst
+Desc: Braunschweiger Barbecue-Knoblauchwurst - deftiges Mittag- oder Abendessen. Über 2 Bewertungen und für raffiniert befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 726
+Name: Wellness-Salat mit Mango und Trauben
+Desc: Wellness-Salat mit Mango und Trauben - geeignet als leichtes Mittag- oder Abendessen. Über 2 Bewertungen und für lecker befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 727
+Name: Kartoffel-Schinken-Spinat-Frittata
+Desc: Kartoffel-Schinken-Spinat-Frittata - für ein leichtes Mittag- oder Abendessen - mit einem Salat servieren. Eine Bewertung und für mega befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 728
+Name: Lachs in Folie mit Gemüse
+Desc: Lachs in Folie mit Gemüse - ein kalorienarmes, sättigendes Mittag- oder Abendessen. Eine Bewertung und für sehr gut befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 729
+Name: Bunte Kartoffelpfanne
+Desc: Bunte Kartoffelpfanne - gut zum Mittag- oder Abendessen. Eine Bewertung und für lecker befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 730
+Name: Gebackener Rot- und Weißkohl mit Honig-Hähnchen-Spießen
+Desc: Gebackener Rot- und Weißkohl mit Honig-Hähnchen-Spießen - ein kalorienarmes, sättigendes Mittag- oder Abendessen. Eine Bewertung und für super befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 731
+Name: Knutschis
+Desc: Knutschis - ein leckeres Mittag- oder Abendessen für die ganze Familie,. Gib jetzt die erste Bewertung für das Rezept von eisbobby ab! Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 732
+Name: Rote Bete-Hähnchenfleischsalat mit Bratkartoffeln
+Desc: Rote Bete-Hähnchenfleischsalat mit Bratkartoffeln - ein leckerer kalorienarmer Salat zum Mittag- und Abendessen. Gib jetzt die erste Bewertung für das Rezept von eisbobby ab! Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 733
+Name: Spargel mit Kasselerstreifen aus der Pfanne
+Desc: Spargel mit Kasselerstreifen aus der Pfanne - ein schnelles Mittag- oder Abendessen aus der Resteküche. Gib jetzt die erste Bewertung für das Rezept von eisbobby ab! Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 734
+Name: Gefüllte Champignons
+Desc: Gefüllte Champignons - mit Estragon, zum Grillen, Mittag- oder Abendessen für SiS Insulintrennkost. Eine Bewertung und für lecker befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 735
+Name: Allgäuer Fisch mit Pellkartoffeln und Salat
+Desc: Allgäuer Fisch mit Pellkartoffeln und Salat - die etwas andere Form, Seelachsfilet zuzubereiten. Zusammen mit Pellkartoffeln und Salat ein tolles Mittag- oder Abendessen. Über 2 Bewertungen und für vorzüglich befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 736
+Name: Pfifferlinge mit Kratzete
+Desc: Pfifferlinge mit Kratzete - leichtes Mittag- oder Abendessen. Gib jetzt die erste Bewertung für das Rezept von vinole ab! Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 737
+Name: Gratinierter Räucherfisch-Toast
+Desc: Gratinierter Räucherfisch-Toast - als Mittagsimbiss oder Abendessen. Eine Bewertung und für raffiniert befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 738
+Name: Sandwich mit Salatresten
+Desc: Sandwich mit Salatresten - ideales Abendessen, wenn vom Mittag noch Salatreste übrig sind. Über 2 Bewertungen und für raffiniert befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 739
+Name: Champignontarte mit Emmentaler
+Desc: Champignontarte mit Emmentaler - feines Abendessen, schmeckt aber auch mittags. Über 120 Bewertungen und für lecker befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 740
+Name: Schnelle Spaghetti mit Champignon-Sauce für die Mittagspause
+Desc: Schnelle Spaghetti mit Champignon-Sauce für die Mittagspause - wenn es mal wieder schneller gehen muss, man aber nicht in die Kantine rennen oder sich etwas zu Essen bestellen möchte. Über 4 Bewertungen und für mega befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 741
+Name: Gefüllte Tomate mit Kartoffelbrei, Salami und Basilikum
+Desc: Gefüllte Tomate mit Kartoffelbrei, Salami und Basilikum - Vorspeise oder schlankes Abendessen. Eine Bewertung und für sehr lecker befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 742
+Name: Blumenkohlsalat
+Desc: Blumenkohlsalat - ideal für Brunch, als Mittagssnack fürs Büro oder Picknick. Über 3 Bewertungen und für beliebt befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 743
+Name: Kasseler mit Ananas und Sauerkraut, dazu Bratkartoffeln aus rohen Kartoffeln
+Desc: Kasseler mit Ananas und Sauerkraut, dazu Bratkartoffeln aus rohen Kartoffeln - schnelles Mittagsmenü: in etwa 30 Minuten etwas Leckeres auf dem Tisch, auch für Kalorienbewusste. Über 3 Bewertungen und für beliebt befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 744
+Name: Erdbeer-Rhabarber-Gebäck
+Desc: Erdbeer-Rhabarber-Gebäck - Schnelles Highlight auf der Frühlings-Kaffeetafel. Gib jetzt die erste Bewertung für das Rezept von Henglein ab! Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 745
+Name: Cremiger Nudelauflauf mit würziger Tomatensauce
+Desc: Cremiger Nudelauflauf mit würziger Tomatensauce - Einfach, schnell & köstlich - perfekter Genuss aus dem Ofen. Über 13 Bewertungen und für schmackhaft befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 746
+Name: Bunte Bowl mit Airfryer Snack BALLS Falafel
+Desc: Bunte Bowl mit Airfryer Snack BALLS Falafel - Knusprige Falafel trifft frische Bowl-Vielfalt. Gib jetzt die erste Bewertung für das Rezept von buerger ab! Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 747
+Name: Ich - hab - morgen - frei - Salat
+Desc: Ich - hab - morgen - frei - Salat - nach dem Genuss sollte man niemanden küssen, der nicht mitgegessen hat ... Über 2 Bewertungen und für sehr gut befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 748
+Name: Mediterrane Blätterteig-Häppchen
+Desc: Mediterrane Blätterteig-Häppchen - Herzhafter Genuss im Blätterteig. Gib jetzt eine zuverlässige Bewertung ab! Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 749
+Name: Kleine Kartoffel-Cordon Bleu
+Desc: Kleine Kartoffel-Cordon Bleu - Knusprig, käsig, unwiderstehlich – diese Mini-Cordon Bleus sind der perfekte Kartoffel-Snack. Über 3 Bewertungen und für köstlich befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 750
+Name: Zwiebelbrot mit Frischkäse und Speck
+Desc: Zwiebelbrot mit Frischkäse und Speck - Als Beilage zum Grillen, aber auch für zwischendurch. Gib jetzt die erste Bewertung für das Rezept von Henglein ab! Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 751
+Name: Schneller Maultaschenauflauf mit Schinken-Käse-Sahnesauce
+Desc: Schneller Maultaschenauflauf mit Schinken-Käse-Sahnesauce - Schneller und köstlicher Maultaschenauflauf. Über 4 Bewertungen und für lecker befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 752
+Name: Gnocchi mit Champignons und Basilikum
+Desc: Gnocchi mit Champignons und Basilikum - Pilzpfanne mit krossen Pfannen-Gnocchi – schnell zubereitet und einfach lecker. Über 4 Bewertungen und für beliebt befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 753
+Name: Knusprige Knoblauch-Gnocchi mit Käse-Topping
+Desc: Knusprige Knoblauch-Gnocchi mit Käse-Topping - Knusprige Gnocchi mit cremigem Knoblauch-Topping. Gib jetzt eine raffinierte Bewertung ab! Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 754
+Name: Klassische Lasagne
+Desc: Klassische Lasagne - Ein herzhafter Klassiker, der in jeder Schicht begeistert. Über 12 Bewertungen und für mega befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 755
+Name: Frischer Knöpfle-Salat mit grünem Spargel und Bacon
+Desc: Frischer Knöpfle-Salat mit grünem Spargel und Bacon - so schmeckt der Frühling! Gib jetzt die erste Bewertung für das Rezept von Henglein ab! Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 756
+Name: Herzhaftes Gulasch
+Desc: Herzhaftes Gulasch - Ein zeitloses Rezept, das Herz und Gaumen gleichermaßen erfreut. Über 13 Bewertungen und für beliebt befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 757
+Name: Puten-Knöpfle-Pfanne
+Desc: Puten-Knöpfle-Pfanne - Putenschnitzel mit Brokkoli, Möhren, Frühlingszwiebel, Crème fraîche. Über 150 Bewertungen und für lecker befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 758
+Name: Italienischer Kartoffel-Gnocchi-Auflauf
+Desc: Italienischer Kartoffel-Gnocchi-Auflauf - Goldbraun überbacken, cremig und herzhaft – dieser Gnocchi-Auflauf bringt Italien auf den Teller. Über 79 Bewertungen und für köstlich befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 759
+Name: Herzhafte Spaghetti Bolognese
+Desc: Herzhafte Spaghetti Bolognese - Der perfekt gewürzte Klassiker der italienischen Küche. Über 12 Bewertungen und für köstlich befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 760
+Name: Gyros-Spätzle-Auflauf
+Desc: Gyros-Spätzle-Auflauf - Griechenland trifft Schwaben: Würziges Gyros mit leckeren Spätzle. Über 3 Bewertungen und für schmackhaft befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 761
+Name: Schupfnudeln mit Sauerkraut und Speckwürfeln
+Desc: Schupfnudeln mit Sauerkraut und Speckwürfeln - Hausmannskost für Genießer: Schupfnudeln, Sauerkraut und Speck in Perfektion. Über 150 Bewertungen und für köstlich befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 762
+Name: Würzige Käse-Lauch-Suppe
+Desc: Würzige Käse-Lauch-Suppe - Der schnelle, cremige Klassiker. Über 24 Bewertungen und für sehr lecker befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 763
+Name: Gefüllte Frischkäse-Gnocchi mit Aioli und Grillgemüse
+Desc: Gefüllte Frischkäse-Gnocchi mit Aioli und Grillgemüse - Gemüse mit dem gewissen Etwas. Gib jetzt die erste Bewertung für das Rezept von Henglein ab! Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 764
+Name: Maultaschen-Gratin
+Desc: Maultaschen-Gratin - Maultaschen mit Kräutern und Tomaten lecker überbacken. Gib jetzt die erste Bewertung für das Rezept von buerger ab! Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 765
+Name: Pinsa mit Parmaschinken, Rucola und Parmesan
+Desc: Pinsa mit Parmaschinken, Rucola und Parmesan - Pinsa-Genuss wie in Italien – mit würzigem Schinken und frischem Rucola. Gib jetzt die erste Bewertung für das Rezept von Henglein ab! Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 766
+Name: Knusprige Frühlingsrollen
+Desc: Knusprige Frühlingsrollen - Ergibt ca. 7 Stück – auch als vegane Variante möglich. Über 8 Bewertungen und für sehr lecker befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 767
+Name: Strammer Max
+Desc: Strammer Max - Hausmannskost. Über 55 Bewertungen und für vorzüglich befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 768
+Name: Albertos Omelett
+Desc: Albertos Omelett. Über 599 Bewertungen und für super befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps! Jetzt entdecken und ausprobieren!
+---
+ID: 769
+Name: Pizza-Bällchen
+Desc: Pizza-Bällchen - leckeres Fingerfood auch für Männer. Über 943 Bewertungen und für sehr gut befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 770
+Name: Bruschetta mit Tomaten und Knoblauch – italienisches Original
+Desc: Bruschetta mit Tomaten und Knoblauch - Orginalrezept – herrlich knusprig, gesund und tomatig, auch für Vegetarier geeignet. Über 730 Bewertungen und für schmackhaft befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 771
+Name: Grilled Cheese Sandwich mit Bacon und Spiegelei
+Desc: Grilled Cheese Sandwich mit Bacon und Spiegelei - USA - Waffle House Breakfast. Über 216 Bewertungen und für mega befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 772
+Name: Single-Abendessen Nr. 18
+Desc: Single-Abendessen Nr. 18 - Putenbruststeaks an grobem Kartoffel-Möhrenstampf mit Möhrengrün und Frischkäse verfeinert. Über 11 Bewertungen und für lecker befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 773
+Name: Schnelles, aber gesundes Abendbrot
+Desc: Schnelles, aber gesundes Abendbrot - frisch, herzhaft, knackig. Über 68 Bewertungen und für sehr lecker befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 774
+Name: Flammkuchen-Toast
+Desc: Flammkuchen-Toast. Über 347 Bewertungen und für köstlich befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps! Jetzt entdecken und ausprobieren!
+---
+ID: 775
+Name: Fladenbrot mit Tomaten und Feta-Käse gefüllt
+Desc: Fladenbrot mit Tomaten und Feta-Käse gefüllt. Über 293 Bewertungen und für lecker befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps! Jetzt entdecken und ausprobieren!
+---
+ID: 776
+Name: Kleine Blätterteig-Pizzen
+Desc: Kleine Blätterteig-Pizzen - Pizza-Teilchen aus Blätterteig fürs Büfett oder als Snack. Über 212 Bewertungen und für sehr lecker befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 777
+Name: Appenzeller Brotkas
+Desc: Appenzeller Brotkas - Alte Maa. Über 137 Bewertungen und für lecker befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 778
+Name: Brotaufstrich mit Räucherlachs und Walnüssen
+Desc: Brotaufstrich mit Räucherlachs und Walnüssen. Über 91 Bewertungen und für ausgezeichnet befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps! Jetzt entdecken und ausprobieren!
+---
+ID: 779
+Name: Protein-Abendessen mit Hüttenkäse
+Desc: Protein-Abendessen mit Hüttenkäse - Low Carb, Low Fat. Über 19 Bewertungen und für raffiniert befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 780
+Name: Schmandbrötchen mit Thunfisch
+Desc: Schmandbrötchen mit Thunfisch - ein preiswertes, leckeres Abendessen. Über 159 Bewertungen und für mega befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 781
+Name: Leichter Wurstsalat, würzig - pikant, auch als fettarme Variante sehr lecker
+Desc: Leichter Wurstsalat, würzig - pikant, auch als fettarme Variante sehr lecker - schnell gemacht, bei uns z. B. sehr beliebt als Zugabe zum Abendbrot. Über 69 Bewertungen und für mega befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 782
+Name: Gerolltes Zwiebelbrot mit Frischkäse
+Desc: Gerolltes Zwiebelbrot mit Frischkäse - ideal im Sommer zu Gegrilltem, Salat etc. - gut vorzubereiten. Über 64 Bewertungen und für sehr gut befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 783
+Name: Zucchini-Schinken-Rührei auf Brot
+Desc: Zucchini-Schinken-Rührei auf Brot - mit Salat ein leichtes Abendessen oder für den kleinen Hunger zwischendurch. Über 70 Bewertungen und für ausgezeichnet befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 784
+Name: Toast Caprese
+Desc: Toast Caprese - Caprese zum Sattessen. Über 101 Bewertungen und für köstlich befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 785
+Name: Blätterteigtaschen, mit Schinken und Frischkäse
+Desc: Blätterteigtaschen, mit Schinken und Frischkäse. Über 101 Bewertungen und für köstlich befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps! Jetzt entdecken und ausprobieren!
+---
+ID: 786
+Name: Arme Ritter pikant
+Desc: Arme Ritter pikant - French Toast, die etwas andere Variante. Über 173 Bewertungen und für schmackhaft befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 787
+Name: Kleines Abendbrot
+Desc: Kleines Abendbrot - Brotlaib für einen 1 bis 2-Personen-Haushalt. Über 9 Bewertungen und für ausgezeichnet befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 788
+Name: Single- Abendessen Nr. 28
+Desc: Single- Abendessen Nr. 28 - Käse- Pfannentoast mit gelber Spitzpaprika und Lauchzwiebel. Über 7 Bewertungen und für schmackhaft befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 789
+Name: Single-Abendessen Nr. 15
+Desc: Single-Abendessen Nr. 15 - Wildlachs-Filet und grüner Spargel an Bandnudeln mit Schnittlauch-Knobi-Frischkäse-Soße. Über 14 Bewertungen und für schmackhaft befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 790
+Name: Armer Ritter herzhaft
+Desc: Armer Ritter herzhaft - mit Mozzarella, Tomaten und Kochschinken. Über 63 Bewertungen und für super befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 791
+Name: Italienisches Abendbrot
+Desc: Italienisches Abendbrot - Putenfleisch mit Tomaten und Mozzarella überbacken (gut geeignet für Singles!). Über 36 Bewertungen und für ausgezeichnet befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 792
+Name: Ei Muffin
+Desc: Ei Muffin - Leckers, schnelles Frühstück oder auch Abendbrot. Über 49 Bewertungen und für köstlich befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 793
+Name: Schupfnudel-Hackfleisch-Auflauf mit Gemüse
+Desc: Schupfnudel-Hackfleisch-Auflauf mit Gemüse - Goldbraun überbacken: Schupfnudeln treffen auf würziges Hack & frisches Gemüse. Über 125 Bewertungen und für beliebt befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 794
+Name: Single-Abendessen Nr. 81
+Desc: Single-Abendessen Nr. 81 - kleine Käseplatte mit Tomaten- und Gurkenscheiben, gekochtem Ei und Lauchzwiebeln. Über 4 Bewertungen und für lecker befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 795
+Name: Single-Abendessen Nr. 33
+Desc: Single-Abendessen Nr. 33 - Rindergeschnetzeltes mit Spaghetti und Schmortomaten. Über 5 Bewertungen und für raffiniert befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 796
+Name: Gebackener Feta mit Tomaten
+Desc: Gebackener Feta mit Tomaten - schnelles Abendbrot vegetarisch. Über 43 Bewertungen und für sehr gut befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 797
+Name: Abend'brot'
+Desc: Abend'brot' - ohne Kohlenhydrate  - schön frisch und leicht. Über 37 Bewertungen und für sehr lecker befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 798
+Name: Single-Abendessen Nr. 62
+Desc: Single-Abendessen Nr. 62 - mit Käse und Tomaten gefüllte und gegrillte Vollkorn-Toastscheiben. Über 6 Bewertungen und für raffiniert befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 799
+Name: Single-Abendessen Nr. 55
+Desc: Single-Abendessen Nr. 55 - Pfannenbrot mit Paprika. Über 6 Bewertungen und für schmackhaft befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 800
+Name: Single-Abendessen Nr. 24
+Desc: Single-Abendessen Nr. 24 - Cocktailwürstchen-Käse-Trauben-Spießchen an Tomaten- und Gurkenscheiben unter Lauchzwiebeln. Über 8 Bewertungen und für sehr gut befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 801
+Name: Buntes Abendbrot für Kinder
+Desc: Buntes Abendbrot für Kinder - gesund und schön anzuschauen. Über 25 Bewertungen und für raffiniert befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 802
+Name: Tomate-Mozzarella-Toast
+Desc: Tomate-Mozzarella-Toast - einfach. Über 37 Bewertungen und für köstlich befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 803
+Name: Abendbrot für zwei
+Desc: Abendbrot für zwei - mit Rührei. Über 3 Bewertungen und für sehr gut befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 804
+Name: Single-Abendessen Nr. 112
+Desc: Single-Abendessen Nr. 112 - Kartoffel-Bratwurst-Tomatenpfanne. Über 5 Bewertungen und für köstlich befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 805
+Name: Überbackenes Tomaten-Camembert-Brot
+Desc: Überbackenes Tomaten-Camembert-Brot - Herzhaftes Abendbrot. Über 21 Bewertungen und für schmackhaft befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 806
+Name: Gefüllte Brötchen
+Desc: Gefüllte Brötchen - lecker zum Abendbrot oder als Partysnack. Über 15 Bewertungen und für sehr gut befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 807
+Name: Toast Hawaii
+Desc: Toast Hawaii. Über 56 Bewertungen und für lecker befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps! Jetzt entdecken und ausprobieren!
+---
+ID: 808
+Name: Single-Abendessen Nr. 2 mit Reis vom Vortag
+Desc: Single-Abendessen Nr. 2 mit Reis vom Vortag - Reisfrikadellen mit Radieschen-Quark. Über 6 Bewertungen und für sehr lecker befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 809
+Name: Single-Abendessen Nr. 111
+Desc: Single-Abendessen Nr. 111 - Kartoffel-Möhren-Stampf mit heißer Fleischwurst. Über 5 Bewertungen und für vorzüglich befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 810
+Name: Single-Abendessen Nr. 80
+Desc: Single-Abendessen Nr. 80 - Rinder-Minutensteak-Röllchen, gefüllt mit Salatgurke und Käse an Kräuterquark- Kapü. Über 5 Bewertungen und für sehr lecker befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 811
+Name: Toast als leckeres Resteessen zum Abendbrot
+Desc: Toast als leckeres Resteessen zum Abendbrot. Über 8 Bewertungen und für schmackhaft befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps! Jetzt entdecken und ausprobieren!
+---
+ID: 812
+Name: Single-Abendessen Nr. 17
+Desc: Single-Abendessen Nr. 17 - Kartoffel-Gemüsepfanne mit Putengeschnetzeltem vom Vortag. Über 3 Bewertungen und für super befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 813
+Name: Single-Abendessen Nr. 16
+Desc: Single-Abendessen Nr. 16 - überbackene Pilz-Käse-Rollen auf Kartoffel-Möhren-Bambussprosen-Basis. Über 3 Bewertungen und für lecker befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 814
+Name: Feta aus dem Ofen mit Röstbrot
+Desc: Feta aus dem Ofen mit Röstbrot - ein leichtes und schnelles Rezept. Über 6 Bewertungen und für super befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 815
+Name: Schnelles Abendbrot
+Desc: Schnelles Abendbrot - Teewurst-Toast. Über 6 Bewertungen und für schmackhaft befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 816
+Name: Schnelles Abendbrot
+Desc: Schnelles Abendbrot. Über 2 Bewertungen und für raffiniert befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps! Jetzt entdecken und ausprobieren!
+---
+ID: 817
+Name: Single-Abendessen Nr. 66
+Desc: Single-Abendessen Nr. 66 - Frühlings-Quiche im Blätterteig mit frischem Lauch und Lauchzwiebeln. Über 2 Bewertungen und für beliebt befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 818
+Name: Single-Abendessen Nr. 69
+Desc: Single-Abendessen Nr. 69 - Hähnchenschenkel-Kartoffel-Birnenpfanne mit Basilikum. Über 2 Bewertungen und für vorzüglich befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 819
+Name: Single-Abendessen Nr. 64
+Desc: Single-Abendessen Nr. 64 - Nudeln unter selbstgemachter Tomatensoße mit Bärlauch. Über 2 Bewertungen und für schmackhaft befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 820
+Name: Single-Abendessen Nr. 5
+Desc: Single-Abendessen Nr. 5 - Kirschtomaten-Eierpfanne mit Frühlingszwiebel und Dreieckkäse. Über 4 Bewertungen und für schmackhaft befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 821
+Name: Abendbrot-Salat mit Ei
+Desc: Abendbrot-Salat mit Ei. Über 3 Bewertungen und für sehr lecker befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps! Jetzt entdecken und ausprobieren!
+---
+ID: 822
+Name: Single-Abendessen Nr. 84
+Desc: Single-Abendessen Nr. 84 - Staudensellerie-Kohlrabi-Lauchzwiebel-Reis. Über 3 Bewertungen und für köstlich befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 823
+Name: Single-Abendessen Nr. 82
+Desc: Single-Abendessen Nr. 82 - Hähnchen-Ministeaks an geschmorten Tomaten. Über 3 Bewertungen und für köstlich befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 824
+Name: Single-Abendessen Nr. 63
+Desc: Single-Abendessen Nr. 63 - Toast mit Geflügelsalami, Spiegeleiern und Lauchzwiebel. Über 3 Bewertungen und für raffiniert befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 825
+Name: Single-Abendessen Nr. 34
+Desc: Single-Abendessen Nr. 34 - Schnelles Pfannenbrot. Über 3 Bewertungen und für mega befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 826
+Name: Abendbrot vegetarisch
+Desc: Abendbrot vegetarisch. Über 5 Bewertungen und für ausgezeichnet befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps! Jetzt entdecken und ausprobieren!
+---
+ID: 827
+Name: Single-Abendessen für 1 Person
+Desc: Single-Abendessen für 1 Person. Über 7 Bewertungen und für beliebt befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps! Jetzt entdecken und ausprobieren!
+---
+ID: 828
+Name: Single-Abendessen Nr. 126
+Desc: Single-Abendessen Nr. 126 - Rindersteak mit gebratener frischer Ananas. Über 2 Bewertungen und für ausgezeichnet befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 829
+Name: Single-Abendessen Nr. 113
+Desc: Single-Abendessen Nr. 113 - Kräuterlachs mit Chili-Kaki auf Feldsalat mit Senf-Orangen-Schalottendressing. Über 2 Bewertungen und für schmackhaft befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 830
+Name: Single-Abendessen Nr. 71
+Desc: Single-Abendessen Nr. 71 - Pastinaken-Petersilienwurzel-Zucchini-Pfanne mit Tomatenscheiben - rein vegetarisch. Über 2 Bewertungen und für sehr gut befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 831
+Name: Single-Abendessen Nr. 57
+Desc: Single-Abendessen Nr. 57 - überbackene, gefüllte Champignons an Apfelscheiben auf Kartoffelbett. Über 2 Bewertungen und für schmackhaft befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 832
+Name: Single-Abendessen Nr. 54
+Desc: Single-Abendessen Nr. 54 - überbackener Kartoffel-Bohnen-Kabeljau-Tomatenauflauf. Über 2 Bewertungen und für raffiniert befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 833
+Name: Single-Abendessen Nr. 14
+Desc: Single-Abendessen Nr. 14 - Lamm-Steaks an Petersilien-Bandnudeln mit kleinem Kumato-Salat an Magerquark-Petersilien-Dressing. Über 2 Bewertungen und für köstlich befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 834
+Name: Single-Abendessen Nr. 9
+Desc: Single-Abendessen Nr. 9 - Putensteaks mit grünem Spargel unter Spargel-Pesto an Bärlauch-Kapü. Über 2 Bewertungen und für sehr lecker befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 835
+Name: Single-Abendessen Nr. 4
+Desc: Single-Abendessen Nr. 4 - Lauch-Rührei auf Körnerbrot. Über 6 Bewertungen und für lecker befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 836
+Name: Single-Abendessen Nr. 6  "Hochstapler"
+Desc: Single-Abendessen Nr. 6  "Hochstapler" - Kartoffel-Tomate-Mozzarella-Geflügelknoblauchwurst-Käse-Türme. Über 5 Bewertungen und für raffiniert befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 837
+Name: Pizza-Schnitte für zwischendurch
+Desc: Pizza-Schnitte für zwischendurch - kleiner pikanter Snack in 2 Minuten. Über 17 Bewertungen und für köstlich befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 838
+Name: Single-Abendessen Nr. 92
+Desc: Single-Abendessen Nr. 92 - Gebratene Selleriescheibe mit Bratwurst und Pfannen-Fritten aus rohen Kartoffeln. Über 3 Bewertungen und für sehr lecker befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 839
+Name: Single-Abendessen Nr. 19
+Desc: Single-Abendessen Nr. 19 - Pilz-Bratkartoffeln an Eier-Lauchzwiebel-Salat mit Joghurt-Senf-Dressing. Über 3 Bewertungen und für super befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 840
+Name: Abendessen: Hafer-Gemüse-Pizza
+Desc: Abendessen: Hafer-Gemüse-Pizza - vegan, für 1 Blech. Eine Bewertung und für ausgezeichnet befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 841
+Name: Kartoffeltaler mit Kräuterquark - leichtes Abendbrot
+Desc: Kartoffeltaler mit Kräuterquark - leichtes Abendbrot - gesund, gut vorzubereiten, ohne Mehl und zum Einfrieren geeignet. Eine Bewertung und für raffiniert befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 842
+Name: Single-Abendessen Nr. 133
+Desc: Single-Abendessen Nr. 133 - Kartoffel-Spargel-Paprika-Mascarpone-Quiche mit Bärlauch. Eine Bewertung und für ausgezeichnet befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 843
+Name: Single-Abendessen Nr. 109
+Desc: Single-Abendessen Nr. 109 - Reis-Rinderhack-Pfanne mit Paprika, Knoblauch und Lauchzwiebel. Eine Bewertung und für vorzüglich befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 844
+Name: Single-Abendessen Nr. 107 Vegetarisch
+Desc: Single-Abendessen Nr. 107 Vegetarisch - Kartoffel-Gemüse-Feta-Lasagne mit Cantal überbacken. Eine Bewertung und für köstlich befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 845
+Name: Single-Abendessen Nr. 105 vegetarisch
+Desc: Single-Abendessen Nr. 105 vegetarisch - Champignon-Lauch-Schmandrolle mit Petersilie. Eine Bewertung und für sehr gut befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 846
+Name: Single-Abendessen Nr. 96
+Desc: Single-Abendessen Nr. 96 - Gemüsepfanne auf Kräuterquark. Eine Bewertung und für beliebt befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 847
+Name: Single - Abendessen Nr. 93
+Desc: Single - Abendessen Nr. 93 - Gefüllte Birne an Pfeffer-Chili-Schwenkkartoffeln. Eine Bewertung und für köstlich befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 848
+Name: Single-Abendessen Nr. 90
+Desc: Single-Abendessen Nr. 90 - Puten-Minifilet an Kapü mit Zwiebel-Apfelhaube. Eine Bewertung und für vorzüglich befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 849
+Name: Single Abendessen Nr. 79
+Desc: Single Abendessen Nr. 79 - Rinder-Lauchrouladen an gedünsteten Tomaten mit Lauch-Kartoffeln. Eine Bewertung und für schmackhaft befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 850
+Name: Single-Abendessen Nr. 78
+Desc: Single-Abendessen Nr. 78 - Schweinelachs auf Mafaldine mit Pfifferling-Sahnesoße unter einer Kräuterhaube. Eine Bewertung und für mega befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 851
+Name: Single - Abendessen Nr. 73
+Desc: Single - Abendessen Nr. 73 - Hähnchenkeulen mit Kohlrabi-Kartoffel-Lauchnudeln in Créme fraîche mit Petersilie. Eine Bewertung und für köstlich befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 852
+Name: Single-Abendessen Nr. 72
+Desc: Single-Abendessen Nr. 72 - Stielkoteletts mit Lauch-Schalotten-Knobi-Apfelgemüse. Eine Bewertung und für sehr gut befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 853
+Name: Single-Abendessen Nr. 67
+Desc: Single-Abendessen Nr. 67 - Bärlauch-Kapü unter in Bärlauchbutter geschwenkten Champignons mit Putenfilet. Eine Bewertung und für super befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 854
+Name: Single-Abendessen Nr. 48
+Desc: Single-Abendessen Nr. 48 - Kartoffel-Apfel-Puffer. Eine Bewertung und für köstlich befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 855
+Name: Single-Abendessen Nr. 47
+Desc: Single-Abendessen Nr. 47 - Marinierte Schweinelachsschnitzel an Mafaldine und gefüllten Champignons. Eine Bewertung und für sehr lecker befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 856
+Name: Single-Abendessen Nr. 45
+Desc: Single-Abendessen Nr. 45 - überbackene Rinderburger mit Kräuterbutter-Scheibchen. Eine Bewertung und für super befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 857
+Name: Single-Abendessen Nr. 30
+Desc: Single-Abendessen Nr. 30 - Überbackene, gefüllte Tomaten und Kartoffeln mit Schinkenschnitzel. Eine Bewertung und für sehr lecker befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 858
+Name: Single-Abendessen Nr. 26
+Desc: Single-Abendessen Nr. 26 - gefüllte Paprika mit Paprikastreifen. Eine Bewertung und für sehr gut befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 859
+Name: Single-Abendessen Nr. 11
+Desc: Single-Abendessen Nr. 11 - grüner Spargel mit frittierten Eiern an Kartoffelwürfeln mit Blauschimmel-Schmelzkäse-Soße. Eine Bewertung und für sehr lecker befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 860
+Name: Kinderabendbrot "Yakari"
+Desc: Kinderabendbrot "Yakari" - für Gemüsemuffel. Eine Bewertung und für köstlich befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 861
+Name: Single-Abendessen Nr. 130
+Desc: Single-Abendessen Nr. 130 - Spargel-Kartoffel-Salat mit Tomaten und Peperoni. Über 2 Bewertungen und für beliebt befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 862
+Name: Single-Abendessen Nr. 128
+Desc: Single-Abendessen Nr. 128 - Gemüse- Pastasotto. Über 2 Bewertungen und für mega befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 863
+Name: Single-Abendessen Nr. 127
+Desc: Single-Abendessen Nr. 127 - Überbackener Brokkoli mit gewürfeltem Leberkäse an Spiegeleiern. Über 2 Bewertungen und für mega befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 864
+Name: Bunnys Salami-Abendbrot
+Desc: Bunnys Salami-Abendbrot - schnell und lecker... Über 2 Bewertungen und für vorzüglich befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 865
+Name: Schnelles Abendbrot, aber lecker
+Desc: Schnelles Abendbrot, aber lecker. Über 6 Bewertungen und für ausgezeichnet befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps! Jetzt entdecken und ausprobieren!
+---
+ID: 866
+Name: Single-Abendessen Nr. 99, ein kleiner Auflauf
+Desc: Single-Abendessen Nr. 99, ein kleiner Auflauf - Kürbis-Kapü unter Hähnchen-Leber mit Ziegenkäse überbacken. Über 3 Bewertungen und für mega befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 867
+Name: Single-Abendessen Nr. 59
+Desc: Single-Abendessen Nr. 59 - Kartoffel-Schiffchen mit Chicoree und Rindergehacktem. Über 3 Bewertungen und für sehr gut befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 868
+Name: Single-Abendessen Nr. 25
+Desc: Single-Abendessen Nr. 25 - Nudelauflauf mit gefüllten Champignons an geschmorten Tomatenscheiben. Über 3 Bewertungen und für super befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 869
+Name: August bis April mein Abendessen
+Desc: August bis April mein Abendessen - glutenfrei. Über 9 Bewertungen und für beliebt befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 870
+Name: Low-carb Abendessen
+Desc: Low-carb Abendessen - schnell und kalorienarm. Über 13 Bewertungen und für lecker befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 871
+Name: Single-Abendessen Nr. 7
+Desc: Single-Abendessen Nr. 7 - kleiner, schneller Gemüse-Auflauf mit Bratwurst, Frikadelle oder Schnitzel dazu. Über 6 Bewertungen und für lecker befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 872
+Name: Single-Abendessen Nr. 134
+Desc: Single-Abendessen Nr. 134 - Zwiebel-Rinderleber mit Spargel-Apfel-Rhabarbergemüse an Bärlauchbutter-Kartoffeln. Über 2 Bewertungen und für sehr lecker befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 873
+Name: Single-Abendessen Nr. 125
+Desc: Single-Abendessen Nr. 125 - Pikante Kartoffel-Chili-Gemüsesuppe mit Cabanossi. Eine Bewertung und für schmackhaft befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 874
+Name: Single-Abendessen Nr. 122
+Desc: Single-Abendessen Nr. 122 - Mariniertes Schweinefilet mit Mischgemüse. Eine Bewertung und für super befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 875
+Name: Single-Abendessen Nr. 121
+Desc: Single-Abendessen Nr. 121 - Puten-Kartoffel-Gemüse-Auflauf mit knackiger Weißbrotkruste. Eine Bewertung und für super befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 876
+Name: Abendessen für Zwei (Resteküche)
+Desc: Abendessen für Zwei (Resteküche) - überbackener Wirsing-Rinderhack-Nudelauflauf. Eine Bewertung und für sehr lecker befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 877
+Name: Single-Abendessen Nr. 115 (Resteküche)
+Desc: Single-Abendessen Nr. 115 (Resteküche) - Reisauflauf mit Rinderbraten unter Apfeldecke. Eine Bewertung und für mega befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 878
+Name: Single-Abendessen Nr. 110
+Desc: Single-Abendessen Nr. 110 - Mit Rinderhack gefüllte Spitzpaprika an grobem Kartoffel-Lauchzwiebel-Paprikastampf. Eine Bewertung und für beliebt befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 879
+Name: Single-Abendessen Nr. 106
+Desc: Single-Abendessen Nr. 106 - Hähnchenfleisch mit Peperoni im Blätterteig mit blauen Kartoffeln auf Romanasalat. Über 2 Bewertungen und für raffiniert befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 880
+Name: Single-Abendessen Nr. 98
+Desc: Single-Abendessen Nr. 98 - Mit Pesto gefülltes Puten-Minifilet an gedünstetem Hokkaido-Peperoni-Gemüse mit Crème fraîche. Eine Bewertung und für raffiniert befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 881
+Name: Single-Abendessen Nr. 97
+Desc: Single-Abendessen Nr. 97 - Kasseler mit Pastinake und Petersilie im Blätterteig. Eine Bewertung und für vorzüglich befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 882
+Name: Single-Abendessen Nr. 68
+Desc: Single-Abendessen Nr. 68 - Hähnchenbrust im Schinken-Blätterteig auf Kartoffelbett unter Tomaten mit Mozzarella. Eine Bewertung und für schmackhaft befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 883
+Name: Single-Abendessen Nr. 32
+Desc: Single-Abendessen Nr. 32 - Schweinegeschnetzeltes mit Gemüse-Kartoffel-Peperoni-Estragon-Pfanne. Eine Bewertung und für schmackhaft befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 884
+Name: Single-Abendessen Nr. 23
+Desc: Single-Abendessen Nr. 23 - Rinder-Minutensteak-Röllchen, gefüllt mit Kohlrabiblättern und Käse an Kartoffel-Würfeln. Eine Bewertung und für ausgezeichnet befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 885
+Name: Single-Abendessen Nr. 13  vegetarisch
+Desc: Single-Abendessen Nr. 13  vegetarisch - schneller Nudel-Gemüse-Topf mit Knoblauch-Frischkäse verfeinert. Über 2 Bewertungen und für mega befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 886
+Name: Single-Abendessen Nr. 12
+Desc: Single-Abendessen Nr. 12 - Kartoffel-Staudensellerie-Radieschenblätter-Püree an Hähnchenbrustfilet. Eine Bewertung und für beliebt befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 887
+Name: Single-Abendessen Nr. 8
+Desc: Single-Abendessen Nr. 8 - überbackener Reis-Spargel-Pilzauflauf. Eine Bewertung und für ausgezeichnet befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 888
+Name: Single-Abendessen Nr. 3 als Vor- oder Hauptspeise zu verwenden
+Desc: Single-Abendessen Nr. 3 als Vor- oder Hauptspeise zu verwenden - Brathähnchen-Mangosalat mit Ei und Currydressing. Eine Bewertung und für vorzüglich befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 889
+Name: Single-Abendessen Nr. 35  vegetarisch
+Desc: Single-Abendessen Nr. 35  vegetarisch - Gebratene Nudeln mit Gemüsepfanne. Über 3 Bewertungen und für lecker befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 890
+Name: Low Carb Brot, Eiweißbrot, Abendbrot
+Desc: Low Carb Brot, Eiweißbrot, Abendbrot - ohne Ei, mit Gluten und Kokosmehl. Über 3 Bewertungen und für mega befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 891
+Name: Single-Abendessen Nr. 88
+Desc: Single-Abendessen Nr. 88 - Kartoffelspaghetti mit heißer Fleischwurst und Kürbis-Zucchini-Paprika-Peperonigemüse. Über 2 Bewertungen und für sehr lecker befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 892
+Name: Single-Abendessen Nr. 83 vegetarisch
+Desc: Single-Abendessen Nr. 83 vegetarisch - Restepfanne mit Nudeln, Tomate, Salatgurke und gekochten Eiern. Über 2 Bewertungen und für köstlich befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 893
+Name: Single-Abendessen Nr. 65
+Desc: Single-Abendessen Nr. 65 - überbackener Kartoffel-Wildlachs-Spinat-Auflauf. Über 6 Bewertungen und für ausgezeichnet befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 894
+Name: Single-Abendessen Nr. 114
+Desc: Single-Abendessen Nr. 114 - Kräuterrührei-Nudel-Käsepfanne. Eine Bewertung und für vorzüglich befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 895
+Name: Single-Abendessen Nr. 70
+Desc: Single-Abendessen Nr. 70 - gebackene Pastinaken und Kartoffeln aus dem Ofen - mit Datteln gepimpt. Eine Bewertung und für mega befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 896
+Name: Single-Abendessen Nr. 38 vegetarisch
+Desc: Single-Abendessen Nr. 38 vegetarisch - Überbackener Kartoffel-Gemüse-Ricotta-Auflauf mit Tomaten und frischer Petersilie. Eine Bewertung und für köstlich befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 897
+Name: Single-Abendessen Nr. 21
+Desc: Single-Abendessen Nr. 21 - gekochte Hähnchenschenkel in Malzbier mit Suppengemüse und Kartöffelchen (reicht für 2 Tage). Eine Bewertung und für lecker befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 898
+Name: Single-Abendessen Nr. 74
+Desc: Single-Abendessen Nr. 74 - Hirschsteaks an Bärlauch-Kapü mit in Löwenzahn-Honig gedünsteten Rispentomaten. Über 2 Bewertungen und für ausgezeichnet befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 899
+Name: Single-Abendessen Nr. 91 (ein Resteessen)
+Desc: Single-Abendessen Nr. 91 (ein Resteessen) - Mit Parmesan überbackener Nudelauflauf mit Möhren, Pastinaken, Lauch und Zwiebeln. Gib jetzt eine aufrichtige Bewertung ab! Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 900
+Name: Single-Abendessen Nr. 37
+Desc: Single-Abendessen Nr. 37 - Gratinierter Auflauf mit Kartoffel, Möhre, Spitzpaprika und Schweinegeschnetzeltem. Gib jetzt eine verlässliche Bewertung ab! Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 901
+Name: Single-Abendessen Nr. 49
+Desc: Single-Abendessen Nr. 49 - Überbackener Reste-Auflauf mit Kartoffel-Reis-Tomaten-Gurke-Mozzarella und Brie. Gib jetzt eine begründete Bewertung ab! Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 902
+Name: Single-Abendessen Nr. 40
+Desc: Single-Abendessen Nr. 40 - Kartoffel-Gemüsepfanne mit Geflügel-Mini-Frikadellen. Gib jetzt eine ehrliche Bewertung ab! Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 903
+Name: Single-Abendessen Nr. 10
+Desc: Single-Abendessen Nr. 10 - Putensteaks mit weißem Spargel unter Granatapfel-Kernen an Schnittlauch-Kartoffelwürfeln. Gib jetzt eine begründete Bewertung ab! Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 904
+Name: Gesundes Abendessen
+Desc: Gesundes Abendessen - sättigendes Müsli. Gib jetzt die erste Bewertung für das Rezept von Fantasy-Sonja ab! Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 905
+Name: Single-Abendessen Nr. 140
+Desc: Single-Abendessen Nr. 140 - Überbackener Würstchengulasch-Kuchen auf Spaghetti. Gib jetzt die erste Bewertung für das Rezept von movostu ab! Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 906
+Name: Single-Abendessen Nr. 135
+Desc: Single-Abendessen Nr. 135 - Mit Bratenresten/Appenzeller gefüllte Champignons auf Möhren-Snackgurken-Spätzle. Gib jetzt die erste Bewertung für das Rezept von movostu ab! Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 907
+Name: Single-Abendessen Nr. 131
+Desc: Single-Abendessen Nr. 131 - Rinderhack in Spitzpaprika auf Kräuterkartoffeln, an Spargel im Hackmantel. Gib jetzt die erste Bewertung für das Rezept von movostu ab! Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 908
+Name: Single-Abendessen Nr. 124
+Desc: Single-Abendessen Nr. 124 - Rote Bete-Pfannkuchen mit Schmand. Gib jetzt die erste Bewertung für das Rezept von movostu ab! Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 909
+Name: Single-Abendessen Nr. 123
+Desc: Single-Abendessen Nr. 123 - Marinierte Putenfilets an Paprikanudeln mit Sellerie-Knöpfen. Gib jetzt die erste Bewertung für das Rezept von movostu ab! Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 910
+Name: Single-Abendessen Nr. 120
+Desc: Single-Abendessen Nr. 120 - Gemüse-Pfannkuchen mit  Rinderhack und Kräutern. Gib jetzt die erste Bewertung für das Rezept von movostu ab! Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 911
+Name: Single-Abendessen Nr. 119
+Desc: Single-Abendessen Nr. 119 - Überbackene Hotdogs in Tomaten auf Kartoffelbett mit Frühlingszwiebel-Pesto-Brie und Peperoni. Gib jetzt die erste Bewertung für das Rezept von movostu ab! Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 912
+Name: Single-Abendessen Nr. 118
+Desc: Single-Abendessen Nr. 118 - Kartoffel-Wirsing-Gurkenpfanne mit Gemüse-Frikos. Gib jetzt die erste Bewertung für das Rezept von movostu ab! Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 913
+Name: Single-Abendessen Nr. 117 (Resteküche)
+Desc: Single-Abendessen Nr. 117 (Resteküche) - mit Ziegenkäse überbackener Kartoffel-Gulasch-Paprika-Auflauf. Gib jetzt die erste Bewertung für das Rezept von movostu ab! Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 914
+Name: Single-Abendessen Nr. 116 (Resteküche)
+Desc: Single-Abendessen Nr. 116 (Resteküche) - Kartoffel-Rinderbraten-Tomaten-Mozzarella-Auflauf. Gib jetzt die erste Bewertung für das Rezept von movostu ab! Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 915
+Name: Single-Abendessen Nr. 108
+Desc: Single-Abendessen Nr. 108 - Auberginenpfanne mit Makrelen und Rosinen. Gib jetzt die erste Bewertung für das Rezept von movostu ab! Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 916
+Name: Single-Abendessen Nr. 104
+Desc: Single-Abendessen Nr. 104 - Schinkenschnitzel mit Püree blau-gelb (Kartoffel und Kürbis). Gib jetzt die erste Bewertung für das Rezept von movostu ab! Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 917
+Name: Single- Abendessen Nr. 103
+Desc: Single- Abendessen Nr. 103 - Blaues Kartoffelpüree mit Spaghettikürbis und Spiegelei auf Salatbett. Gib jetzt die erste Bewertung für das Rezept von movostu ab! Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 918
+Name: Single-Abendessen Nr. 102
+Desc: Single-Abendessen Nr. 102 - Halloween-Pfanne mit blauen Kartoffeln, Spaghettikürbis, Möhren, Knoblauch und Pfeffer-Stremellachs. Gib jetzt die erste Bewertung für das Rezept von movostu ab! Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 919
+Name: Single-Abendessen Nr. 101
+Desc: Single-Abendessen Nr. 101 - Fladenbrot-Pizza mit Knoblauch-Frischkäse. Gib jetzt die erste Bewertung für das Rezept von movostu ab! Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 920
+Name: Single-Abendessen Nr. 100
+Desc: Single-Abendessen Nr. 100 - Kartoffel-Kürbis-Putenfilet-Auflauf mit Parmesan überbacken. Gib jetzt die erste Bewertung für das Rezept von movostu ab! Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 921
+Name: Single-Abendessen Nr. 95, mit Biss
+Desc: Single-Abendessen Nr. 95, mit Biss - Mit Parmesan überbackener Gemüse-Nudelauflauf mit Macadamianüssen. Gib jetzt die erste Bewertung für das Rezept von movostu ab! Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 922
+Name: Single-Abendessen Nr. 94
+Desc: Single-Abendessen Nr. 94 - Gefüllte Kohlrabi an Kürbis-Kapü. Gib jetzt die erste Bewertung für das Rezept von movostu ab! Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 923
+Name: Single-Abendessen Nr. 89
+Desc: Single-Abendessen Nr. 89 - Putengeschnetzeltes mit Kartoffelplätzchen und Kürbis-Zwetschgengemüse. Gib jetzt die erste Bewertung für das Rezept von movostu ab! Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 924
+Name: Single-Abendessen Nr. 87
+Desc: Single-Abendessen Nr. 87 - Hähnchenschenkel mit Bratkartöffelchen und geschmortem Romanasalat. Gib jetzt die erste Bewertung für das Rezept von movostu ab! Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 925
+Name: Single Blitz-Abendessen Nr. 86
+Desc: Single Blitz-Abendessen Nr. 86 - Gebratener Reis mit Geschnetzeltem, Lauchzwiebeln und Tomaten. Gib jetzt die erste Bewertung für das Rezept von movostu ab! Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 926
+Name: Single-Abendessen Nr. 85
+Desc: Single-Abendessen Nr. 85 - Gefüllte Spitzpaprika mit Mischreis an Putengeschnetzeltem. Gib jetzt die erste Bewertung für das Rezept von movostu ab! Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 927
+Name: Single-Abendessen Nr. 77
+Desc: Single-Abendessen Nr. 77 - Spargel-Selleriesalat mit Senf-Vinaigrette im Kartoffel-Nest mit Deckel. Gib jetzt die erste Bewertung für das Rezept von movostu ab! Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 928
+Name: Single-Abendessen Nr. 76
+Desc: Single-Abendessen Nr. 76 - Hirsch-Steaks mit gedünsteten Chili-Birnen. Gib jetzt die erste Bewertung für das Rezept von movostu ab! Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 929
+Name: Single-Abendessen Nr. 75
+Desc: Single-Abendessen Nr. 75 - Wildlachs mit gewürzter Kokoszwieback-Panade an Bärlauchnudeln und Kohlrabi in Kräuterschmand. Gib jetzt die erste Bewertung für das Rezept von movostu ab! Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 930
+Name: Single-Abendessen Nr. 61
+Desc: Single-Abendessen Nr. 61 - überbackener Schnitzelauflauf mit Lauchzwiebel, Tomate, Salatgurke und Knobi. Gib jetzt die erste Bewertung für das Rezept von movostu ab! Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 931
+Name: Single-Abendessen Nr. 60
+Desc: Single-Abendessen Nr. 60 - überbackener Kartoffel-Lauch-Frikadellen-Salatgurken-Topf. Gib jetzt die erste Bewertung für das Rezept von movostu ab! Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 932
+Name: Single-Abendessen Nr. 58
+Desc: Single-Abendessen Nr. 58 - Roulade-Kartoffel-Gemüse-Pfanne...warum speziell, wenn´s auch einfach geht? Gib jetzt die erste Bewertung für das Rezept von movostu ab! Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 933
+Name: Single-Abendessen Nr. 56
+Desc: Single-Abendessen Nr. 56 - Schweinelachs mit überbackenem Kartoffel-Bohnen-Apfelauflauf. Gib jetzt die erste Bewertung für das Rezept von movostu ab! Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 934
+Name: Single-Abendessen Nr. 50
+Desc: Single-Abendessen Nr. 50 - Senf-Gurken-Roulade mit Kartoffel-Gurkenstampf. Gib jetzt die erste Bewertung für das Rezept von movostu ab! Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 935
+Name: Single-Abendessen Nr. 51
+Desc: Single-Abendessen Nr. 51 - mit Hack und Reis gefüllter Fenchel. Gib jetzt die erste Bewertung für das Rezept von movostu ab! Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 936
+Name: Single-Abendessen Nr. 52
+Desc: Single-Abendessen Nr. 52 - mit Hack gefüllte Steckrübe an Pellkartoffeln. Gib jetzt die erste Bewertung für das Rezept von movostu ab! Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 937
+Name: Single-Abendessen Nr. 53
+Desc: Single-Abendessen Nr. 53 - Steckrüben-Kartoffelstampf an Hackfleisch. Gib jetzt die erste Bewertung für das Rezept von movostu ab! Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 938
+Name: Single- Abendessen Nr. 46 - eher für Süßschnäbel
+Desc: Single- Abendessen Nr. 46 - eher für Süßschnäbel - Orangen-Kalbsschnitzel mit Mafaldine auf einem Orangen-Malzbiergelee-Soßenspiegel. Gib jetzt die erste Bewertung für das Rezept von movostu ab! Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 939
+Name: Single-Abendessen Nr. 42
+Desc: Single-Abendessen Nr. 42 - Überbackener "Rumfort"- Wrap an Tomaten- und Gurkenscheiben. Gib jetzt die erste Bewertung für das Rezept von movostu ab! Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 940
+Name: Single-Abendessen Nr. 43
+Desc: Single-Abendessen Nr. 43 - Kabeljaufilet im Blätterteig auf Kartoffel-Gemüsebett. Gib jetzt die erste Bewertung für das Rezept von movostu ab! Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 941
+Name: Single-Abendessen Nr. 44
+Desc: Single-Abendessen Nr. 44 - Kohlrabi-Lauch Gemüseteller mit Cocktailwürstchen. Gib jetzt die erste Bewertung für das Rezept von movostu ab! Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 942
+Name: Single-Abendessen Nr. 41, vegetarisch
+Desc: Single-Abendessen Nr. 41, vegetarisch - Wirsing-Nudelauflauf mit Mozzarella und Tomate im Blätterteig. Gib jetzt die erste Bewertung für das Rezept von movostu ab! Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 943
+Name: Single-Abendessen Nr. 39
+Desc: Single-Abendessen Nr. 39 - Überbackenes Kabeljaufilet auf Kartoffel-Lauch-Tomatenbett mit Schmand. Gib jetzt die erste Bewertung für das Rezept von movostu ab! Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 944
+Name: Single-Abendessen Nr. 36
+Desc: Single-Abendessen Nr. 36 - Überbackener, gefüllter Kohlrabi auf Kartoffelstiften. Gib jetzt die erste Bewertung für das Rezept von movostu ab! Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 945
+Name: Single-Abendessen Nr. 31
+Desc: Single-Abendessen Nr. 31 - Käse-Bierschinken-Brie und Petersilie im Blätterteig an Bratkartöffelchen. Gib jetzt die erste Bewertung für das Rezept von movostu ab! Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 946
+Name: Blitz - Single-Abendessen Nr. 29
+Desc: Blitz - Single-Abendessen Nr. 29 - Ciabatta mit Rinderbolognese Sauce an grünen Paprikawürfeln. Gib jetzt die erste Bewertung für das Rezept von movostu ab! Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 947
+Name: Single-Abendessen Nr. 27
+Desc: Single-Abendessen Nr. 27 - Putenbraten auf Tomatenscheiben unter Spiegelei mit Paprika-Lauch-Würfeln. Gib jetzt die erste Bewertung für das Rezept von movostu ab! Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 948
+Name: Single- Abendessen Nr. 22
+Desc: Single- Abendessen Nr. 22 - Wrap-Röllchen mit Chinakohl und Spitzpaprika an Melonen-Spalten. Gib jetzt die erste Bewertung für das Rezept von movostu ab! Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 949
+Name: Single-Abendessen Nr. 20
+Desc: Single-Abendessen Nr. 20 - Schnittlauch-Kartoffelwürfelchen mit Käse-Bratwurst an Rote Bete-Schalotten-Salat mit Joghurt-Petersilien-Dressing. Gib jetzt die erste Bewertung für das Rezept von movostu ab! Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 950
+Name: Weiße Bohnen, angedickt, zum Abendbrot
+Desc: Weiße Bohnen, angedickt, zum Abendbrot. Eine Bewertung und für super befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps! Jetzt entdecken und ausprobieren!
+---
+ID: 951
+Name: Schnelle gebratene Hühnerleber für das Abendbrot
+Desc: Schnelle gebratene Hühnerleber für das Abendbrot - wunderbar butterig und würzig. Eine Bewertung und für sehr gut befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 952
+Name: Fitness-Abendessen à la Rühl
+Desc: Fitness-Abendessen à la Rühl. Gib jetzt die erste Bewertung für das Rezept von gb67dkskg6 ab! Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 953
+Name: Rettich-Weißwurst-Salat
+Desc: Rettich-Weißwurst-Salat - ein biergartentaugliches Abendessen. Über 144 Bewertungen und für ausgezeichnet befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 954
+Name: Gebratene Gurke mit Hähnchen und Avocadocreme
+Desc: Gebratene Gurke mit Hähnchen und Avocadocreme - Fitness-Abendessen, no carb, low carb, kalorienarm, eiweißreich, super lecker und einfach. Über 117 Bewertungen und für vorzüglich befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 955
+Name: Knoblauch-Garnelen mit Kräuterchampignons auf Feldsalat
+Desc: Knoblauch-Garnelen mit Kräuterchampignons auf Feldsalat - leichte Kost, low-Carb-Abendessen. Über 30 Bewertungen und für beliebt befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 956
+Name: Überbackene Maultaschen mit Chorizo und Mascarpone
+Desc: Überbackene Maultaschen mit Chorizo und Mascarpone - schnelles, würziges Abendessen. Über 21 Bewertungen und für mega befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 957
+Name: Zucchini süß - sauer
+Desc: Zucchini süß - sauer - gibt´s bei uns zu fast jedem Abendbrot dazu. Über 43 Bewertungen und für raffiniert befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 958
+Name: Eiweißbrötchen low carb
+Desc: Eiweißbrötchen low carb - Abendbrot low carb. Über 123 Bewertungen und für schmackhaft befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 959
+Name: Nacho - Auflauf
+Desc: Nacho - Auflauf - leckeres Abendessen nach einem stressigen Tag oder für einen gemütlichen Fernseh-/Spieleabend. Über 159 Bewertungen und für sehr lecker befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 960
+Name: Salat mit gebratenem Spargel, Ziegenkäse, Rauke und Tomaten
+Desc: Salat mit gebratenem Spargel, Ziegenkäse, Rauke und Tomaten - Vorspeise für ein Frühlingsmenü  oder kleines Abendessen. Über 40 Bewertungen und für vorzüglich befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 961
+Name: Zweierlei Pizza-Sticks aus dem Airfryer
+Desc: Zweierlei Pizza-Sticks aus dem Airfryer - schnelles Fingerfood aus dem Airfryer. Gib jetzt die erste Bewertung für das Rezept von Henglein ab! Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 962
+Name: Avocados mit Vinaigrette, Rucola und Parmaschinken
+Desc: Avocados mit Vinaigrette, Rucola und Parmaschinken - ein sommerliches Abendessen. Über 24 Bewertungen und für köstlich befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 963
+Name: Pilz-Omelette mit Gouda und Tomaten
+Desc: Pilz-Omelette mit Gouda und Tomaten - IBDMS Abendessen. Über 10 Bewertungen und für super befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 964
+Name: Geflügel-Paprika-Pfanne mit Feta
+Desc: Geflügel-Paprika-Pfanne mit Feta - SiS-Abendessen, schnell und einfach. Über 131 Bewertungen und für vorzüglich befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 965
+Name: Scharfer Cajun - Puten - Salat
+Desc: Scharfer Cajun - Puten - Salat - lecker als Vorspeise, fürs Büffet oder für ein kaltes Abendessen. Über 30 Bewertungen und für mega befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 966
+Name: Roros Eiskaffee
+Desc: Roros Eiskaffee - Genuß pur - da kann glatt das Abendessen ausfallen. Über 11 Bewertungen und für schmackhaft befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 967
+Name: Eiweiß-Salat
+Desc: Eiweiß-Salat - geeignet für Diät, Schlank im Schlaf, Eiweiß-Abendessen. Über 158 Bewertungen und für sehr gut befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 968
+Name: Marinierter Büffelmozzarella auf Feldsalat mit Feigen
+Desc: Marinierter Büffelmozzarella auf Feldsalat mit Feigen - Gut als Vorspeise oder kleines Abendessen mit Gästen. Über 20 Bewertungen und für mega befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 969
+Name: Kohlrabilasagne
+Desc: Kohlrabilasagne - SIS-Abendessen. Über 235 Bewertungen und für sehr gut befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 970
+Name: Brillas Bauernfrühstück vegetarisch
+Desc: Brillas Bauernfrühstück vegetarisch - zum Brunch oder als leckeres Abendessen. Über 37 Bewertungen und für vorzüglich befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 971
+Name: Bergkäsepuffer mit Feldsalat
+Desc: Bergkäsepuffer mit Feldsalat - vegetarisches Abendessen. Über 12 Bewertungen und für schmackhaft befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 972
+Name: Konstanzer Dünnele
+Desc: Konstanzer Dünnele - ein herzhaftes Abendessen. Über 10 Bewertungen und für sehr lecker befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 973
+Name: Gefüllte Paprika mit Hackfleisch, Feta und Zucchini
+Desc: Gefüllte Paprika mit Hackfleisch, Feta und Zucchini - Abendessen für Schlank im Schlaf (SiS). Über 246 Bewertungen und für köstlich befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 974
+Name: krümeltigers Spitzkohleintopf mit Paprika und Hühnerbrust
+Desc: krümeltigers Spitzkohleintopf mit Paprika und Hühnerbrust - SIS Abendessen. Über 23 Bewertungen und für beliebt befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 975
+Name: krümeltigers knusprig panierter Fisch mit Blattspinat
+Desc: krümeltigers knusprig panierter Fisch mit Blattspinat - SIS Abendessen. Über 8 Bewertungen und für vorzüglich befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 976
+Name: Gebratene Paprikaschoten
+Desc: Gebratene Paprikaschoten - ein Lieblings - Abendessen aus meiner Jugend, Rezept von meiner Oma aus Bessarabien. Über 36 Bewertungen und für sehr lecker befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 977
+Name: Salbei-Gnocchi mit grünem Spargel
+Desc: Salbei-Gnocchi mit grünem Spargel - kleines Abendessen oder feine Vorspeise. Über 207 Bewertungen und für vorzüglich befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 978
+Name: Limandesfilets mit Basilikum und grünem und weißem Spargel
+Desc: Limandesfilets mit Basilikum und grünem und weißem Spargel - ein leichtes Abendessen in der Spargelzeit oder ein leckerer Fischgang im Frühlingsmenü. Über 24 Bewertungen und für sehr gut befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 979
+Name: Deftiger Hähncheneintopf
+Desc: Deftiger Hähncheneintopf - als SiS - Abendessen geeignet. Über 67 Bewertungen und für beliebt befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 980
+Name: Schlesischer Bohnensalat
+Desc: Schlesischer Bohnensalat - Beliebt beim Mittagstisch, aber auch zum Abendbrot. Über 19 Bewertungen und für lecker befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 981
+Name: Putenleber mit Erdbeeren
+Desc: Putenleber mit Erdbeeren - sommerliche Vorspeise oder Abendessen. Über 7 Bewertungen und für köstlich befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 982
+Name: Nudel-Hähnchen-Pfanne
+Desc: Nudel-Hähnchen-Pfanne - ein leckeres, schnelles Abendessen. Über 28 Bewertungen und für köstlich befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 983
+Name: Leberkäse mit Zwiebeln und Spiegelei
+Desc: Leberkäse mit Zwiebeln und Spiegelei - flottes Abendessen. Über 114 Bewertungen und für sehr lecker befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 984
+Name: Smokeys Räucherforelle mit Radieschen-Champignonsalat
+Desc: Smokeys Räucherforelle mit Radieschen-Champignonsalat - leichtes Abendessen, Low-Carb, SiS-tauglich. Über 29 Bewertungen und für ausgezeichnet befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 985
+Name: Gemüse-Reis-Pfanne
+Desc: Gemüse-Reis-Pfanne - Grundrezept für ein leckeres Abendessen, zum Abnehmen. Über 84 Bewertungen und für beliebt befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 986
+Name: Garnelen-Salat
+Desc: Garnelen-Salat - als Vorspeise für 4 oder als leichtes Abendessen für 2. Über 27 Bewertungen und für lecker befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 987
+Name: Überbackener Toast
+Desc: Überbackener Toast - ein schnelles (und leckeres) Abendessen. Über 25 Bewertungen und für ausgezeichnet befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 988
+Name: Magdeburger Brutzelstulle
+Desc: Magdeburger Brutzelstulle - Bratschnitte, schnelles, leckeres, aber gehaltvolles Abendessen. Über 12 Bewertungen und für schmackhaft befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 989
+Name: Tomatencarpaccio mit Hüttenkäse
+Desc: Tomatencarpaccio mit Hüttenkäse - SIS Abendessen. Über 57 Bewertungen und für sehr lecker befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 990
+Name: Aprikosenwähe
+Desc: Aprikosenwähe - in sommerliches Schweizer Abendessen (Wähenblech 28 cm). Über 10 Bewertungen und für schmackhaft befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 991
+Name: Lauwarmer Linsensalat
+Desc: Lauwarmer Linsensalat - WW-geeignet, tolles leichtes Abendessen. Über 34 Bewertungen und für ausgezeichnet befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 992
+Name: Champignon - Spinat - Pfanne
+Desc: Champignon - Spinat - Pfanne - leichtes, leckeres und schnell zubereitetes Abendessen. Über 193 Bewertungen und für raffiniert befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 993
+Name: Ei auf Toast aus dem Ofen
+Desc: Ei auf Toast aus dem Ofen - für Frühstück, Brunch, Abendessen. Über 15 Bewertungen und für ausgezeichnet befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 994
+Name: Italienischer Nudelsalat mit Tomaten und Rucola
+Desc: Italienischer Nudelsalat mit Tomaten und Rucola - Super zu Gegrilltem oder nur so zum Abendessen. Über 19 Bewertungen und für beliebt befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 995
+Name: Hähnchenbrust in Tomaten - Kapern - Oliven - Sauce
+Desc: Hähnchenbrust in Tomaten - Kapern - Oliven - Sauce - SiS - Abendessen. Über 11 Bewertungen und für vorzüglich befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 996
+Name: Zucchini-Ei-Pfanne
+Desc: Zucchini-Ei-Pfanne - Abendessen ohne Kohlenhydrate. Über 42 Bewertungen und für köstlich befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 997
+Name: Bulgur-Hack-Gemüse-Feta-Pfanne
+Desc: Bulgur-Hack-Gemüse-Feta-Pfanne - Working-Mum-Abendessen Nr. 1. Über 8 Bewertungen und für raffiniert befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 998
+Name: Frischkäse - Terrine
+Desc: Frischkäse - Terrine - Ideal für ein leckeres Abendbrot mit Gästen oder an Festtagen. Über 8 Bewertungen und für ausgezeichnet befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 999
+Name: Schafskäsepaste scharf
+Desc: Schafskäsepaste scharf - würzige Bereicherung zum Abendbrot oder als Partyhäppchen und zum Grillen. Über 13 Bewertungen und für sehr gut befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 1000
+Name: Vegetarisches Frühlingspfännchen mit Feta-Käse
+Desc: Vegetarisches Frühlingspfännchen mit Feta-Käse - ein leichtes, leckeres Abendessen. Über 106 Bewertungen und für sehr lecker befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 1001
+Name: Toast  mit Schweinefilet und Sauce Hollandaise
+Desc: Toast  mit Schweinefilet und Sauce Hollandaise - schnelles Abendessen. Über 16 Bewertungen und für köstlich befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 1002
+Name: Buntes Rührei mit Paprika und Lauchzwiebel
+Desc: Buntes Rührei mit Paprika und Lauchzwiebel - einfach und lecker - mit Vollkornbrot ein sättigendes Abendbrot. Über 10 Bewertungen und für sehr lecker befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 1003
+Name: Rigatoni-Auflauf
+Desc: Rigatoni-Auflauf - Rigatoni mit goldener Käsekruste – besser als in der Pizzeria. Über 3 Bewertungen und für sehr lecker befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 1004
+Name: Fleischrolle im Blätterteig
+Desc: Fleischrolle im Blätterteig - ein leckeres Abendessen, auch für die Party geeignet und gut vorzubereiten. Über 10 Bewertungen und für super befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 1005
+Name: Gurken-Kohlrabi-Apfelsalat mit Frischkäse
+Desc: Gurken-Kohlrabi-Apfelsalat mit Frischkäse - lecker zum Abendbrot, Grillen, Fisch, Steak, usw. Über 11 Bewertungen und für mega befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 1006
+Name: Frischkäse-Torte auf Schwarzbrot-Nuss-Boden
+Desc: Frischkäse-Torte auf Schwarzbrot-Nuss-Boden - herzhafte Kühlschranktorte für Brunch, Abendessen oder Party. Über 5 Bewertungen und für beliebt befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 1007
+Name: Lauch-Kartoffel-Schmand-Suppe
+Desc: Lauch-Kartoffel-Schmand-Suppe - Single-Abendessen Nr. 207. Über 5 Bewertungen und für raffiniert befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 1008
+Name: Lammfilet mit Mini-Farfalle, Champignons und Tomaten
+Desc: Lammfilet mit Mini-Farfalle, Champignons und Tomaten - Single-Abendessen Nr. 166. Über 5 Bewertungen und für beliebt befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 1009
+Name: Frischer Tomaten-Mozzarellasalat mit Rucola und Hähnchenstreifen
+Desc: Frischer Tomaten-Mozzarellasalat mit Rucola und Hähnchenstreifen - Eiweißreiches, kohlenhydratarmes Abendessen. Über 5 Bewertungen und für vorzüglich befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 1010
+Name: Garnelen im Serranoschinken-Mantel
+Desc: Garnelen im Serranoschinken-Mantel - ein leckeres Abendessen für 3 oder Fingerfood fürs Büfett. Über 5 Bewertungen und für schmackhaft befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 1011
+Name: Schneller Salat
+Desc: Schneller Salat - ideal als Abendessen, gute Resteverwertung. Über 5 Bewertungen und für schmackhaft befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 1012
+Name: Fettarme überbackene Auberginen
+Desc: Fettarme überbackene Auberginen - SiS Abendessen, Low Carb, schnell, einfach, fettarm, kalorienarm. Über 105 Bewertungen und für ausgezeichnet befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 1013
+Name: Thunfisch-Pizza-Zunge
+Desc: Thunfisch-Pizza-Zunge - leichter und schneller Snack oder kleines Abendessen. Über 20 Bewertungen und für sehr lecker befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 1014
+Name: Feldsalat mit Roastbeef und Parmesan
+Desc: Feldsalat mit Roastbeef und Parmesan - tolles Abendessen. Über 6 Bewertungen und für super befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 1015
+Name: Bauernbrot mit Mett und Rührei
+Desc: Bauernbrot mit Mett und Rührei - Blitzschnelles warmes Abendessen und absolut Low - Budget. Über 6 Bewertungen und für super befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 1016
+Name: Mediterranes Spiegelei
+Desc: Mediterranes Spiegelei - ein schnelles und einfaches Abendessen. Über 15 Bewertungen und für vorzüglich befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 1017
+Name: Herzhafte arme Ritter mit Schnittlauch und Hüttenkäse
+Desc: Herzhafte arme Ritter mit Schnittlauch und Hüttenkäse - herzhaftes Frühstück oder Abendbrot. Über 7 Bewertungen und für vorzüglich befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 1018
+Name: Grüner Spargel mit Bacon
+Desc: Grüner Spargel mit Bacon - als Beilage oder Abendessen. Über 7 Bewertungen und für vorzüglich befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 1019
+Name: Taco-Pie
+Desc: Taco-Pie - oder Fajita-Pie, der Hit auf jeder Party - oder einfach ein leckeres Abendessen mit Salat. Über 8 Bewertungen und für sehr gut befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 1020
+Name: Römerpfanne - Fitnessrezept für Sportler
+Desc: Römerpfanne - Fitnessrezept für Sportler - Low-Carb, High Protein, super geeignet zum Abendessen. Hochwertige Fette. Reichlich Gemüse, Ballaststoffreich. Ideal im Sommer. Leichte und einfache Zubereitung. Über 29 Bewertungen und für beliebt befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 1021
+Name: Paprika-Omelette
+Desc: Paprika-Omelette - schnelles, fettarmes (Abend)Essen - sieht appetitlich aus. Über 33 Bewertungen und für ausgezeichnet befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 1022
+Name: Pizza - Stangerl
+Desc: Pizza - Stangerl - Schnelles Abendessen. Über 23 Bewertungen und für sehr gut befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 1023
+Name: krümeltigers Sauerkrauteintopf mit Rinderhack
+Desc: krümeltigers Sauerkrauteintopf mit Rinderhack - SIS Abendessen, ideal für die kalte Jahreszeit. Über 49 Bewertungen und für beliebt befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 1024
+Name: Gemüse-Hähnchencurry
+Desc: Gemüse-Hähnchencurry - low carb, low fat, ideales Abendessen. Über 33 Bewertungen und für sehr gut befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 1025
+Name: Low Carb Thunfisch-Soufflé
+Desc: Low Carb Thunfisch-Soufflé - elegantes, schnelles und gesundes Abendessen für die Mikrowelle. Über 16 Bewertungen und für ausgezeichnet befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 1026
+Name: krümeltigers schnelle Hackfleischpfanne mit Knoblauch-Crème fraîche
+Desc: krümeltigers schnelle Hackfleischpfanne mit Knoblauch-Crème fraîche - SIS Abendessen. Über 8 Bewertungen und für super befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 1027
+Name: Oberfränkischer Wurstsalat
+Desc: Oberfränkischer Wurstsalat - ein schnelles, leichtes und erfrischendes Abendessen. Über 8 Bewertungen und für vorzüglich befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 1028
+Name: Gebackene Paprikaschoten mit Käse
+Desc: Gebackene Paprikaschoten mit Käse - eine warme Vorspeise zu einem griechischen Abendessen. Über 18 Bewertungen und für lecker befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 1029
+Name: Corned Beef Hash
+Desc: Corned Beef Hash - ein schnelles englisches Abendessen ohne viel Mühe. Über 18 Bewertungen und für ausgezeichnet befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 1030
+Name: Strammer Gurken-Max
+Desc: Strammer Gurken-Max - Single-Abendessen Nr. 136. Über 7 Bewertungen und für super befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 1031
+Name: Tomatensalat mit Thunfisch und Feta-Käse
+Desc: Tomatensalat mit Thunfisch und Feta-Käse - lecker zu Sommerparty, Grillen oder einfach als Abendessen. Über 7 Bewertungen und für raffiniert befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 1032
+Name: Schneller Tortellinisalat mit Tomaten und Gurken
+Desc: Schneller Tortellinisalat mit Tomaten und Gurken - leichter Salat zum Abendessen oder für die Grillparty. Über 7 Bewertungen und für vorzüglich befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 1033
+Name: Tomaten - Schafskäse - Salat à la Frenzy
+Desc: Tomaten - Schafskäse - Salat à la Frenzy - Ideal im Sommer - als leichtes Abendessen oder zum Grillen. Über 7 Bewertungen und für super befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 1034
+Name: Italienisches Omelett
+Desc: Italienisches Omelett - Pikantes Frühstück oder leichtes Abendessen. Über 7 Bewertungen und für beliebt befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 1035
+Name: Deluxe Brunch-Brot mit Avocado und Ei
+Desc: Deluxe Brunch-Brot mit Avocado und Ei - für ein meisterhaftes Frühstück, Mittag- oder Abendbrot. Über 3 Bewertungen und für köstlich befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 1036
+Name: Nudeln mit Spargel und Rhabarber
+Desc: Nudeln mit Spargel und Rhabarber - Single-Abendessen Nr. 218. Über 3 Bewertungen und für lecker befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 1037
+Name: Walnuss-Bratkartoffeln
+Desc: Walnuss-Bratkartoffeln - Single-Abendessen Nr. 212. Über 4 Bewertungen und für beliebt befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---
+ID: 1038
+Name: Schwarzer Rettich mit Leberwurst
+Desc: Schwarzer Rettich mit Leberwurst - Snack für den Herrenabend, rustikales Abendessen, scharfer Wintersalat. Über 3 Bewertungen und für schmackhaft befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+---

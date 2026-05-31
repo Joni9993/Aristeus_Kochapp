@@ -1,0 +1,150 @@
+﻿ID:155 | CAT:Cremes | CUISINE:Deutsch | MEAL:dessert
+  NAME: Schichtdessert mit Weintrauben
+  DESC: Schichtdessert mit Weintrauben. Über 451 Bewertungen und für sehr gut befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps! Jetzt entdecken und au
+  INGR: Weintrauben (kernlose) | Quark | Mascarpone | Schlagsahne | Pck. Keks(e) (American Cookies)
+
+ID:203 | CAT:Kuchen | CUISINE:USA & Kanada | MEAL:dessert
+  NAME: Schoko-Bananenbrot mit Joghurt
+  DESC: Schoko-Bananenbrot mit Joghurt - aus einer 26er Kastenform. Über 235 Bewertungen und für vorzüglich befunden. Mit ► Portionsrechner ► Kochbuch ► Video
+  INGR: Banane(n) (sehr reife) | Butter, weiche | Zucker | Pck. Vanillezucker | Ei(er)
+
+ID:304 | CAT:Backen | CUISINE:Deutsch | MEAL:dessert
+  NAME: Lion - Muffins
+  DESC: Lion - Muffins - ergibt 12 Muffins. Über 6 Bewertungen und für sehr lecker befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+  INGR: Schokolade (- Riegel (Lion-Schokoriegel )) | Mehl | Kakaopulver | Backpulver | Natron
+
+ID:370 | CAT:Frucht | CUISINE:Deutschland | MEAL:dessert
+  NAME: Die Erdbeerbowle mit dem sagenhaften Aroma
+  DESC: Die Erdbeerbowle mit dem sagenhaften Aroma - der absolute Partyknüller im Frühsommer. Über 119 Bewertungen und für lecker befunden. Mit ► Portionsrech
+  INGR: Erdbeeren (süß, reif, frisch) | Zucker | Wodka | Flaschen Sekt | Weißwein (am besten lieblich)
+
+ID:515 | CAT:Backen | CUISINE:USA & Kanada | MEAL:dessert
+  NAME: Lemon White Chocolate Cookies
+  DESC: Lemon White Chocolate Cookies - ergibt ca. 35 Cookies. Über 46 Bewertungen und für sehr lecker befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipp
+  INGR: Butter | Zucker (brauner) | Frischkäse | Pck. Vanillezucker | Mehl
+
+ID:556 | CAT:Vegetarisch | CUISINE:Deutsch | MEAL:hauptgericht
+  NAME: Knackiger bunter Brokkolisalat
+  DESC: Knackiger bunter Brokkolisalat - roh, gut vorzubereiten, ideal zum Mitnehmen. Über 307 Bewertungen und für ausgezeichnet befunden. Mit ► Portionsrechn
+  INGR: Kopf Brokkoli | Feta-Käse | Cocktailtomaten | Cashewnüsse (oder Haselnüsse (Dose)) | Öl (neutrales (z. B. Sonnenblumenöl oder Rapsöl))
+
+ID:589 | CAT:Überbacken | CUISINE:Deutsch | MEAL:hauptgericht
+  NAME: Reiterschnitzel
+  DESC: Reiterschnitzel - überbackenes Schweineschnitzel, günstiges Mittagessen. Über 23 Bewertungen und für super befunden. Mit ► Portionsrechner ► Kochbuch 
+  INGR: Schweineschnitzel | Tomate(n) (in Scheiben geschnitten) | Zwiebel(n) (in Ringe geschnitten) | Scheibe/n Käse (Emmentaler) | Zehe/n Knoblauch (fein geschnitten)
+
+ID:594 | CAT:Gemüse | CUISINE:Deutsch | MEAL:hauptgericht
+  NAME: Quinoa-Gemüse-Pfanne
+  DESC: Quinoa-Gemüse-Pfanne - Veganes, leichtes Mittagessen. Über 6 Bewertungen und für beliebt befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+  INGR: Quinoa | Paprikaschote(n) | m.-große Zucchini | Champignons | Olivenöl
+
+ID:638 | CAT:Kalorienarm | CUISINE:Deutsch | MEAL:hauptgericht
+  NAME: Lachs-Spinat-Rolle mit Zitronenreis
+  DESC: Lachs-Spinat-Rolle mit Zitronenreis - für Meta-Typ Delta, gesundes Mittagessen, mit Genuss abnehmen. Über 2 Bewertungen und für sehr gut befunden. Mit
+  INGR: Räucherlachs | Vollkornreis (Basmati) | Blattspinat (frisch) | Frischkäse (20 % Fett) | Ei(er), Größe M
+
+ID:669 | CAT:Fettarm | CUISINE:Deutsch | MEAL:hauptgericht
+  NAME: Smokeys Orangen-Sesam-Hüttenkäse
+  DESC: Smokeys Orangen-Sesam-Hüttenkäse - kleines Mittagessen oder Frühstück. Eine Bewertung und für vorzüglich befunden. Mit ► Portionsrechner ► Kochbuch ► 
+  INGR: Hüttenkäse | Sesam (ohne Fett geröstet) | große Orange(n) | Orangeat (klein gehackt)
+
+ID:670 | CAT:Schmoren | CUISINE:Deutsch | MEAL:hauptgericht
+  NAME: Schinken-Pilz-Sandwich
+  DESC: Schinken-Pilz-Sandwich - perfekter Lunch. Eine Bewertung und für mega befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+  INGR: Zwiebel(n) | Champignons | Scheibe/n Schinken (roher (Schwarzwälder)) | Frischkäse | Senf
+
+ID:685 | CAT:Dünsten | CUISINE:Deutsch | MEAL:hauptgericht
+  NAME: Lachsfilets in Backpapier gegart
+  DESC: Lachsfilets in Backpapier gegart - ein schnelles Mittagessen aus dem Ofen. Gib jetzt die erste Bewertung für das Rezept von eisbobby ab! Mit ► Portion
+  INGR: Lachsfilet(s) (à 150 g, ohne Haut) | kleine Kartoffel(n) (festkochend, geputzt, geschält, in dünne Scheiben geschnitten) | m.-große Karotte(n) (gewaschen, geputzt, in dünne Scheiben geschnitten) | kleine Lauchzwiebel(n) (geputzt, gewaschen, in dünne Ringe geschnitten) | große Paprikaschote(n) (gewaschen, gehäutet, entkernt, in Streifen geschnitten)
+
+ID:696 | CAT:Gemüse | CUISINE:Deutsch | MEAL:hauptgericht
+  NAME: Spinatsalat mit Ziegenkäse, Walnüssen und Äpfeln
+  DESC: Spinatsalat mit Ziegenkäse, Walnüssen und Äpfeln - ein einfaches und leckeres Mittagessen. Eine Bewertung und für sehr gut befunden. Mit ► Portionsrec
+  INGR: Spinat (frischer) | Apfel | Ziegenkäsetaler | Walnüsse | Sonnenblumenöl
+
+ID:701 | CAT:Gemüse | CUISINE:Deutsch | MEAL:hauptgericht
+  NAME: Buntes Ofengemüse
+  DESC: Buntes Ofengemüse - Ein farbenfroher Genuss aus dem Ofen für jede Jahreszeit. Über 17 Bewertungen und für ausgezeichnet befunden. Mit ► Portionsrechne
+  INGR: Pck. Chefkoch x Ostmann Gewürzzubereitung für Ofengemüse | Drillinge | Gemüse (z.B. Paprika, Zucchini, Champignons) | Cherrytomate(n) | Zwiebel(n), rote
+
+ID:710 | CAT:Kartoffeln | CUISINE:Deutsch | MEAL:hauptgericht
+  NAME: Älpler Rösti
+  DESC: Älpler Rösti - Mittagessen. Gib jetzt die erste Bewertung für das Rezept von LavaCHilli ab! Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+  INGR: Kartoffel(n) (geschält) | Prise(n) Salz | Olivenöl | Sauerkraut (abgetropft) | Käse (light)
+
+ID:712 | CAT:Hülsenfrüchte | CUISINE:Deutsch | MEAL:hauptgericht
+  NAME: Linsen-Ragout
+  DESC: Linsen-Ragout - IBDMS Mittagessen. Gib jetzt die erste verlässliche Bewertung für das Rezept ab! Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+  INGR: Linsen, rote | Paprikaschote(n), rote (oder gelb) | Lauchzwiebel(n) | Rapsöl | kleine Rostbratwürstchen
+
+ID:750 | CAT:Brot und Brötchen | CUISINE:Deutsch | MEAL:grundrezept
+  NAME: Zwiebelbrot mit Frischkäse und Speck
+  DESC: Zwiebelbrot mit Frischkäse und Speck - Als Beilage zum Grillen, aber auch für zwischendurch. Gib jetzt die erste Bewertung für das Rezept von Henglein
+  INGR: Pck. HENGLEIN Frischer Pizzateig (400 g) | Kräuterfrischkäse | Zwiebel(n), rote | Speckwürfel | Ei(er)
+
+ID:751 | CAT:Pasta & Nudel | CUISINE:Deutsch | MEAL:hauptgericht
+  NAME: Schneller Maultaschenauflauf mit Schinken-Käse-Sahnesauce
+  DESC: Schneller Maultaschenauflauf mit Schinken-Käse-Sahnesauce - Schneller und köstlicher Maultaschenauflauf. Über 4 Bewertungen und für lecker befunden. M
+  INGR: Pck. BÜRGER Maultaschen traditionell schwäbisch | Schinkenwürfel | Emmentaler (geriebener) | Ei(er) | Sahne
+
+ID:766 | CAT:Gemüse | CUISINE:Deutsch | MEAL:hauptgericht
+  NAME: Knusprige Frühlingsrollen
+  DESC: Knusprige Frühlingsrollen - Ergibt ca. 7 Stück – auch als vegane Variante möglich. Über 8 Bewertungen und für sehr lecker befunden. Mit ► Portionsrech
+  INGR: Pck. HENGLEIN Frischer Strudelteig (300 g) | Hackfleisch (gemischt) | Gemüsezwiebel(n) | Paprikaschote(n), rote (und gelb) | Zuckerschote(n)
+
+ID:767 | CAT:Eier | CUISINE:Deutsch | MEAL:hauptgericht
+  NAME: Strammer Max
+  DESC: Strammer Max - Hausmannskost. Über 55 Bewertungen und für vorzüglich befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+  INGR: Butter | Scheibe/n Brot | Scheibe/n Rohschinken | Gewürzgurke(n) | Cocktailtomaten
+
+ID:793 | CAT:Auflauf | CUISINE:Deutsch | MEAL:hauptgericht
+  NAME: Schupfnudel-Hackfleisch-Auflauf mit Gemüse
+  DESC: Schupfnudel-Hackfleisch-Auflauf mit Gemüse - Goldbraun überbacken: Schupfnudeln treffen auf würziges Hack & frisches Gemüse. Über 125 Bewertungen und 
+  INGR: Pck. HENGLEIN Feine Schupfnudeln (500 g) | Zwiebel(n) | Stange/n Lauch (Porree) | Zucchini | Kirschtomate(n)
+
+ID:808 | CAT:Gemüse | CUISINE:Deutsch | MEAL:hauptgericht
+  NAME: Single-Abendessen Nr. 2 mit Reis vom Vortag
+  DESC: Single-Abendessen Nr. 2 mit Reis vom Vortag - Reisfrikadellen mit Radieschen-Quark. Über 6 Bewertungen und für sehr lecker befunden. Mit ► Portionsrec
+  INGR: Reis ((ca.) gekochter vom Vortag) | m.-große Zwiebel(n) (fein gewürfelt) | kleine Möhre(n) (grob geraspelt) | Käse (geriebener (nach eigenem Geschmack)) | Paniermehl
+
+ID:824 | CAT:Braten | CUISINE:Deutsch | MEAL:hauptgericht
+  NAME: Single-Abendessen Nr. 63
+  DESC: Single-Abendessen Nr. 63 - Toast mit Geflügelsalami, Spiegeleiern und Lauchzwiebel. Über 3 Bewertungen und für raffiniert befunden. Mit ► Portionsrech
+  INGR: Scheibe/n Toastbrot (Vollkorn) | Butter (für den Toast) | Scheibe/n Salami ((Geflügel-), kleine Scheiben) | Ei(er) | dünne Lauchzwiebel(n)
+
+ID:841 | CAT:Kartoffeln | CUISINE:Deutsch | MEAL:hauptgericht
+  NAME: Kartoffeltaler mit Kräuterquark - leichtes Abendbrot
+  DESC: Kartoffeltaler mit Kräuterquark - leichtes Abendbrot - gesund, gut vorzubereiten, ohne Mehl und zum Einfrieren geeignet. Eine Bewertung und für raffin
+  INGR: Kartoffel(n) | Kümmel | Butterschmalz | Frühlingszwiebel(n) | Blattpetersilie
+
+ID:853 | CAT:Geflügel | CUISINE:Deutsch | MEAL:hauptgericht
+  NAME: Single-Abendessen Nr. 67
+  DESC: Single-Abendessen Nr. 67 - Bärlauch-Kapü unter in Bärlauchbutter geschwenkten Champignons mit Putenfilet. Eine Bewertung und für super befunden. Mit ►
+  INGR: Port. Putenbrustfilet(s) (gebraten, vom Vortag) | Kartoffel(n) | Milch (1,5%) | Butter | Butter (Bärlauch- selbstgemacht)
+
+ID:973 | CAT:Trennkost | CUISINE:Deutsch | MEAL:hauptgericht
+  NAME: Gefüllte Paprika mit Hackfleisch, Feta und Zucchini
+  DESC: Gefüllte Paprika mit Hackfleisch, Feta und Zucchini - Abendessen für Schlank im Schlaf (SiS). Über 246 Bewertungen und für köstlich befunden. Mit ► Po
+  INGR: Putenhackfleisch | Feta-Käse (evtl. die Light-Variante, gewürfelt) | Paprikaschote(n) (rot und gelb) | m.-große Zucchini (gewürfelt) | Zwiebel(n) (rot, gewürfelt)
+
+ID:996 | CAT:Braten | CUISINE:Deutsch | MEAL:hauptgericht
+  NAME: Zucchini-Ei-Pfanne
+  DESC: Zucchini-Ei-Pfanne - Abendessen ohne Kohlenhydrate. Über 42 Bewertungen und für köstlich befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tipps!
+  INGR: Zucchini | Stange/n Lauchzwiebel(n) | Ei(er) | Öl (zum Braten) | Salz und Pfeffer
+
+ID:1012 | CAT:Überbacken | CUISINE:Deutsch | MEAL:hauptgericht
+  NAME: Fettarme überbackene Auberginen
+  DESC: Fettarme überbackene Auberginen - SiS Abendessen, Low Carb, schnell, einfach, fettarm, kalorienarm. Über 105 Bewertungen und für ausgezeichnet befunde
+  INGR: Aubergine(n) | m.-große Zwiebel(n) (in Ringe geschnitten) | Cherrytomate(n) (oder Datteltomaten, in Scheiben) | n. B. Salz und Pfeffer | n. B. Gewürz(e) (und Kräuter nach Wahl)
+
+ID:1015 | CAT:Braten | CUISINE:Deutsch | MEAL:hauptgericht
+  NAME: Bauernbrot mit Mett und Rührei
+  DESC: Bauernbrot mit Mett und Rührei - Blitzschnelles warmes Abendessen und absolut Low - Budget. Über 6 Bewertungen und für super befunden. Mit ► Portionsr
+  INGR: Scheibe/n Bauernbrot (möglichst groß) | Mett (ungewürztes) | kleine Zwiebel(n) (klein gewürfelt) | Knoblauchzehe(n) (durchgepresst) | Gewürzgurke(n) (klein gewürfelt)
+
+ID:1036 | CAT:Gemüse | CUISINE:Deutsch | MEAL:hauptgericht
+  NAME: Nudeln mit Spargel und Rhabarber
+  DESC: Nudeln mit Spargel und Rhabarber - Single-Abendessen Nr. 218. Über 3 Bewertungen und für lecker befunden. Mit ► Portionsrechner ► Kochbuch ► Video-Tip
+  INGR: Nudeln | Spargel, weißer | Spargel, grüner | Rhabarber | Puderzucker
+

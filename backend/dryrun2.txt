@@ -1,0 +1,103 @@
+﻿Rezepte: 610
+
+ID 20
+  ALT : Dessert mit Weintrauben
+  NEU : Dessert mit Weintrauben
+  DESC: Frucht-Dessert mit Weintrauben, Zucker, Vanillinzucker, verfeinert mit Magerquark und Schlagsahne. Vegetarisch.
+
+ID 22
+  ALT : Weincreme Lisa
+  NEU : Weincreme Lisa
+  DESC: Dessert mit Liter Wein, Vanilleschoten, Stärkemehl, verfeinert mit Zucker und Zitronensaft. Vegetarisch.
+
+ID 23
+  ALT : Marzipanmousse
+  NEU : Marzipanmousse
+  DESC: Dessert mit Marzipanrohmasse, Eigelb, Vanillezucker, verfeinert mit Amaretto und Crème fraîche.
+
+ID 24
+  ALT : Schwarzes Schokoladeneis
+  NEU : Schokoladeneis
+  DESC: Dessert mit Schokolade, Milch, Kakaopulver, verfeinert mit Puderzucker und Tropfen Rumaroma. Vegetarisch.
+
+ID 25
+  ALT : Kekstraum
+  NEU : Kekstraum
+  DESC: Frucht-Dessert mit Butterkekse, Schlagsahne, Sahnequark, verfeinert mit Vanillezucker und Zucker. Vegetarisch.
+
+ID 28
+  ALT : Philadelphia - Creme mit Kirschen
+  NEU : Philadelphia - Creme mit Kirschen
+  DESC: Dessert mit Frischkäse, Zucker, Vanillezucker, verfeinert mit Eigelb und süße Sahne. Vegetarisch.
+
+ID 29
+  ALT : Warme Apfelstreusel
+  NEU : Warme Apfelstreusel
+  DESC: Frucht-Dessert mit Äpfel, Zitronen, Mehl, verfeinert mit Zucker und Zimt. Vegetarisch.
+
+ID 30
+  ALT : Quitten-Sambuk - russische Quittenmousse
+  NEU : Quitten-Sambuk - russische Quittenmousse
+  DESC: Dessert mit Fruchtfleisch, Portwein, Zucker, verfeinert mit Sternanis und Nelken. Russisch.
+
+ID 130
+  ALT : Brötchen für Hamburger
+  NEU : Brötchen für Hamburger
+  DESC: Gebackenes mit Weizenmehl, Milch, Butter, verfeinert mit Trockenhefe. Vegetarisch.
+
+ID 139
+  ALT : Rhabarber-Schmandkuchen
+  NEU : Rhabarber-Schmandkuchen
+  DESC: Kuchen mit Mehl, Butter, Zucker, verfeinert mit Vanillezucker. Vegetarisch.
+
+ID 140
+  ALT : Ananas - Mandarinen - Blechkuchen von Elli K.
+  NEU : Ananas - Mandarinen - Blechkuchen
+  DESC: Kuchen mit Butter, Zucker und Prisen Salz. Vegetarisch.
+
+ID 141
+  ALT : No Bake Schoko-Cheesecake
+  NEU : No Bake Schoko-Cheesecake
+  DESC: Kuchen mit Butterkekse, Butter, Zartbitterschokolade, verfeinert mit Frischkäse und Mascarpone. Vegetarisch.
+
+ID 142
+  ALT : Dirks Apfelkuchen mit Vanillepudding und Zimtstreuseln
+  NEU : Apfelkuchen mit Vanillepudding und Zimtstreuseln
+  DESC: Kuchen mit Mehl, Zucker, Vanillezucker, verfeinert mit Butter. Vegetarisch.
+
+ID 143
+  ALT : Buttermilch Sandwichbrot
+  NEU : Buttermilch Sandwichbrot
+  DESC: Gebackenes mit Mehl, Hefe und Zucker. Vegetarisch.
+
+ID 148
+  ALT : Dicke Waffeln
+  NEU : Dicke Waffeln
+  DESC: Gebackenes mit Mehl, Backpulver, Vanillezucker, verfeinert mit Zucker und Butter. Vegetarisch.
+
+ID 150
+  ALT : K's Apfelmuswaffeln
+  NEU : Apfelmuswaffeln
+  DESC: Gebackenes mit Apfelmus, Butter, Mehl, verfeinert mit Backpulver. Vegetarisch.
+
+ID 153
+  ALT : Baklava – türkische Süßspeise selber machen
+  NEU : Baklava
+  DESC: Kuchen mit Haselnüsse, Mandeln, Pistazien, verfeinert mit Zucker und Zimtpulver. Türkisch, vegetarisch.
+
+ID 154
+  ALT : Tiramisu klassisch - unwiderstehlich lecker
+  NEU : Tiramisu klassisch
+  DESC: Dessert mit Mascarpone, Puderzucker, Löffelbiskuits, verfeinert mit Eigelb und Eiweiß. Italienisch, vegetarisch.
+
+ID 155
+  ALT : Schichtdessert mit Weintrauben
+  NEU : Schichtdessert mit Weintrauben
+  DESC: Cremiges Dessert mit Weintrauben, Quark, Mascarpone, verfeinert mit Schlagsahne und Kekse. Vegetarisch.
+
+ID 156
+  ALT : Traubendessert
+  NEU : Traubendessert
+  DESC: Dessert mit Quark, Mascarpone, Zucker, verfeinert mit Sahne und Weintrauben. Vegetarisch.
+
+... (zeige 20 von 610)
