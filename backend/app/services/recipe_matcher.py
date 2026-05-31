@@ -35,6 +35,12 @@ from ..models import (
 
 logger = logging.getLogger(__name__)
 
+# Minimum fraction of ingredients that must match active offers per budget_sensitivity level.
+# Acts as a hard filter; at sensitivity=1 only 10% need to match (very inclusive).
+_OFFER_MIN_PERCENT = {1: 0.10, 2: 0.20, 3: 0.30, 4: 0.40, 5: 0.50}
+# If fewer than this many recipes pass the offer filter, relax by one sensitivity level.
+_OFFER_MIN_POOL = 20
+
 
 @dataclass
 class ScoredRecipe:
@@ -249,40 +255,66 @@ def suggest_dishes(
     if not filtered:
         return []
 
-    # 3) Soft scoring
-    # Pre-load all main ingredients for filtered recipes in one query
+    # 3) Offer percentage filter — load ALL ingredients once, compute hit rate per recipe
     recipe_ids = [r.id for r in filtered]
-    all_main_ings: list[RecipeIngredient] = list(db.scalars(
+    all_ings: list[RecipeIngredient] = list(db.scalars(
         select(RecipeIngredient)
-        .where(
-            RecipeIngredient.recipe_id.in_(recipe_ids),
-            RecipeIngredient.is_main == True,  # noqa: E712
-        )
+        .where(RecipeIngredient.recipe_id.in_(recipe_ids))
     ).all())
 
     ings_by_recipe: dict[int, list[RecipeIngredient]] = {}
-    for ing in all_main_ings:
+    for ing in all_ings:
         ings_by_recipe.setdefault(ing.recipe_id, []).append(ing)
+
+    # Pre-compute offer matches per recipe (reused in scoring for match_reasons)
+    offer_match_ids: dict[int, list[int]] = {}
+    pct_by_recipe: dict[int, float] = {}
+    for recipe in filtered:
+        ings = ings_by_recipe.get(recipe.id, [])
+        if not ings:
+            pct_by_recipe[recipe.id] = 0.0
+            offer_match_ids[recipe.id] = []
+            continue
+        hit_ids: list[int] = []
+        for ing in ings:
+            offer = find_matching_offer(ing.normalized_name, active_offers)
+            if offer:
+                hit_ids.append(offer.id)
+        pct_by_recipe[recipe.id] = len(hit_ids) / len(ings)
+        offer_match_ids[recipe.id] = hit_ids
+
+    min_pct = _OFFER_MIN_PERCENT.get(budget_sensitivity, 0.30)
+    offer_filtered = [r for r in filtered if pct_by_recipe.get(r.id, 0.0) >= min_pct]
+
+    # Fallback: if pool too small, relax by one sensitivity step
+    if len(offer_filtered) < _OFFER_MIN_POOL and budget_sensitivity > 1:
+        relaxed_pct = _OFFER_MIN_PERCENT.get(budget_sensitivity - 1, 0.10)
+        logger.info(
+            "Offer filter pool too small (%d < %d) at %.0f%% — relaxing to %.0f%%",
+            len(offer_filtered), _OFFER_MIN_POOL, min_pct * 100, relaxed_pct * 100,
+        )
+        offer_filtered = [r for r in filtered if pct_by_recipe.get(r.id, 0.0) >= relaxed_pct]
+
+    filtered = offer_filtered
+
+    logger.info(
+        "Matcher: %d after offer filter (budget_sensitivity=%d, min=%.0f%%)",
+        len(filtered), budget_sensitivity, min_pct * 100,
+    )
+
+    if not filtered:
+        return []
 
     scored: list[ScoredRecipe] = []
     for recipe in filtered:
         score = 0.0
         reasons: list[str] = []
-        matched_offer_ids: list[int] = []
+        matched_offer_ids: list[int] = offer_match_ids.get(recipe.id, [])
 
-        # Angebots-Match on main ingredients
-        main_ings = ings_by_recipe.get(recipe.id, [])
-        if main_ings:
-            hits = 0
-            for ing in main_ings:
-                offer = find_matching_offer(ing.normalized_name, active_offers)
-                if offer:
-                    hits += 1
-                    matched_offer_ids.append(offer.id)
-            offer_score = (hits / len(main_ings)) * budget_sensitivity * 12
-            score += offer_score
-            if hits:
-                reasons.append(f"{hits}/{len(main_ings)} Zutaten im Angebot")
+        # Offer match info — already used as hard filter above, shown as reason only
+        total_ings = len(ings_by_recipe.get(recipe.id, []))
+        if matched_offer_ids and total_ings:
+            reasons.append(f"{len(matched_offer_ids)}/{total_ings} Zutaten im Angebot")
 
         # Loved dish
         if recipe.name.lower() in loved_names:
