@@ -287,10 +287,10 @@ export default function Profile() {
               <p className="text-xs text-stone-500 mt-0.5">Kuchen, Süßspeisen und Nachspeisen</p>
             </div>
             <div
-              className={`relative ml-4 h-6 w-11 shrink-0 rounded-full transition-colors ${f.include_desserts ? 'bg-emerald-600' : 'bg-stone-300'}`}
+              className={`relative ml-4 h-7 w-12 shrink-0 overflow-hidden rounded-full transition-colors duration-200 ${f.include_desserts ? 'bg-emerald-600' : 'bg-stone-300'}`}
               onClick={() => setForm({ ...f, include_desserts: !f.include_desserts })}
             >
-              <span className={`toggle-knob absolute top-0.5 h-5 w-5 rounded-full bg-white shadow transition-transform ${f.include_desserts ? 'translate-x-5' : 'translate-x-0.5'}`} />
+              <span className={`toggle-knob absolute top-1 h-5 w-5 rounded-full bg-white shadow transition-all duration-200 ${f.include_desserts ? 'left-6' : 'left-1'}`} />
             </div>
           </label>
         </Card>

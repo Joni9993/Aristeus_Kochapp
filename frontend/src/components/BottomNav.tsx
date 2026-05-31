@@ -74,11 +74,11 @@ export default function BottomNav() {
               <button
                 type="button"
                 onClick={toggleDark}
-                className={`relative h-6 w-11 rounded-full transition-colors ${dark ? 'bg-emerald-600' : 'bg-stone-300'}`}
+                className={`relative h-7 w-12 shrink-0 overflow-hidden rounded-full transition-colors duration-200 ${dark ? 'bg-emerald-600' : 'bg-stone-300'}`}
                 aria-label="Dunkles Design umschalten"
               >
                 <span
-                  className={`toggle-knob absolute top-0.5 h-5 w-5 rounded-full bg-white shadow transition-transform ${dark ? 'translate-x-5' : 'translate-x-0.5'}`}
+                  className={`toggle-knob absolute top-1 h-5 w-5 rounded-full bg-white shadow transition-all duration-200 ${dark ? 'left-6' : 'left-1'}`}
                 />
               </button>
             </div>
