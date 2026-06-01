@@ -57,6 +57,10 @@ def get_freshness(
         now = datetime.now(timezone.utc)
         today = now.date()
 
+        fetched_at = brochure.fetched_at
+        if fetched_at.tzinfo is None:
+            fetched_at = fetched_at.replace(tzinfo=timezone.utc)
+
         if brochure.valid_to:
             try:
                 valid_to_date = date.fromisoformat(brochure.valid_to)
@@ -64,9 +68,6 @@ def get_freshness(
             except ValueError:
                 status = "fresh"
         else:
-            fetched_at = brochure.fetched_at
-            if fetched_at.tzinfo is None:
-                fetched_at = fetched_at.replace(tzinfo=timezone.utc)
             age_hours = (now - fetched_at).total_seconds() / 3600
             status = "fresh" if age_hours < 30 else ("stale" if age_hours < 168 else "outdated")
 
