@@ -20,10 +20,12 @@ from .kaufda import refresh_plz
 
 logger = logging.getLogger(__name__)
 
-# Pre-generation targets: 30 suggestions per household (3 LLM calls à 10,
-# exclude list accumulates between calls) + recipes for all of them.
+# Pre-generation targets: 30 suggestions per household (LLM calls à max 10,
+# exclude list accumulates between calls; the validator drops some per call,
+# so we loop until the target is reached) + recipes for all of them.
 _PREGEN_TOTAL = 30
 _PREGEN_BATCH = 10
+_PREGEN_MAX_CALLS = 5
 
 scheduler = AsyncIOScheduler(timezone="Europe/Berlin")
 
@@ -130,8 +132,15 @@ async def _run_pregeneration_async(week_start: str | None = None, force: bool = 
                 db.commit()
                 db.refresh(plan)
 
-                for _ in range(_PREGEN_TOTAL // _PREGEN_BATCH):
-                    await run_suggestions_step(plan.id, household, db, count=_PREGEN_BATCH)
+                for _ in range(_PREGEN_MAX_CALLS):
+                    n = len([d for d in plan.dishes if d.dish_status == "suggestion"])
+                    if n >= _PREGEN_TOTAL:
+                        break
+                    await run_suggestions_step(
+                        plan.id, household, db,
+                        count=min(_PREGEN_BATCH, _PREGEN_TOTAL - n),
+                    )
+                    db.refresh(plan)
 
                 generated = await pregenerate_recipes_for_plan(plan, household, db)
                 logger.info(

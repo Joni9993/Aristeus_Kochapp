@@ -107,13 +107,21 @@ def _parse_json_content(content: str, model: str, purpose: str) -> dict:
     except json.JSONDecodeError:
         pass
 
-    # Extract the outermost JSON object — models sometimes wrap it in prose
-    start, end = repaired.find("{"), repaired.rfind("}")
-    if start != -1 and end > start:
+    # Extract embedded JSON — reasoning models sometimes leak thinking prose
+    # around (or before) the JSON object. Try each '{' as a candidate start;
+    # raw_decode stops at the end of the first valid object.
+    decoder = json.JSONDecoder(strict=False)
+    pos = repaired.find("{")
+    attempts = 0
+    while pos != -1 and attempts < 20:
         try:
-            return json.loads(repaired[start:end + 1], strict=False)
+            obj, _ = decoder.raw_decode(repaired[pos:])
+            if isinstance(obj, dict):
+                return obj
         except json.JSONDecodeError:
             pass
+        pos = repaired.find("{", pos + 1)
+        attempts += 1
 
     logger.warning(
         "JSON parse failed for %s (purpose=%s) | content[:300]: %s",

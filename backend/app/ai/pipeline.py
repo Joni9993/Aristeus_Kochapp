@@ -245,8 +245,10 @@ async def _llm_suggestions(
         exclude_names=avoid or None,
     )
 
+    # Budget is deliberately huge: free models cost nothing, and reasoning
+    # models with high variance get truncated mid-reasoning by tight limits
     raw, model, usage = await chat_completion_json(
-        messages, purpose="dish_suggestions", temperature=0.9, max_tokens=8000,
+        messages, purpose="dish_suggestions", temperature=0.9, max_tokens=16000,
     )
     _log_api_call(household.id, model, usage, "dish_suggestions", db)
 
@@ -414,7 +416,7 @@ async def _llm_recipe(
         offers_text=offers_text,
     )
 
-    raw, model, usage = await chat_completion_json(messages, purpose="recipe_gen", max_tokens=4000)
+    raw, model, usage = await chat_completion_json(messages, purpose="recipe_gen", max_tokens=8000)
     _log_api_call(household.id, model, usage, "recipe_gen", db)
 
     try:
@@ -449,7 +451,7 @@ async def _llm_recipes_batch(
     # ~1200 tokens per recipe JSON + generous headroom for reasoning models —
     # a too-tight limit truncates the JSON and wastes the whole batch call
     raw, model, usage = await chat_completion_json(
-        messages, purpose="recipe_batch", max_tokens=1500 * len(dishes) + 2500,
+        messages, purpose="recipe_batch", max_tokens=2000 * len(dishes) + 6000,
     )
     _log_api_call(household.id, model, usage, "recipe_batch", db)
 
