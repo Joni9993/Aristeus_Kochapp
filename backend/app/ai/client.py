@@ -77,6 +77,12 @@ async def _call_once(
         data = resp.json()
     elapsed = time.monotonic() - t0
 
+    # OpenRouter can return HTTP 200 with an error body instead of choices
+    # (e.g. provider errors, free-tier daily cap)
+    if not data.get("choices"):
+        err = data.get("error") or {}
+        raise ValueError(f"No choices in response: {err.get('message') or str(data)[:200]}")
+
     content = data["choices"][0]["message"].get("content")
     if not content:
         raise ValueError(
