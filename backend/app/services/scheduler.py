@@ -85,19 +85,20 @@ def _next_monday() -> str:
     return (today + timedelta(days=days_ahead)).isoformat()
 
 
-async def _run_pregeneration_async() -> None:
+async def _run_pregeneration_async(week_start: str | None = None, force: bool = False) -> None:
     """Sunday 04:00: pre-generate next week's plan for every onboarded household.
 
     Creates the plan, generates 30 suggestions and all recipes so that opening
     the app on Sunday/Monday needs zero LLM calls. Households that already have
-    a plan for the coming week are skipped.
+    a usable plan for that week are skipped (plans in status 'error' don't
+    count). week_start/force are for manual runs.
     """
     from ..ai.pipeline import pregenerate_recipes_for_plan, run_suggestions_step
 
     logger.info("Weekly pre-generation started")
     db = SessionLocal()
     try:
-        week_start = _next_monday()
+        week_start = week_start or _next_monday()
         households = db.scalars(
             select(Household)
             .join(Profile)
@@ -110,9 +111,10 @@ async def _run_pregeneration_async() -> None:
                     select(WeeklyPlan).where(
                         WeeklyPlan.household_id == household.id,
                         WeeklyPlan.week_start_date == week_start,
+                        WeeklyPlan.status != "error",
                     )
                 )
-                if existing:
+                if existing and not force:
                     logger.info(
                         "Pre-generation: household %d already has plan %d for %s — skipped",
                         household.id, existing.id, week_start,
