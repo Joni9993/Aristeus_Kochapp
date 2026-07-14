@@ -14,9 +14,17 @@ class Settings(BaseSettings):
     allowed_origins: str = "http://localhost:5173"
 
     openrouter_api_key: str = ""
-    openrouter_default_model: str = "google/gemini-2.0-flash-exp:free"
+    openrouter_default_model: str = "qwen/qwen3-next-80b-a3b-instruct:free"
     # Comma-separated fallback chain, tried in order after default fails
-    openrouter_fallback_models: str = "meta-llama/llama-3.3-70b-instruct:free"
+    openrouter_fallback_models: str = (
+        "google/gemma-4-31b-it:free,"
+        "meta-llama/llama-3.3-70b-instruct:free,"
+        "nvidia/nemotron-3-super-120b-a12b:free"
+    )
+
+    # Recipe catalog (Chefkoch scrape) is deactivated — AI suggestions are the
+    # primary path. Set to true to re-enable catalog-first matching.
+    use_recipe_catalog: bool = False
 
     @property
     def model_chain(self) -> list[str]:

@@ -2,16 +2,17 @@
 
 Steps:
   1. Filter cooking-relevant offers
-  2. Build learning context from feedback history (for scoring)
-  3. Suggest dishes from recipe catalog (deterministic, no LLM)
-  4. (Validation built into matcher filters)
+  2. Build learning context from feedback history
+  3. LLM suggests dishes (offers + profile + learned preferences + anti-repetition)
+  4. Deterministic validation (diet, allergies, cook time)
   5. User selects dishes + assigns days (UI — split point)
-  6. Load recipe from catalog + scale to household size (no LLM)
+  6. LLM generates full recipes for confirmed dishes (parallel)
   7. Aggregate shopping list
-  8. Weekly feedback aggregation (separate scheduled call — still uses LLM)
+  8. Weekly feedback aggregation (separate scheduled call)
 
-Old LLM paths for steps 3 and 6 are kept as fallback for plans created
-before the recipe catalog (dish.recipe_id IS NULL).
+The Chefkoch recipe catalog path is deactivated (settings.use_recipe_catalog,
+default false) — the LLM is the primary suggestion/recipe source. Catalog code
+is kept behind the flag and for old plans whose dishes carry a recipe_id.
 """
 
 import asyncio
@@ -85,7 +86,7 @@ def _filter_monday_only(offers: list[Offer], week_start: str) -> list[Offer]:
 
 
 # ---------------------------------------------------------------------------
-# Step 3: Suggest dishes from catalog (deterministic)
+# Step 3: Suggest dishes (LLM primary; catalog only behind use_recipe_catalog)
 # ---------------------------------------------------------------------------
 
 async def generate_suggestions(
@@ -97,14 +98,37 @@ async def generate_suggestions(
     exclude_names: list[str] | None = None,
     max_desserts: int = 2,
 ) -> list[dict]:
-    """Return suggestion dicts from the recipe catalog.
-
-    Each dict has keys: name, beschreibung, kategorie, kochzeit_min, recipe_id.
-    Falls back to LLM if catalog is empty.
+    """Return suggestion dicts, each with keys:
+    name, beschreibung, kategorie, kochzeit_min, recipe_id.
     """
-    from ..services.recipe_matcher import suggest_dishes, ScoredRecipe
+    from ..config import get_settings
 
-    # Collect recipe_ids already suggested on this plan
+    if get_settings().use_recipe_catalog:
+        catalog = _catalog_suggestions(
+            household=household, plan=plan, db=db,
+            count=count, max_desserts=max_desserts,
+        )
+        if catalog:
+            return catalog
+        logger.warning("Recipe catalog empty — falling back to LLM for plan %d", plan.id)
+
+    return await _llm_suggestions(
+        household=household, plan=plan, db=db,
+        count=count, exclude_names=exclude_names,
+    )
+
+
+def _catalog_suggestions(
+    *,
+    household: Household,
+    plan: WeeklyPlan,
+    db: DbSession,
+    count: int,
+    max_desserts: int,
+) -> list[dict]:
+    """Deactivated Chefkoch catalog path — only used when use_recipe_catalog=true."""
+    from ..services.recipe_matcher import suggest_dishes
+
     existing_recipe_ids = [
         d.recipe_id for d in plan.dishes
         if d.dish_status == "suggestion" and d.recipe_id is not None
@@ -119,23 +143,18 @@ async def generate_suggestions(
         max_desserts=max_desserts,
     )
 
-    if scored:
-        results = []
-        for sr in scored:
-            r = sr.recipe
-            reasons_str = ", ".join(sr.match_reasons) if sr.match_reasons else ""
-            results.append({
-                "name": r.name,
-                "beschreibung": (r.description or reasons_str or "")[:300],
-                "kategorie": _map_diet_category(r),
-                "kochzeit_min": r.cook_time_min or 30,
-                "recipe_id": r.id,
-            })
-        return results
-
-    # Fallback: catalog empty → LLM
-    logger.warning("Recipe catalog empty — falling back to LLM suggestions for plan %d", plan.id)
-    return await _llm_suggestions_fallback(household=household, plan=plan, db=db, count=count, exclude_names=exclude_names)
+    results = []
+    for sr in scored:
+        r = sr.recipe
+        reasons_str = ", ".join(sr.match_reasons) if sr.match_reasons else ""
+        results.append({
+            "name": r.name,
+            "beschreibung": (r.description or reasons_str or "")[:300],
+            "kategorie": _map_diet_category(r),
+            "kochzeit_min": r.cook_time_min or 30,
+            "recipe_id": r.id,
+        })
+    return results
 
 
 def _map_diet_category(recipe: Recipe) -> str:
@@ -151,10 +170,48 @@ def _map_diet_category(recipe: Recipe) -> str:
 
 
 # ---------------------------------------------------------------------------
-# LLM fallback for suggestions (old Step 3)
+# LLM suggestions (primary path)
 # ---------------------------------------------------------------------------
 
-async def _llm_suggestions_fallback(
+def _recent_dish_names(household: Household, plan: WeeklyPlan, db: DbSession, limit: int = 30) -> list[str]:
+    """Dish names from recent plans — confirmed dishes from the last 8 weeks plus
+    everything suggested on the last 2 plans, so suggestions rotate week to week."""
+    from datetime import date, timedelta
+
+    names: list[str] = []
+    seen: set[str] = set()
+
+    cutoff = (date.today() - timedelta(weeks=8)).isoformat()
+    confirmed = db.scalars(
+        select(PlanDish)
+        .join(WeeklyPlan)
+        .where(
+            WeeklyPlan.household_id == household.id,
+            WeeklyPlan.id != plan.id,
+            WeeklyPlan.week_start_date >= cutoff,
+            PlanDish.dish_status == "confirmed",
+        )
+    ).all()
+
+    recent_plans = db.scalars(
+        select(WeeklyPlan)
+        .where(WeeklyPlan.household_id == household.id, WeeklyPlan.id != plan.id)
+        .order_by(WeeklyPlan.id.desc())
+        .limit(2)
+    ).all()
+    suggested = [d for p in recent_plans for d in p.dishes]
+
+    for d in confirmed + suggested:
+        key = d.name.strip().lower()
+        if key and key not in seen:
+            seen.add(key)
+            names.append(d.name.strip())
+        if len(names) >= limit:
+            break
+    return names
+
+
+async def _llm_suggestions(
     *,
     household: Household,
     plan: WeeklyPlan,
@@ -174,16 +231,24 @@ async def _llm_suggestions_fallback(
     profile_text = format_profile(profile)
     offers_text = format_offers(offers)
 
+    # Anti-repetition: same-plan suggestions + dishes from recent weeks
+    avoid = list(exclude_names or [])
+    for name in _recent_dish_names(household, plan, db):
+        if name not in avoid:
+            avoid.append(name)
+
     messages = build_suggestions_prompt(
         offers_text=offers_text,
         profile_text=profile_text,
         learn_text=learn_ctx,
         count=count,
         week_start=plan.week_start_date,
-        exclude_names=exclude_names,
+        exclude_names=avoid or None,
     )
 
-    raw, model, usage = await chat_completion_json(messages, purpose="dish_suggestions")
+    raw, model, usage = await chat_completion_json(
+        messages, purpose="dish_suggestions", temperature=0.9,
+    )
     _log_api_call(household.id, model, usage, "dish_suggestions", db)
 
     try:
@@ -314,8 +379,10 @@ async def generate_recipe_for_dish(
     household: Household,
     db: DbSession,
 ) -> RecipeResponse | None:
-    # New path: catalog
-    if dish.recipe_id is not None:
+    from ..config import get_settings
+
+    # Catalog path only for old dishes carrying a recipe_id AND if re-enabled
+    if get_settings().use_recipe_catalog and dish.recipe_id is not None:
         result = _load_recipe_from_catalog(dish, household, db)
         if result:
             return result
@@ -324,11 +391,11 @@ async def generate_recipe_for_dish(
             dish.recipe_id, dish.name,
         )
 
-    # Fallback: LLM (old plans or catalog miss)
-    return await _llm_recipe_fallback(dish, household, db)
+    # Primary path: LLM
+    return await _llm_recipe(dish, household, db)
 
 
-async def _llm_recipe_fallback(
+async def _llm_recipe(
     dish: PlanDish,
     household: Household,
     db: DbSession,

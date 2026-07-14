@@ -15,7 +15,10 @@ def build_suggestions_prompt(
     exclude_hint = ""
     if exclude_names:
         names = ", ".join(f'"{n}"' for n in exclude_names)
-        exclude_hint = f"\nVermeide diese Gerichte (bereits vorgeschlagen): {names}.\n"
+        exclude_hint = (
+            f"\nDiese Gerichte wurden kürzlich vorgeschlagen oder gekocht — "
+            f"schlage sie NICHT erneut vor (auch keine nahezu identischen Varianten): {names}.\n"
+        )
 
     system = (
         "Du bist ein Kochassistent für deutsche Familien. "
@@ -37,6 +40,10 @@ def build_suggestions_prompt(
 Schlage {count} verschiedene Gerichte für diese Woche vor.
 Nutze dabei möglichst viele der genannten Angebote als Hauptzutaten.
 Beachte das Haushaltsprofil (Diät, Allergien, Kochzeit, Geschmack).
+Achte auf echte Abwechslung: unterschiedliche Küchen (z.B. deutsch, italienisch,
+asiatisch, orientalisch), unterschiedliche Hauptzutaten und Zubereitungsarten —
+nicht mehrmals dasselbe Grundgericht in Varianten. Mische bekannte
+Familienklassiker mit 2-3 kreativeren Ideen.
 
 Gib exakt dieses JSON zurück:
 {{

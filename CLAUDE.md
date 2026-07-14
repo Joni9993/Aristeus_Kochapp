@@ -19,8 +19,9 @@ Browser-basierte PWA-Familien-Kochapp. Liest Kaufda-Angebote, schlägt Gerichte 
 
 - **Backend:** FastAPI 0.136, SQLAlchemy 2.0, SQLite WAL, APScheduler, Alembic
 - **Frontend:** React 18, Vite 5, TypeScript, Tailwind CSS, React Router v6
-- **LLM:** OpenRouter, Modell-Chain: `gpt-oss-120b:free` → `llama-3.3-70b:free` → `gemini-2.0-flash:free`
-- **Deployment:** VPS, Caddy Reverse Proxy, systemd
+- **LLM:** OpenRouter, Modell-Chain (Stand 2026-07-14): `qwen3-next-80b-a3b-instruct:free` → `gemma-4-31b-it:free` → `llama-3.3-70b-instruct:free` → `nemotron-3-super-120b-a12b:free`. Fast-Failover: bei 429/Parse-Fehler sofort nächstes Modell; erst nach kompletter erfolgloser Runde 35s warten + zweite Runde. Free-Slugs sterben regelmäßig (gpt-oss-120b:free und gemini-2.0-flash-exp:free gaben 404) → bei 404-Fehlern zuerst `curl https://openrouter.ai/api/v1/models` gegen die Chain prüfen
+- **Rezeptquelle:** AI-Vorschläge sind der Primärpfad. Der Chefkoch-Katalog (`recipe_matcher.py`, `chefkoch_scraper.py`) ist **deaktiviert** (`USE_RECIPE_CATALOG=false`, Default) — Code bleibt hinter dem Flag erhalten
+- **Deployment:** Homeserver docker-vm (192.168.50.61), Stack `/opt/stacks/aristeus`, Auto-Deploy GitHub Actions → GHCR → Watchtower (≤5 min). Env-Änderungen: `aristeus.env` auf dem Server + `docker compose up -d`
 
 ## Lokal starten
 
