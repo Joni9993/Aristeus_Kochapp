@@ -246,7 +246,7 @@ async def _llm_suggestions(
     )
 
     raw, model, usage = await chat_completion_json(
-        messages, purpose="dish_suggestions", temperature=0.9, max_tokens=5000,
+        messages, purpose="dish_suggestions", temperature=0.9, max_tokens=8000,
     )
     _log_api_call(household.id, model, usage, "dish_suggestions", db)
 

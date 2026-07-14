@@ -55,6 +55,7 @@ async def _call_once(
     response_format: dict | None = None,
     temperature: float | None = None,
     max_tokens: int | None = None,
+    reasoning_effort: str | None = None,
 ) -> tuple[str, dict, float]:
     """Single HTTP call to OpenRouter. Returns (content, usage, elapsed_s). Raises on any failure."""
     body: dict[str, Any] = {"model": model, "messages": messages}
@@ -64,6 +65,10 @@ async def _call_once(
         body["temperature"] = temperature
     if max_tokens is not None:
         body["max_tokens"] = max_tokens
+    if reasoning_effort is not None:
+        # Reasoning models (Nemotron & Co.) otherwise burn 4000+ tokens thinking
+        # about a simple JSON task — that's latency and truncation risk
+        body["reasoning"] = {"effort": reasoning_effort}
 
     t0 = time.monotonic()
     async with httpx.AsyncClient(timeout=120) as client:
@@ -124,6 +129,7 @@ async def _run_chain(
     response_format: dict | None,
     temperature: float | None,
     max_tokens: int | None,
+    reasoning_effort: str | None,
     parse_json: bool,
 ) -> tuple[Any, str, dict]:
     """Try every model in the chain (fast failover, no per-model sleep).
@@ -148,6 +154,7 @@ async def _run_chain(
             try:
                 content, usage, elapsed = await _call_once(
                     model, messages, headers, response_format, temperature, max_tokens,
+                    reasoning_effort,
                 )
                 result = _parse_json_content(content, model, purpose) if parse_json else content
                 logger.info(
@@ -190,6 +197,7 @@ async def chat_completion(
         response_format=response_format,
         temperature=None,
         max_tokens=max_tokens,
+        reasoning_effort=None,
         parse_json=False,
     )
 
@@ -200,6 +208,7 @@ async def chat_completion_json(
     purpose: str = "general",
     temperature: float | None = None,
     max_tokens: int | None = None,
+    reasoning_effort: str | None = "low",
 ) -> tuple[dict, str, dict]:
     """Like chat_completion but enforces + parses JSON output.
 
@@ -215,5 +224,6 @@ async def chat_completion_json(
         response_format={"type": "json_object"},
         temperature=temperature,
         max_tokens=max_tokens,
+        reasoning_effort=reasoning_effort,
         parse_json=True,
     )

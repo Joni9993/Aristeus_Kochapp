@@ -50,7 +50,7 @@ Gib exakt dieses JSON zurück:
       "name": "Gerichtname",
       "beschreibung": "Kurzbeschreibung (1-2 Sätze)",
       "hauptzutaten": ["Zutat1", "Zutat2"],
-      "angebots_zutaten": [{{"name": "Zutat", "laden": "Rewe", "ab_tag": "Mo. 2.6."}}],
+      "angebots_zutaten": [{{"name": "EXAKTER Produktname aus Angebotsliste", "laden": "Rewe"}}],
       "kochzeit_min": 30,
       "kategorie": "vegetarisch|vegan|Fisch|Fleisch|gemischt",
       "schwierigkeit": "leicht|mittel|aufwändig"
