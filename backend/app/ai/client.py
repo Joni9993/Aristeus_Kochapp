@@ -17,6 +17,23 @@ OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
 _MAX_RETRIES = 2
 _RATE_LIMIT_WAIT = 35  # seconds to wait after a 429 before retrying
 
+# Safety net appended to the configured chain: free-model slugs get removed from
+# OpenRouter regularly (gpt-oss-120b:free and gemini-2.0-flash-exp:free both
+# started returning 404), and a stale .env would otherwise take the app down.
+# Verified available 2026-07-14.
+_LAST_RESORT_MODELS = [
+    "qwen/qwen3-next-80b-a3b-instruct:free",
+    "google/gemma-4-31b-it:free",
+    "meta-llama/llama-3.3-70b-instruct:free",
+    "nvidia/nemotron-3-super-120b-a12b:free",
+]
+
+
+def _effective_chain(settings) -> list[str]:
+    chain = list(settings.model_chain)
+    chain += [m for m in _LAST_RESORT_MODELS if m not in chain]
+    return chain
+
 
 def _make_headers(settings) -> dict:
     return {
@@ -117,11 +134,12 @@ async def _run_chain(
         raise RuntimeError("OPENROUTER_API_KEY not set")
 
     headers = _make_headers(settings)
+    chain = _effective_chain(settings)
     last_exc: Exception | None = None
 
     for round_no in range(1, _MAX_RETRIES + 1):
         saw_rate_limit = False
-        for model in settings.model_chain:
+        for model in chain:
             logger.info("OpenRouter → %s (round %d/%d, purpose=%s) …", model, round_no, _MAX_RETRIES, purpose)
             try:
                 content, usage, elapsed = await _call_once(
