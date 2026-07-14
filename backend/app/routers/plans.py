@@ -9,7 +9,7 @@ from sqlalchemy.orm import Session as DbSession
 from ..db import SessionLocal, get_db
 from ..models import Household, PlanDish, ShoppingItem, WeeklyPlan
 from ..security import get_current_household
-from ..ai.pipeline import run_confirm_step, run_suggestions_step
+from ..ai.pipeline import apply_confirm_selection, run_confirm_generation, run_suggestions_step
 from ..ai.learned_prefs import update_from_feedback
 
 router = APIRouter(prefix="/api/plans", tags=["plans"])
@@ -122,6 +122,21 @@ def create_plan(
     if not profile.onboarding_complete:
         raise HTTPException(400, "Onboarding noch nicht abgeschlossen")
 
+    # Reuse a pre-generated plan for this week (Sunday scheduler) — instant suggestions.
+    # Confirmed/older plans for the same week are ignored, so a deliberate second
+    # plan for the same week still gets fresh live suggestions.
+    existing = db.scalar(
+        select(WeeklyPlan)
+        .where(
+            WeeklyPlan.household_id == household.id,
+            WeeklyPlan.week_start_date == body.week_start_date,
+            WeeklyPlan.status.in_(["pending", "suggestions_ready"]),
+        )
+        .order_by(WeeklyPlan.id.desc())
+    )
+    if existing:
+        return {"id": existing.id, "status": existing.status, "message": "Vorschläge bereits vorbereitet"}
+
     plan = WeeklyPlan(
         household_id=household.id,
         week_start_date=body.week_start_date,
@@ -163,20 +178,29 @@ async def more_suggestions(
 
 
 @router.post("/{plan_id}/confirm")
-async def confirm_plan(
+def confirm_plan(
     plan_id: int,
     body: ConfirmSelectionRequest,
+    background_tasks: BackgroundTasks,
     household: Household = Depends(get_current_household),
     db: DbSession = Depends(get_db),
 ) -> dict:
-    """Accept selected dishes, trigger recipe + shopping list generation."""
+    """Accept selected dishes; recipes + shopping list are generated in the background.
+
+    Returns immediately with status 'confirming' — the frontend polls until
+    'confirmed'. Idempotent: repeated clicks while confirming/confirmed just
+    return the current plan instead of a 400.
+    """
     plan = _get_plan_or_404(plan_id, household.id, db)
+    if plan.status in ("confirming", "confirmed"):
+        return _plan_out(plan)
     if plan.status not in ("suggestions_ready", "pending"):
         raise HTTPException(400, f"Plan status '{plan.status}' erlaubt keine Bestätigung")
     if not body.selections:
         raise HTTPException(400, "Keine Gerichte ausgewählt")
 
-    plan = await run_confirm_step(plan_id, body.selections, household, db)
+    apply_confirm_selection(plan, body.selections, db)
+    background_tasks.add_task(_bg_confirm, plan.id, household.id)
     return _plan_out(plan)
 
 
@@ -265,7 +289,22 @@ async def _bg_suggestions(plan_id: int, household_id: int) -> None:
         plan = db.get(WeeklyPlan, plan_id)
         if plan and plan.status == "pending":
             plan.status = "error"
-            plan.error_message = str(exc)[:500] if hasattr(plan, "error_message") else None
             db.commit()
+    finally:
+        db.close()
+
+
+async def _bg_confirm(plan_id: int, household_id: int) -> None:
+    import logging
+    log = logging.getLogger(__name__)
+    db = SessionLocal()
+    try:
+        household = db.get(Household, household_id)
+        if not household:
+            return
+        await run_confirm_generation(plan_id, household, db)
+    except Exception as exc:
+        # run_confirm_generation already reverted the plan on total failure
+        log.error("Background confirm failed for plan %d: %s", plan_id, exc, exc_info=True)
     finally:
         db.close()

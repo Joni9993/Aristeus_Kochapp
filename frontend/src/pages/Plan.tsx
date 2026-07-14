@@ -64,7 +64,13 @@ const DAYS = ['Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samsta
 // Pending view
 // ---------------------------------------------------------------------------
 
-function PendingView({ onRefresh }: { onRefresh: () => void }) {
+function PendingView({
+  onRefresh,
+  message = 'Gerichte werden vorgeschlagen…',
+}: {
+  onRefresh: () => void
+  message?: string
+}) {
   const [elapsed, setElapsed] = useState(0)
   const navigate = useNavigate()
 
@@ -77,7 +83,7 @@ function PendingView({ onRefresh }: { onRefresh: () => void }) {
   return (
     <div className="flex flex-col items-center gap-4 py-12 text-stone-500">
       <div className="h-10 w-10 animate-spin rounded-full border-4 border-emerald-400 border-t-transparent" />
-      <p className="text-sm">Gerichte werden vorgeschlagen…</p>
+      <p className="text-sm">{message}</p>
       <p className="text-xs text-stone-400">
         {elapsed < 90 ? 'Das dauert ca. 10–30 Sekunden' : `${elapsed}s — dauert ungewöhnlich lang`}
       </p>
@@ -736,6 +742,10 @@ export default function Plan() {
 
       {plan.status === 'pending' && (
         <PendingView onRefresh={loadPlan} />
+      )}
+
+      {plan.status === 'confirming' && (
+        <PendingView onRefresh={loadPlan} message="Rezepte & Einkaufsliste werden erstellt…" />
       )}
 
       {plan.status === 'error' && (

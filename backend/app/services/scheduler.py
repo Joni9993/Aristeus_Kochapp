@@ -8,16 +8,22 @@ in the same region share the same brochure data.
 import asyncio
 import json
 import logging
+from datetime import date, timedelta
 
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from sqlalchemy import select
 
 from ..db import SessionLocal
-from ..models import Household, Profile
+from ..models import Household, Profile, WeeklyPlan
 from ..ai.learned_prefs import aggregate_notes_with_llm, update_from_feedback
 from .kaufda import refresh_plz
 
 logger = logging.getLogger(__name__)
+
+# Pre-generation targets: 30 suggestions per household (3 LLM calls à 10,
+# exclude list accumulates between calls) + recipes for all of them.
+_PREGEN_TOTAL = 30
+_PREGEN_BATCH = 10
 
 scheduler = AsyncIOScheduler(timezone="Europe/Berlin")
 
@@ -73,12 +79,82 @@ def _run_weekly_aggregation() -> None:
     asyncio.run(_run_aggregation_async())
 
 
+def _next_monday() -> str:
+    today = date.today()
+    days_ahead = (7 - today.weekday()) % 7 or 7  # strictly next Monday
+    return (today + timedelta(days=days_ahead)).isoformat()
+
+
+async def _run_pregeneration_async() -> None:
+    """Sunday 04:00: pre-generate next week's plan for every onboarded household.
+
+    Creates the plan, generates 30 suggestions and all recipes so that opening
+    the app on Sunday/Monday needs zero LLM calls. Households that already have
+    a plan for the coming week are skipped.
+    """
+    from ..ai.pipeline import pregenerate_recipes_for_plan, run_suggestions_step
+
+    logger.info("Weekly pre-generation started")
+    db = SessionLocal()
+    try:
+        week_start = _next_monday()
+        households = db.scalars(
+            select(Household)
+            .join(Profile)
+            .where(Profile.onboarding_complete.is_(True), Profile.postal_code != "")
+        ).all()
+
+        for household in households:
+            try:
+                existing = db.scalar(
+                    select(WeeklyPlan).where(
+                        WeeklyPlan.household_id == household.id,
+                        WeeklyPlan.week_start_date == week_start,
+                    )
+                )
+                if existing:
+                    logger.info(
+                        "Pre-generation: household %d already has plan %d for %s — skipped",
+                        household.id, existing.id, week_start,
+                    )
+                    continue
+
+                plan = WeeklyPlan(
+                    household_id=household.id,
+                    week_start_date=week_start,
+                    status="pending",
+                )
+                db.add(plan)
+                db.commit()
+                db.refresh(plan)
+
+                for _ in range(_PREGEN_TOTAL // _PREGEN_BATCH):
+                    await run_suggestions_step(plan.id, household, db, count=_PREGEN_BATCH)
+
+                generated = await pregenerate_recipes_for_plan(plan, household, db)
+                logger.info(
+                    "Pre-generation: plan %d for household %d — %d suggestions, %d recipes",
+                    plan.id, household.id,
+                    len([d for d in plan.dishes if d.dish_status == "suggestion"]),
+                    generated,
+                )
+            except Exception as exc:
+                logger.error("Pre-generation failed for household %d: %s", household.id, exc, exc_info=True)
+    finally:
+        db.close()
+    logger.info("Weekly pre-generation finished")
+
+
+def _run_pregeneration_sync() -> None:
+    asyncio.run(_run_pregeneration_async())
+
+
 def start_scheduler() -> None:
     scheduler.add_job(
         _run_refresh_sync,
         trigger="cron",
         day_of_week="sat",
-        hour=6,
+        hour=3,
         minute=0,
         id="saturday_kaufda_refresh",
         replace_existing=True,
@@ -88,11 +164,21 @@ def start_scheduler() -> None:
         _run_refresh_sync,
         trigger="cron",
         day_of_week="sun",
-        hour=6,
+        hour=3,
         minute=0,
         id="sunday_kaufda_refresh",
         replace_existing=True,
         misfire_grace_time=3600,
+    )
+    scheduler.add_job(
+        _run_pregeneration_sync,
+        trigger="cron",
+        day_of_week="sun",
+        hour=4,
+        minute=0,
+        id="weekly_plan_pregeneration",
+        replace_existing=True,
+        misfire_grace_time=7200,
     )
     scheduler.add_job(
         _run_weekly_aggregation,
@@ -105,7 +191,10 @@ def start_scheduler() -> None:
         misfire_grace_time=3600,
     )
     scheduler.start()
-    logger.info("APScheduler started — Kaufda refresh Sa+So 06:00, feedback aggregation Mon 04:00")
+    logger.info(
+        "APScheduler started — Kaufda refresh Sa+So 03:00, pre-generation So 04:00, "
+        "feedback aggregation Mo 04:00"
+    )
 
 
 def stop_scheduler() -> None:

@@ -54,6 +54,7 @@ async def _call_once(
     headers: dict,
     response_format: dict | None = None,
     temperature: float | None = None,
+    max_tokens: int | None = None,
 ) -> tuple[str, dict, float]:
     """Single HTTP call to OpenRouter. Returns (content, usage, elapsed_s). Raises on any failure."""
     body: dict[str, Any] = {"model": model, "messages": messages}
@@ -61,6 +62,8 @@ async def _call_once(
         body["response_format"] = response_format
     if temperature is not None:
         body["temperature"] = temperature
+    if max_tokens is not None:
+        body["max_tokens"] = max_tokens
 
     t0 = time.monotonic()
     async with httpx.AsyncClient(timeout=120) as client:
@@ -120,6 +123,7 @@ async def _run_chain(
     purpose: str,
     response_format: dict | None,
     temperature: float | None,
+    max_tokens: int | None,
     parse_json: bool,
 ) -> tuple[Any, str, dict]:
     """Try every model in the chain (fast failover, no per-model sleep).
@@ -143,7 +147,7 @@ async def _run_chain(
             logger.info("OpenRouter → %s (round %d/%d, purpose=%s) …", model, round_no, _MAX_RETRIES, purpose)
             try:
                 content, usage, elapsed = await _call_once(
-                    model, messages, headers, response_format, temperature,
+                    model, messages, headers, response_format, temperature, max_tokens,
                 )
                 result = _parse_json_content(content, model, purpose) if parse_json else content
                 logger.info(
@@ -177,6 +181,7 @@ async def chat_completion(
     *,
     purpose: str = "general",
     response_format: dict | None = None,
+    max_tokens: int | None = None,
 ) -> tuple[str, str, dict]:
     """Call OpenRouter with model fallback. Returns (content_str, model, usage)."""
     return await _run_chain(
@@ -184,6 +189,7 @@ async def chat_completion(
         purpose=purpose,
         response_format=response_format,
         temperature=None,
+        max_tokens=max_tokens,
         parse_json=False,
     )
 
@@ -193,16 +199,21 @@ async def chat_completion_json(
     *,
     purpose: str = "general",
     temperature: float | None = None,
+    max_tokens: int | None = None,
 ) -> tuple[dict, str, dict]:
     """Like chat_completion but enforces + parses JSON output.
 
     Falls through to the next model on JSON parse errors too (not just HTTP
     failures). Returns (parsed_dict, model_used, usage_dict).
+
+    max_tokens must leave headroom for reasoning models — Nemotron & Co. spend
+    1000+ completion tokens on reasoning before the JSON starts.
     """
     return await _run_chain(
         messages,
         purpose=purpose,
         response_format={"type": "json_object"},
         temperature=temperature,
+        max_tokens=max_tokens,
         parse_json=True,
     )

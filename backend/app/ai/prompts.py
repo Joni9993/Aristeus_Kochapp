@@ -1,7 +1,5 @@
 """German prompt templates for the AI pipeline."""
 
-from datetime import date
-
 
 def build_suggestions_prompt(
     *,
@@ -106,6 +104,62 @@ WICHTIG für Angebots-Zutaten:
 - "ist_angebot": true NUR wenn die Zutat aus der Angebotsliste stammt
 - "name": verwende den EXAKTEN Produktnamen wie er in der Angebotsliste steht (z.B. "Gut Ponholz Hähnchen-Schenkel", nicht nur "Hähnchen")
 - "laden": der Ladenname in eckigen Klammern aus der Angebotsliste (z.B. "Lidl", "Rewe", "Aldi")
+Für normale Zutaten: "ist_angebot": false, "laden": null"""
+
+    return [
+        {"role": "system", "content": system},
+        {"role": "user", "content": user},
+    ]
+
+
+def build_recipes_batch_prompt(
+    *,
+    dishes: list[tuple[str, str]],  # (name, beschreibung)
+    profile_text: str,
+    offers_text: str,
+) -> list[dict]:
+    """One call, several full recipes — fewer requests than one call per dish."""
+    system = (
+        "Du bist ein Kochassistent. Antworte immer auf Deutsch und ausschließlich als gültiges JSON. "
+        "Erstelle detaillierte, praxisnahe Rezepte für deutsche Familien."
+    )
+
+    dish_lines = "\n".join(
+        f"{i + 1}. **{name}** — {desc or 'keine Beschreibung'}"
+        for i, (name, desc) in enumerate(dishes)
+    )
+
+    user = f"""Erstelle vollständige Rezepte für diese {len(dishes)} Gerichte:
+
+{dish_lines}
+
+=== HAUSHALTSPROFIL ===
+{profile_text}
+
+=== VERFÜGBARE ANGEBOTE (gerne verwenden) ===
+{offers_text or "Keine spezifischen Angebote."}
+
+Gib exakt dieses JSON zurück (ein Eintrag pro Gericht, "gericht" EXAKT wie oben angegeben):
+{{
+  "rezepte": [
+    {{
+      "gericht": "Gerichtname exakt wie oben",
+      "zutaten": [
+        {{"name": "Zutatname", "menge": 200, "einheit": "g", "ist_angebot": false, "laden": null}},
+        {{"name": "EXAKTER Produktname aus Angebotsliste", "menge": 400, "einheit": "g", "ist_angebot": true, "laden": "Lidl"}}
+      ],
+      "schritte": ["Schritt 1: ...", "Schritt 2: ..."],
+      "geschaetzte_zeit_min": 30,
+      "tipps": ["Tipp für Familien"]
+    }}
+  ]
+}}
+
+Mengen für das angegebene Haushaltsprofil (Erwachsene + Kinder) anpassen.
+WICHTIG für Angebots-Zutaten:
+- "ist_angebot": true NUR wenn die Zutat aus der Angebotsliste stammt
+- "name": verwende den EXAKTEN Produktnamen aus der Angebotsliste
+- "laden": der Ladenname in eckigen Klammern aus der Angebotsliste
 Für normale Zutaten: "ist_angebot": false, "laden": null"""
 
     return [

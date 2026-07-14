@@ -15,7 +15,6 @@ default false) — the LLM is the primary suggestion/recipe source. Catalog code
 is kept behind the flag and for old plans whose dishes carry a recipe_id.
 """
 
-import asyncio
 import json
 import logging
 
@@ -247,7 +246,7 @@ async def _llm_suggestions(
     )
 
     raw, model, usage = await chat_completion_json(
-        messages, purpose="dish_suggestions", temperature=0.9,
+        messages, purpose="dish_suggestions", temperature=0.9, max_tokens=5000,
     )
     _log_api_call(household.id, model, usage, "dish_suggestions", db)
 
@@ -415,7 +414,7 @@ async def _llm_recipe(
         offers_text=offers_text,
     )
 
-    raw, model, usage = await chat_completion_json(messages, purpose="recipe_gen")
+    raw, model, usage = await chat_completion_json(messages, purpose="recipe_gen", max_tokens=4000)
     _log_api_call(household.id, model, usage, "recipe_gen", db)
 
     try:
@@ -425,22 +424,115 @@ async def _llm_recipe(
         return None
 
 
-async def generate_recipes_parallel(
+_RECIPE_BATCH_SIZE = 4  # dishes per LLM call — keeps responses parseable
+
+
+async def _llm_recipes_batch(
     dishes: list[PlanDish],
     household: Household,
     db: DbSession,
 ) -> dict[int, RecipeResponse]:
-    """Generate/load recipes for all confirmed dishes."""
-    tasks = [generate_recipe_for_dish(d, household, db) for d in dishes]
-    results = await asyncio.gather(*tasks, return_exceptions=True)
+    """One LLM call for a chunk of dishes. Returns {dish_id: recipe} for all matched."""
+    from .prompts import build_recipes_batch_prompt
+    from .schemas import RecipesBatchResponse
+
+    profile = household.profile
+    stores = json.loads(profile.selected_stores_json or "[]")
+    offers = _get_active_offers(profile.postal_code or "", stores, db)
+
+    messages = build_recipes_batch_prompt(
+        dishes=[(d.name, d.description or "") for d in dishes],
+        profile_text=format_profile(profile),
+        offers_text=format_offers(offers),
+    )
+
+    # ~1200 tokens per recipe JSON + generous headroom for reasoning models —
+    # a too-tight limit truncates the JSON and wastes the whole batch call
+    raw, model, usage = await chat_completion_json(
+        messages, purpose="recipe_batch", max_tokens=1500 * len(dishes) + 2500,
+    )
+    _log_api_call(household.id, model, usage, "recipe_batch", db)
+
+    try:
+        parsed = RecipesBatchResponse.model_validate(raw)
+    except (ValidationError, Exception) as exc:
+        logger.error("Recipe batch parse error: %s", exc)
+        return {}
+
+    by_name = {r.gericht.strip().lower(): r for r in parsed.rezepte}
+    result: dict[int, RecipeResponse] = {}
+    for dish in dishes:
+        entry = by_name.get(dish.name.strip().lower())
+        if entry:
+            result[dish.id] = RecipeResponse(
+                zutaten=entry.zutaten,
+                schritte=entry.schritte,
+                geschaetzte_zeit_min=entry.geschaetzte_zeit_min,
+                tipps=entry.tipps,
+            )
+    return result
+
+
+def _recipe_from_stored_json(dish: PlanDish) -> RecipeResponse | None:
+    if not dish.recipe_json:
+        return None
+    try:
+        return RecipeResponse.model_validate_json(dish.recipe_json)
+    except (ValidationError, Exception):
+        return None
+
+
+async def generate_recipes(
+    dishes: list[PlanDish],
+    household: Household,
+    db: DbSession,
+) -> dict[int, RecipeResponse]:
+    """Return recipes for the given dishes.
+
+    Order: reuse pre-generated recipe_json → catalog (if flag on) → LLM in
+    batches of _RECIPE_BATCH_SIZE (one call per chunk instead of one per dish)
+    → individual LLM call for anything the batch response missed.
+    """
+    from ..config import get_settings
 
     recipes: dict[int, RecipeResponse] = {}
-    for dish, result in zip(dishes, results):
-        if isinstance(result, Exception):
-            logger.error("Recipe generation failed for '%s': %s", dish.name, result)
-        elif result is not None:
-            recipes[dish.id] = result
-            dish.recipe_json = result.model_dump_json()
+    need_llm: list[PlanDish] = []
+
+    use_catalog = get_settings().use_recipe_catalog
+    for dish in dishes:
+        stored = _recipe_from_stored_json(dish)
+        if stored:
+            recipes[dish.id] = stored
+            continue
+        if use_catalog and dish.recipe_id is not None:
+            loaded = _load_recipe_from_catalog(dish, household, db)
+            if loaded:
+                recipes[dish.id] = loaded
+                dish.recipe_json = loaded.model_dump_json()
+                continue
+        need_llm.append(dish)
+
+    # Batched LLM calls, chunks run sequentially (gentler on free-tier limits)
+    for i in range(0, len(need_llm), _RECIPE_BATCH_SIZE):
+        chunk = need_llm[i:i + _RECIPE_BATCH_SIZE]
+        try:
+            batch_result = await _llm_recipes_batch(chunk, household, db)
+        except Exception as exc:
+            logger.error("Recipe batch call failed: %s", exc)
+            batch_result = {}
+        for dish in chunk:
+            recipe = batch_result.get(dish.id)
+            if recipe is None:
+                # Batch missed this dish — one individual call as fallback
+                try:
+                    recipe = await _llm_recipe(dish, household, db)
+                except Exception as exc:
+                    logger.error("Recipe generation failed for '%s': %s", dish.name, exc)
+                    recipe = None
+            if recipe is not None:
+                recipes[dish.id] = recipe
+                dish.recipe_json = recipe.model_dump_json()
+
     return recipes
 
 
@@ -595,34 +687,79 @@ async def run_suggestions_step(
     return saved
 
 
-async def run_confirm_step(
-    plan_id: int,
+def apply_confirm_selection(
+    plan: WeeklyPlan,
     selections: list[dict],
-    household: Household,
     db: DbSession,
-) -> WeeklyPlan:
-    plan = db.get(WeeklyPlan, plan_id)
-    if not plan:
-        raise ValueError(f"Plan {plan_id} not found")
+) -> None:
+    """Synchronous part of confirm: mark dishes + set status 'confirming'.
 
+    Committing this immediately makes a double-click idempotent — the second
+    request sees status 'confirming' and just returns the plan.
+    """
     selection_map = {s["dish_id"]: s.get("cook_day") for s in selections}
-    confirmed: list[PlanDish] = []
     for dish in plan.dishes:
         if dish.id in selection_map:
             dish.dish_status = "confirmed"
             dish.cook_day = selection_map[dish.id]
-            confirmed.append(dish)
-        else:
+        elif dish.dish_status == "suggestion":
             dish.dish_status = "rejected"
+    plan.status = "confirming"
+    db.commit()
 
-    db.flush()
 
-    recipes = await generate_recipes_parallel(confirmed, household, db)
+async def run_confirm_generation(
+    plan_id: int,
+    household: Household,
+    db: DbSession,
+) -> WeeklyPlan:
+    """Async part of confirm: recipes + shopping list. Runs as background task.
+
+    With pre-generated recipes (recipe_json already set) this needs no LLM
+    call and finishes in well under a second.
+    """
+    plan = db.get(WeeklyPlan, plan_id)
+    if not plan:
+        raise ValueError(f"Plan {plan_id} not found")
+
+    confirmed = [d for d in plan.dishes if d.dish_status == "confirmed"]
+
+    recipes = await generate_recipes(confirmed, household, db)
+
+    if confirmed and not recipes:
+        # Total failure — put the plan back so the user can retry
+        for dish in plan.dishes:
+            if dish.dish_status in ("confirmed", "rejected"):
+                dish.dish_status = "suggestion"
+        plan.status = "suggestions_ready"
+        db.commit()
+        raise RuntimeError(f"Recipe generation produced nothing for plan {plan_id}")
+
     build_shopping_list(plan, recipes, household, db)
-
     plan.status = "confirmed"
     db.commit()
     return plan
+
+
+async def pregenerate_recipes_for_plan(
+    plan: WeeklyPlan,
+    household: Household,
+    db: DbSession,
+) -> int:
+    """Pre-generate recipes for all open suggestions (Sunday scheduler job).
+
+    Stores each recipe in dish.recipe_json so confirm needs no LLM call.
+    Returns the number of recipes generated.
+    """
+    open_suggestions = [
+        d for d in plan.dishes
+        if d.dish_status == "suggestion" and not d.recipe_json
+    ]
+    if not open_suggestions:
+        return 0
+    recipes = await generate_recipes(open_suggestions, household, db)
+    db.commit()
+    return len(recipes)
 
 
 # ---------------------------------------------------------------------------

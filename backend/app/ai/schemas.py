@@ -46,6 +46,15 @@ class RecipeResponse(BaseModel):
     tipps: list[str] = Field(default_factory=list)
 
 
+class BatchRecipe(RecipeResponse):
+    """One recipe in a batched response — carries the dish name for mapping back."""
+    gericht: str
+
+
+class RecipesBatchResponse(BaseModel):
+    rezepte: list[BatchRecipe] = Field(default_factory=list)
+
+
 # ---------------------------------------------------------------------------
 # Step 8 — Feedback aggregation
 # ---------------------------------------------------------------------------
