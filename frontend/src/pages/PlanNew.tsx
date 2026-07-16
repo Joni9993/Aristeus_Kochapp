@@ -68,7 +68,7 @@ export default function PlanNew() {
   }
 
   return (
-    <main className="mx-auto max-w-xl p-6">
+    <main className="mx-auto max-w-xl px-4 py-5 sm:p-6">
       <button
         onClick={() => navigate('/')}
         className="mb-4 text-sm text-stone-500 underline hover:text-stone-700"

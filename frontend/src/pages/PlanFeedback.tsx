@@ -42,7 +42,7 @@ export default function PlanFeedback() {
 
   if (loading) {
     return (
-      <main className="mx-auto max-w-xl p-6">
+      <main className="mx-auto max-w-xl px-4 py-5 sm:p-6">
         <div className="flex items-center justify-center py-16 text-stone-400">Lädt…</div>
       </main>
     )
@@ -50,7 +50,7 @@ export default function PlanFeedback() {
 
   if (!plan) {
     return (
-      <main className="mx-auto max-w-xl p-6">
+      <main className="mx-auto max-w-xl px-4 py-5 sm:p-6">
         <p className="text-red-600">Plan nicht gefunden.</p>
         <button onClick={() => navigate('/')} className="mt-2 text-sm underline">Home</button>
       </main>
@@ -60,7 +60,7 @@ export default function PlanFeedback() {
   const progressPct = dishes.length ? (rated.size / dishes.length) * 100 : 0
 
   return (
-    <main className="mx-auto max-w-xl p-6">
+    <main className="mx-auto max-w-xl px-4 py-5 sm:p-6">
       <div className="mb-6">
         <h1 className="text-2xl font-semibold tracking-tight">Wie war eure Woche?</h1>
         <p className="mt-1 text-sm text-stone-500">{formatWeekRange(plan.week_start_date)}</p>
@@ -85,9 +85,9 @@ export default function PlanFeedback() {
       <div className="space-y-4">
         {dishes.map((d) => (
           <div key={d.id} className="rounded-xl border border-stone-200 bg-white p-4">
-            <div className="mb-1 flex items-center gap-2">
-              <span className="font-medium text-stone-800">{d.name}</span>
-              {d.cook_day && <span className="text-xs text-stone-400">{d.cook_day}</span>}
+            <div className="mb-1 flex min-w-0 items-baseline gap-2">
+              <span className="min-w-0 truncate font-medium text-stone-800">{d.name}</span>
+              {d.cook_day && <span className="shrink-0 text-xs text-stone-400">{d.cook_day}</span>}
             </div>
             <FeedbackRow
               planId={plan.id}
@@ -98,12 +98,19 @@ export default function PlanFeedback() {
         ))}
       </div>
 
-      <button
-        onClick={() => navigate('/')}
-        className="mt-6 w-full rounded-lg bg-emerald-600 py-3 text-sm font-semibold text-white hover:bg-emerald-700"
+      {/* Sticky so "Fertig" stays reachable without scrolling back up after
+          rating many dishes. */}
+      <div
+        className="sticky z-20 -mx-4 mt-6 border-t border-stone-200 bg-white/90 px-4 pt-3 backdrop-blur sm:-mx-6 sm:px-6"
+        style={{ bottom: 'calc(6rem + env(safe-area-inset-bottom))', paddingBottom: '0.75rem' }}
       >
-        Fertig
-      </button>
+        <button
+          onClick={() => navigate('/')}
+          className="w-full rounded-lg bg-emerald-600 py-3 text-sm font-semibold text-white hover:bg-emerald-700"
+        >
+          Fertig
+        </button>
+      </div>
     </main>
   )
 }

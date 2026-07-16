@@ -15,6 +15,7 @@ from ..security import get_current_household
 from ..ai.pipeline import (
     apply_confirm_selection,
     run_confirm_generation,
+    run_regenerate_recipe,
     run_suggestions_step,
     run_swap_dish,
 )
@@ -362,6 +363,36 @@ def swap_dish(
     return {"status": "swapping"}
 
 
+@router.post("/{plan_id}/dishes/{dish_id}/regenerate-recipe")
+def regenerate_recipe(
+    plan_id: int,
+    dish_id: int,
+    background_tasks: BackgroundTasks,
+    household: Household = Depends(get_current_household),
+    db: DbSession = Depends(get_db),
+) -> dict:
+    """Retry recipe generation for a confirmed dish that ended up without a
+    recipe (all free-tier LLM attempts 429'd during confirm). Runs in the
+    background; returns immediately with {"status": "generating"}.
+    """
+    plan = _get_plan_or_404(plan_id, household.id, db)
+    if plan.status not in ("confirmed", "complete"):
+        raise HTTPException(400, "Plan muss bestätigt sein")
+    dish = db.get(PlanDish, dish_id)
+    if not dish or dish.plan_id != plan_id:
+        raise HTTPException(404, "Gericht nicht gefunden")
+    if dish.dish_status != "confirmed":
+        raise HTTPException(400, "Gericht ist nicht bestätigt")
+    if dish.recipe_json:
+        raise HTTPException(400, "Rezept ist bereits vorhanden")
+
+    original_status = plan.status
+    plan.status = "confirming"
+    db.commit()
+    background_tasks.add_task(_bg_regenerate_recipe, plan.id, household.id, dish.id, original_status)
+    return {"status": "generating"}
+
+
 @router.delete("/{plan_id}", status_code=204)
 def delete_plan(
     plan_id: int,
@@ -557,6 +588,33 @@ async def _bg_swap_dish(plan_id: int, household_id: int, dish_id: int) -> None:
         old_dish = db.get(PlanDish, dish_id)
         if old_dish and old_dish.dish_status == "rejected":
             old_dish.dish_status = "confirmed"
+            db.commit()
+    finally:
+        db.close()
+
+
+async def _bg_regenerate_recipe(
+    plan_id: int, household_id: int, dish_id: int, original_status: str
+) -> None:
+    import logging
+    log = logging.getLogger(__name__)
+    db = SessionLocal()
+    try:
+        household = db.get(Household, household_id)
+        if not household:
+            return
+        await run_regenerate_recipe(plan_id, dish_id, household, db, original_status)
+    except Exception as exc:
+        # run_regenerate_recipe already reverted the plan status on failure;
+        # this is a last-resort net in case something failed before its own
+        # try block (e.g. household missing).
+        log.error(
+            "Background recipe regeneration failed for plan %d dish %d: %s",
+            plan_id, dish_id, exc, exc_info=True,
+        )
+        plan = db.get(WeeklyPlan, plan_id)
+        if plan and plan.status == "confirming":
+            plan.status = original_status
             db.commit()
     finally:
         db.close()

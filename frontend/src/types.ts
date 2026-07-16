@@ -62,18 +62,27 @@ export type Plan = {
   savings?: Savings
 }
 
-// One entry in "Unser Kochbuch" (GET /api/recipes) — a deduped confirmed
-// dish with its stored recipe, from any past plan.
+// One entry in "Unser Kochbuch" (GET /api/recipes) — either a deduped
+// confirmed dish with its stored recipe from a past plan (source: "gekocht"),
+// or a household's own imported/manual recipe (source: "eigene").
 export type CookbookEntry = {
-  dish_id: number
-  plan_id: number
+  source: 'gekocht' | 'eigene'
+  dish_id: number | null
+  plan_id: number | null
+  saved_recipe_id: number | null
   name: string
   cuisine: string | null
   cook_time_min: number | null
   is_favorite: boolean
+  feedback_thumbs: number | null
   image_url: string | null
   week_start_date: string | null
   recipe: Recipe | null
+}
+
+/** Stable identity for a cookbook entry across the two possible sources. */
+export function cookbookEntryKey(entry: CookbookEntry): string {
+  return entry.source === 'eigene' ? `saved-${entry.saved_recipe_id}` : `dish-${entry.dish_id}`
 }
 
 export const DAYS = ['Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag', 'Sonntag']

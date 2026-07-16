@@ -6,10 +6,12 @@ version uses _round_quantity + _format_quantity and only reports
 quantity=None when nothing was ever aggregated (total == 0).
 """
 
+from datetime import datetime, timezone
+
 from app.ai.pipeline import build_shopping_list
 from app.ai.schemas import RecipeIngredient as SchemaIngredient
 from app.ai.schemas import RecipeResponse
-from app.models import Household, PlanDish, Profile, WeeklyPlan
+from app.models import Brochure, Household, Offer, PlanDish, Profile, WeeklyPlan
 
 
 def _make_household(db):
@@ -107,3 +109,55 @@ class TestBuildShoppingListQuantities:
         )
         items = build_shopping_list(plan, {dish.id: recipe}, household, db_session)
         assert items == []
+
+
+class TestBuildShoppingListOfferMatching:
+    def test_matches_active_offer_even_when_ist_angebot_is_false(self, db_session):
+        """Task 5: ALL ingredients get matched against active offers, not just
+        the ones the LLM flagged ist_angebot=true at generation time — this is
+        what gives imported/older recipes fresh offer pricing when planned in."""
+        household = Household(username="offers", email="offers@example.com", password_hash="x")
+        db_session.add(household)
+        db_session.flush()
+        profile = Profile(household_id=household.id, postal_code="12345", selected_stores_json='["rewe"]')
+        db_session.add(profile)
+        db_session.flush()
+        db_session.refresh(household)
+
+        brochure = Brochure(
+            store="rewe",
+            postal_code="12345",
+            brochure_id_kaufda="b1",
+            fetched_at=datetime.now(timezone.utc),
+            status="active",
+        )
+        db_session.add(brochure)
+        db_session.flush()
+        offer = Offer(
+            brochure_id=brochure.id,
+            product_name="Hähnchenbrust",
+            store="rewe",
+            is_cooking_relevant=True,
+            price_text="3,99 €",
+        )
+        db_session.add(offer)
+        db_session.flush()
+
+        plan = WeeklyPlan(household_id=household.id, week_start_date="2026-07-20", status="confirmed")
+        db_session.add(plan)
+        db_session.flush()
+        dish = _make_confirmed_dish(db_session, plan)
+
+        recipe = RecipeResponse(
+            zutaten=[
+                SchemaIngredient(name="Hähnchenbrust", menge=400, einheit="g", ist_angebot=False, laden=None),
+            ],
+            schritte=["..."],
+            geschaetzte_zeit_min=20,
+            tipps=[],
+        )
+        items = build_shopping_list(plan, {dish.id: recipe}, household, db_session)
+        assert len(items) == 1
+        assert items[0].offer_id == offer.id
+        assert items[0].price_text == "3,99 €"
+        assert items[0].store == "rewe"

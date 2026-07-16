@@ -72,7 +72,7 @@ export default function Admin() {
   }
 
   return (
-    <main className="mx-auto max-w-xl p-6">
+    <main className="mx-auto max-w-xl px-4 py-5 sm:p-6">
       <div className="mb-6">
         <h1 className="text-xl font-semibold">Admin</h1>
         <p className="text-sm text-stone-500">{household?.username}</p>

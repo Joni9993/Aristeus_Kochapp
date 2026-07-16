@@ -17,6 +17,7 @@ is kept behind the flag and for old plans whose dishes carry a recipe_id.
 
 import json
 import logging
+from itertools import zip_longest
 
 from pydantic import ValidationError
 from sqlalchemy import select
@@ -43,6 +44,7 @@ from .prompts import (
 )
 from .schemas import DishSuggestionsResponse, RecipeIngredient as SchemaIngredient, RecipeResponse
 from .validators import validate_suggestions
+from ..services.status_webhook import report_incident
 
 logger = logging.getLogger(__name__)
 
@@ -52,8 +54,14 @@ logger = logging.getLogger(__name__)
 # ---------------------------------------------------------------------------
 
 def _get_active_offers(plz: str, stores: list[str], db: DbSession) -> list[Offer]:
-    """Return cooking-relevant offers from the most recent active brochure per store."""
-    result: list[Offer] = []
+    """Return cooking-relevant offers from the most recent active brochure per store.
+
+    Stores are interleaved round-robin so no single big brochure (Rewe: 145
+    offers) dominates the top of the prompt — the full list goes to the LLM
+    (format_offers is uncapped), but a fair mix keeps every store visible
+    where model attention is strongest.
+    """
+    per_store: list[list[Offer]] = []
     for store in stores:
         brochure = db.scalar(
             select(Brochure)
@@ -67,9 +75,11 @@ def _get_active_offers(plz: str, stores: list[str], db: DbSession) -> list[Offer
         )
         if not brochure:
             continue
-        for offer in brochure.offers:
-            if offer.is_cooking_relevant:
-                result.append(offer)
+        per_store.append([o for o in brochure.offers if o.is_cooking_relevant])
+
+    result: list[Offer] = []
+    for group in zip_longest(*per_store):
+        result.extend(o for o in group if o is not None)
     return result
 
 
@@ -634,16 +644,20 @@ def build_shopping_list(
         offer_id: int | None = None
         price_text: str | None = None
 
-        if entry["is_angebot"]:
-            if entry["laden"]:
-                store = _normalize_store(entry["laden"])
-            if active_offers:
-                matched = _find_matching_offer(entry["name"].lower(), active_offers)
-                if matched:
-                    offer_id = matched.id
-                    price_text = matched.price_text
-                    if not store:
-                        store = matched.store
+        if entry["is_angebot"] and entry["laden"]:
+            store = _normalize_store(entry["laden"])
+
+        # Match every ingredient against currently active offers — not just the
+        # ones the LLM flagged ist_angebot at generation time. This is what
+        # gives imported/older/manually-entered recipes up-to-date offer
+        # pricing when they're planned into a week (task 5).
+        if active_offers:
+            matched = _find_matching_offer(entry["name"].lower(), active_offers)
+            if matched:
+                offer_id = matched.id
+                price_text = matched.price_text
+                if not store:
+                    store = matched.store
 
         item = ShoppingItem(
             plan_id=plan.id,
@@ -772,7 +786,90 @@ async def run_confirm_generation(
     build_shopping_list(plan, recipes, household, db)
     plan.status = "confirmed"
     db.commit()
+
+    # Partial failure: some confirmed dishes never got a recipe (e.g. every
+    # free-tier model 429'd on that particular batch/individual call). The
+    # plan is still confirmed as usual — the user can retry per-dish via
+    # regenerate-recipe — but this is worth a status-dashboard incident.
+    missing = [d.name for d in confirmed if not d.recipe_json]
+    if missing:
+        await report_incident(
+            f"Teilausfall bei Rezept-Generierung (Plan {plan.id}): "
+            f"{len(missing)} Gericht(e) ohne Rezept: {', '.join(missing)}"
+        )
+
     return plan
+
+
+def _all_confirmed_recipes(
+    plan: WeeklyPlan,
+    overrides: dict[int, RecipeResponse],
+) -> dict[int, RecipeResponse]:
+    """Recipes for every currently-confirmed dish: `overrides` wins where given,
+    otherwise fall back to each dish's stored recipe_json. Used to assemble the
+    full recipe set a shopping-list rebuild needs after only one dish changed."""
+    result: dict[int, RecipeResponse] = {}
+    for d in plan.dishes:
+        if d.dish_status != "confirmed":
+            continue
+        if d.id in overrides:
+            result[d.id] = overrides[d.id]
+            continue
+        stored = _recipe_from_stored_json(d)
+        if stored:
+            result[d.id] = stored
+    return result
+
+
+def rebuild_shopping_list_preserving(
+    plan: WeeklyPlan,
+    recipes: dict[int, RecipeResponse],
+    household: Household,
+    db: DbSession,
+) -> list[ShoppingItem]:
+    """Replace plan.shopping_items with a fresh aggregation from `recipes`
+    (recipes for ALL currently-confirmed dishes — see _all_confirmed_recipes),
+    carrying over is_checked/is_already_have by ingredient name (lowercase)
+    and keeping custom (non-offer) items that don't reappear in the new
+    aggregation. Shared by run_swap_dish and run_regenerate_recipe.
+    """
+    old_items = list(plan.shopping_items)
+    old_state = {
+        i.ingredient.strip().lower(): (i.is_checked, i.is_already_have)
+        for i in old_items
+    }
+    custom_items = [i for i in old_items if i.offer_id is None]
+
+    for item in old_items:
+        db.delete(item)
+    db.flush()
+
+    new_items = build_shopping_list(plan, recipes, household, db)
+    new_names = {i.ingredient.strip().lower() for i in new_items}
+    for item in new_items:
+        state = old_state.get(item.ingredient.strip().lower())
+        if state:
+            item.is_checked, item.is_already_have = state
+
+    # Custom items the user added by hand — keep them if the new aggregation
+    # didn't happen to produce the same ingredient again.
+    for custom in custom_items:
+        key = custom.ingredient.strip().lower()
+        if key not in new_names:
+            db.add(ShoppingItem(
+                plan_id=plan.id,
+                ingredient=custom.ingredient,
+                quantity=custom.quantity,
+                unit=custom.unit,
+                store=None,
+                offer_id=None,
+                price_text=None,
+                is_checked=custom.is_checked,
+                is_already_have=custom.is_already_have,
+            ))
+
+    db.flush()
+    return new_items
 
 
 async def run_swap_dish(
@@ -840,51 +937,8 @@ async def run_swap_dish(
 
         # Recipes for the shopping list rebuild: new dish's fresh recipe +
         # stored recipe_json for every other currently-confirmed dish.
-        all_recipes: dict[int, RecipeResponse] = {}
-        for d in plan.dishes:
-            if d.dish_status != "confirmed":
-                continue
-            if d.id == new_dish.id:
-                all_recipes[d.id] = recipes[new_dish.id]
-                continue
-            stored = _recipe_from_stored_json(d)
-            if stored:
-                all_recipes[d.id] = stored
-
-        old_items = list(plan.shopping_items)
-        old_state = {
-            i.ingredient.strip().lower(): (i.is_checked, i.is_already_have)
-            for i in old_items
-        }
-        custom_items = [i for i in old_items if i.offer_id is None]
-
-        for item in old_items:
-            db.delete(item)
-        db.flush()
-
-        new_items = build_shopping_list(plan, all_recipes, household, db)
-        new_names = {i.ingredient.strip().lower() for i in new_items}
-        for item in new_items:
-            state = old_state.get(item.ingredient.strip().lower())
-            if state:
-                item.is_checked, item.is_already_have = state
-
-        # Custom items the user added by hand — keep them if the new
-        # aggregation didn't happen to produce the same ingredient again.
-        for custom in custom_items:
-            key = custom.ingredient.strip().lower()
-            if key not in new_names:
-                db.add(ShoppingItem(
-                    plan_id=plan.id,
-                    ingredient=custom.ingredient,
-                    quantity=custom.quantity,
-                    unit=custom.unit,
-                    store=None,
-                    offer_id=None,
-                    price_text=None,
-                    is_checked=custom.is_checked,
-                    is_already_have=custom.is_already_have,
-                ))
+        all_recipes = _all_confirmed_recipes(plan, {new_dish.id: recipes[new_dish.id]})
+        rebuild_shopping_list_preserving(plan, all_recipes, household, db)
 
         plan.status = "confirmed"
         db.commit()
@@ -903,6 +957,50 @@ async def run_swap_dish(
         if plan:
             plan.status = "confirmed"
         db.commit()
+        raise
+
+
+async def run_regenerate_recipe(
+    plan_id: int,
+    dish_id: int,
+    household: Household,
+    db: DbSession,
+    original_status: str = "confirmed",
+) -> WeeklyPlan:
+    """Retry recipe generation for one confirmed dish that ended up without a
+    recipe (all free-tier attempts 429'd during confirm/pregeneration). Runs
+    as a background task; the plan status is expected to already be
+    'confirming' (set synchronously by the endpoint) and is restored to
+    `original_status` on both success and failure.
+    """
+    plan = db.get(WeeklyPlan, plan_id)
+    if not plan:
+        raise ValueError(f"Plan {plan_id} not found")
+    dish = db.get(PlanDish, dish_id)
+    if not dish or dish.plan_id != plan_id:
+        raise ValueError(f"Dish {dish_id} not found on plan {plan_id}")
+
+    try:
+        recipe = await _llm_recipe(dish, household, db)
+        if recipe is None:
+            raise RuntimeError(f"Rezept-Generierung für '{dish.name}' fehlgeschlagen")
+
+        dish.recipe_json = recipe.model_dump_json()
+        db.flush()
+
+        all_recipes = _all_confirmed_recipes(plan, {dish.id: recipe})
+        rebuild_shopping_list_preserving(plan, all_recipes, household, db)
+
+        plan.status = original_status
+        db.commit()
+        return plan
+
+    except Exception:
+        db.rollback()
+        plan = db.get(WeeklyPlan, plan_id)
+        if plan:
+            plan.status = original_status
+            db.commit()
         raise
 
 

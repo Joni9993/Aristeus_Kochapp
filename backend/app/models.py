@@ -339,6 +339,31 @@ class RecipeIngredient(Base):
     recipe: Mapped["Recipe"] = relationship("Recipe", back_populates="ingredients")
 
 
+class SavedRecipe(Base):
+    """A household's own recipe — imported from a URL or entered by hand.
+    Distinct from PlanDish (which always belongs to a specific weekly plan);
+    these show up in "Unser Kochbuch" alongside gekocht dishes (source="eigene")."""
+
+    __tablename__ = "saved_recipes"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    household_id: Mapped[int] = mapped_column(
+        ForeignKey("households.id", ondelete="CASCADE"), nullable=False, index=True
+    )
+    name: Mapped[str] = mapped_column(String(300), nullable=False)
+    cuisine: Mapped[str | None] = mapped_column(String(100), nullable=True)
+    cook_time_min: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    is_favorite: Mapped[bool] = mapped_column(Boolean, default=False, nullable=False)
+    image_url: Mapped[str | None] = mapped_column(String(500), nullable=True)
+    recipe_json: Mapped[str] = mapped_column(Text, nullable=False)  # same schema as PlanDish.recipe_json
+    source_url: Mapped[str | None] = mapped_column(String(1000), nullable=True)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now(), nullable=False
+    )
+
+    household: Mapped["Household"] = relationship("Household")
+
+
 class HealthPing(Base):
     """Kept from Phase 0."""
 

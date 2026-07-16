@@ -70,30 +70,30 @@ function DishCard({
       }`}
     >
       <DishImage imageUrl={dish.image_url} name={dish.name} cuisine={dish.cuisine} className="h-36" />
-      <div className="flex items-start gap-3 p-4">
+      <label className="flex cursor-pointer items-start gap-3 p-4">
         <input
           type="checkbox"
           checked={sel.checked}
           onChange={(e) => onChange({ ...sel, checked: e.target.checked })}
-          className="mt-1 h-4 w-4 accent-emerald-600"
+          className="mt-1 h-5 w-5 shrink-0 accent-emerald-600"
         />
-        <div className="flex-1 min-w-0">
+        <div className="min-w-0 flex-1">
           <div className="flex flex-wrap items-center gap-2 mb-1">
-            <span className="font-semibold text-stone-800 leading-tight">{dish.name}</span>
+            <span className="break-words font-semibold text-stone-800 leading-tight">{dish.name}</span>
             {dish.cuisine && (
-              <span className={`rounded-full px-2 py-0.5 text-xs font-medium ${color}`}>
+              <span className={`shrink-0 rounded-full px-2 py-0.5 text-xs font-medium ${color}`}>
                 {dish.cuisine}
               </span>
             )}
             {dish.cook_time_min && (
-              <span className="text-xs text-stone-400">{dish.cook_time_min} Min.</span>
+              <span className="shrink-0 text-xs text-stone-400">{dish.cook_time_min} Min.</span>
             )}
           </div>
           {dish.description && (
             <p className="text-sm text-stone-500 leading-snug">{dish.description}</p>
           )}
         </div>
-      </div>
+      </label>
 
       {sel.checked && (
         <div className="px-4 pb-4">
@@ -245,16 +245,22 @@ function SuggestionsView({
         </button>
       )}
 
-      <button
-        onClick={handleConfirm}
-        disabled={confirming || selected.length === 0}
-        className="w-full rounded-lg bg-emerald-600 py-3 text-sm font-semibold text-white hover:bg-emerald-700 disabled:opacity-50"
+      {/* Sticky so the confirm action stays reachable after scrolling past many cards. */}
+      <div
+        className="sticky z-20 -mx-4 border-t border-stone-200 bg-white/90 px-4 pt-3 backdrop-blur sm:-mx-6 sm:px-6"
+        style={{ bottom: 'calc(6rem + env(safe-area-inset-bottom))', paddingBottom: '0.75rem' }}
       >
-        {confirming ? 'Rezepte werden generiert…' : `${selected.length} Gerichte übernehmen`}
-      </button>
-      {confirming && (
-        <p className="mt-2 text-center text-xs text-stone-400">Dauert ca. 30–60 Sekunden…</p>
-      )}
+        <button
+          onClick={handleConfirm}
+          disabled={confirming || selected.length === 0}
+          className="w-full rounded-lg bg-emerald-600 py-3 text-sm font-semibold text-white hover:bg-emerald-700 disabled:opacity-50"
+        >
+          {confirming ? 'Rezepte werden generiert…' : `${selected.length} Gerichte übernehmen`}
+        </button>
+        {confirming && (
+          <p className="mt-2 text-center text-xs text-stone-400">Dauert ca. 30–60 Sekunden…</p>
+        )}
+      </div>
     </div>
   )
 }
@@ -288,30 +294,64 @@ function RecipesView({ plan, onReload }: { plan: Plan; onReload: () => void }) {
     onReload()
   }
 
+  async function handleRegenerateRecipe(dish: Dish) {
+    // Kicks off a background retry (plan briefly flips to 'confirming' — the
+    // page's own PendingView + polling picks that up, same as swap above).
+    try {
+      await apiFetch(`/plans/${plan.id}/dishes/${dish.id}/regenerate-recipe`, { method: 'POST' })
+    } catch {
+      // ignore — reload shows current state either way
+    }
+    onReload()
+  }
+
   return (
     <div>
       <h2 className="mb-4 font-semibold text-stone-800">Rezepte</h2>
 
-      {/* Wochenkalender */}
-      <div className="mb-2 grid grid-cols-7 gap-1">
+      {/* Wochenkalender — compact day chips (Mo–So) with a dot for occupied
+          days, plus a vertical list of "Tag · Gericht" rows below. A 7-column
+          grid is too narrow to hold dish names on a 360px phone, so the two
+          are split. */}
+      <div className="mb-3 flex justify-between gap-1">
         {DAYS.map((day) => {
           const dish = confirmed.find((d) => d.cook_day === day)
           const isToday = day === todayName
           return (
-            <button
-              key={day}
-              onClick={() => dish && openDish(dish.id)}
-              disabled={!dish}
-              className={`flex flex-col items-center gap-1 rounded-lg p-1.5 text-center transition-colors ${
-                isToday ? 'bg-emerald-100' : 'bg-stone-50'
-              } ${dish ? 'cursor-pointer hover:bg-emerald-50' : 'cursor-default opacity-40'}`}
-            >
-              <span className={`text-xs font-semibold ${isToday ? 'text-emerald-700' : 'text-stone-500'}`}>
+            <div key={day} className="flex flex-1 flex-col items-center gap-1">
+              <span
+                className={`flex h-8 w-8 items-center justify-center rounded-full text-[11px] font-semibold ${
+                  isToday
+                    ? 'bg-emerald-600 text-white'
+                    : dish
+                      ? 'bg-emerald-100 text-emerald-700'
+                      : 'bg-stone-100 text-stone-400'
+                }`}
+              >
                 {day.slice(0, 2)}
               </span>
-              <span className="line-clamp-2 text-[10px] leading-tight text-stone-600">
-                {dish ? dish.name : '–'}
+              <span className={`h-1.5 w-1.5 rounded-full ${dish ? 'bg-emerald-500' : 'bg-transparent'}`} />
+            </div>
+          )
+        })}
+      </div>
+
+      <div className="mb-4 space-y-1">
+        {DAYS.filter((day) => confirmed.some((d) => d.cook_day === day)).map((day) => {
+          const dish = confirmed.find((d) => d.cook_day === day)!
+          const isToday = day === todayName
+          return (
+            <button
+              key={day}
+              onClick={() => openDish(dish.id)}
+              className={`flex w-full min-w-0 items-center gap-2 rounded-lg px-2 py-2 text-left transition-colors hover:bg-emerald-50 ${
+                isToday ? 'bg-emerald-50' : ''
+              }`}
+            >
+              <span className={`shrink-0 text-xs font-semibold ${isToday ? 'text-emerald-700' : 'text-stone-400'}`}>
+                {day.slice(0, 2)}
               </span>
+              <span className="min-w-0 flex-1 truncate text-sm text-stone-700">{dish.name}</span>
             </button>
           )
         })}
@@ -340,16 +380,16 @@ function RecipesView({ plan, onReload }: { plan: Plan; onReload: () => void }) {
             className="rounded-xl border border-stone-200 overflow-hidden"
           >
             <button
-              className="flex w-full items-center justify-between p-4 text-left hover:bg-stone-50"
+              className="flex w-full min-w-0 items-center justify-between gap-2 p-4 text-left hover:bg-stone-50"
               onClick={() => setOpen(open === d.id ? null : d.id)}
             >
-              <div>
-                <span className="font-medium">{d.name}</span>
+              <div className="flex min-w-0 flex-1 items-baseline gap-2">
+                <span className="truncate font-medium">{d.name}</span>
                 {d.cook_day && (
-                  <span className="ml-2 text-xs text-stone-400">{d.cook_day}</span>
+                  <span className="shrink-0 text-xs text-stone-400">{d.cook_day}</span>
                 )}
               </div>
-              <span className="text-stone-400">{open === d.id ? '▲' : '▼'}</span>
+              <span className="shrink-0 text-stone-400">{open === d.id ? '▲' : '▼'}</span>
             </button>
 
             {open === d.id && d.recipe && (
@@ -361,13 +401,13 @@ function RecipesView({ plan, onReload }: { plan: Plan; onReload: () => void }) {
                 <div className="mt-4 flex flex-wrap gap-2 border-t border-stone-100 pt-3">
                   <button
                     onClick={() => setCookModeDish(d)}
-                    className="rounded-lg border border-emerald-300 px-3 py-1.5 text-xs font-medium text-emerald-700 hover:bg-emerald-50"
+                    className="rounded-lg border border-emerald-300 px-3 py-2 text-xs font-medium text-emerald-700 hover:bg-emerald-50"
                   >
                     👨‍🍳 Kochmodus
                   </button>
                   <button
                     onClick={() => handleSwap(d)}
-                    className="rounded-lg border border-stone-300 px-3 py-1.5 text-xs text-stone-600 hover:bg-stone-50"
+                    className="rounded-lg border border-stone-300 px-3 py-2 text-xs text-stone-600 hover:bg-stone-50"
                   >
                     🔄 Gericht tauschen
                   </button>
@@ -379,7 +419,13 @@ function RecipesView({ plan, onReload }: { plan: Plan; onReload: () => void }) {
             )}
             {open === d.id && !d.recipe && (
               <div className="border-t border-stone-100 p-4 text-sm text-stone-400">
-                Kein Rezept verfügbar.
+                <p className="mb-2">Kein Rezept verfügbar.</p>
+                <button
+                  onClick={() => handleRegenerateRecipe(d)}
+                  className="min-h-11 rounded-lg border border-emerald-300 px-3 py-2 text-xs font-medium text-emerald-700 hover:bg-emerald-50"
+                >
+                  Rezept jetzt generieren
+                </button>
               </div>
             )}
           </div>
@@ -431,11 +477,14 @@ function CookMode({ dish, onClose }: { dish: Dish; onClose: () => void }) {
 
   return (
     <div className="fixed inset-0 z-50 flex flex-col bg-stone-50">
-      <div className="flex items-center justify-between border-b border-stone-200 bg-white px-4 py-3">
-        <span className="font-semibold text-stone-800">{dish.name}</span>
+      <div
+        className="flex min-w-0 items-center justify-between gap-2 border-b border-stone-200 bg-white px-4 py-3"
+        style={{ paddingTop: 'max(0.75rem, env(safe-area-inset-top))' }}
+      >
+        <span className="min-w-0 flex-1 truncate font-semibold text-stone-800">{dish.name}</span>
         <button
           onClick={onClose}
-          className="text-xl leading-none text-stone-400 hover:text-stone-600"
+          className="shrink-0 p-2 text-xl leading-none text-stone-400 hover:text-stone-600"
           aria-label="Schließen"
         >
           ✕
@@ -463,17 +512,20 @@ function CookMode({ dish, onClose }: { dish: Dish; onClose: () => void }) {
         <p className="max-w-md text-xl leading-relaxed text-stone-800">{steps[step]}</p>
       </div>
 
-      <div className="flex items-center gap-3 border-t border-stone-200 bg-white p-4">
+      <div
+        className="flex items-center gap-3 border-t border-stone-200 bg-white p-4"
+        style={{ paddingBottom: 'max(1rem, env(safe-area-inset-bottom))' }}
+      >
         <button
           onClick={() => setStep((s) => Math.max(0, s - 1))}
           disabled={step === 0}
-          className="flex-1 rounded-xl bg-stone-100 py-4 text-lg font-medium text-stone-600 disabled:opacity-30"
+          className="min-h-14 flex-1 basis-1/2 rounded-xl bg-stone-100 py-4 text-lg font-medium text-stone-600 disabled:opacity-30"
         >
           ← Zurück
         </button>
         <button
           onClick={() => (step < steps.length - 1 ? setStep((s) => s + 1) : onClose())}
-          className="flex-1 rounded-xl bg-emerald-600 py-4 text-lg font-medium text-white hover:bg-emerald-700"
+          className="min-h-14 flex-1 basis-1/2 rounded-xl bg-emerald-600 py-4 text-lg font-medium text-white hover:bg-emerald-700"
         >
           {step < steps.length - 1 ? 'Weiter →' : 'Fertig'}
         </button>
@@ -590,14 +642,21 @@ function ShoppingView({
     const angebot = isAngebot(item)
     const showQty = item.quantity && item.quantity !== '0'
     return (
-      <div className={`flex items-center gap-3 py-2.5 border-b border-stone-100 last:border-0 ${dimmed ? 'opacity-50' : ''}`}>
+      // Whole row toggles is_checked (bigger tap target than the checkbox
+      // alone); the two action buttons stop propagation so they act on
+      // their own tap instead of double-toggling.
+      <div
+        onClick={() => toggle(item, 'is_checked')}
+        className={`flex cursor-pointer items-center gap-3 py-2.5 border-b border-stone-100 last:border-0 active:bg-stone-50 ${dimmed ? 'opacity-50' : ''}`}
+      >
         <input
           type="checkbox"
           checked={item.is_checked}
           onChange={() => toggle(item, 'is_checked')}
-          className="h-4 w-4 shrink-0 accent-emerald-600"
+          onClick={(e) => e.stopPropagation()}
+          className="h-5 w-5 shrink-0 accent-emerald-600"
         />
-        <div className="flex-1 min-w-0">
+        <div className="min-w-0 flex-1">
           <span className={`text-sm ${item.is_checked ? 'line-through text-stone-400' : 'text-stone-700'}`}>
             {showQty && <span className="font-medium">{item.quantity} {item.unit} </span>}
             {item.ingredient}
@@ -609,17 +668,17 @@ function ShoppingView({
           )}
         </div>
         <button
-          onClick={() => toggle(item, 'is_already_have')}
+          onClick={(e) => { e.stopPropagation(); toggle(item, 'is_already_have') }}
           title="Schon vorhanden"
-          className={`shrink-0 rounded-full px-3 py-1.5 text-xs ${item.is_already_have ? 'bg-sky-100 text-sky-700' : 'text-stone-400 hover:text-stone-600 active:text-stone-600'}`}
+          className={`shrink-0 rounded-full px-3 py-2 text-xs ${item.is_already_have ? 'bg-sky-100 text-sky-700' : 'text-stone-400 hover:text-stone-600 active:text-stone-600'}`}
         >
           Habe ich
         </button>
         <button
-          onClick={() => removeItem(item)}
+          onClick={(e) => { e.stopPropagation(); removeItem(item) }}
           title="Entfernen"
           aria-label="Entfernen"
-          className="shrink-0 text-stone-300 hover:text-red-500 active:text-red-500"
+          className="shrink-0 p-2 text-stone-300 hover:text-red-500 active:text-red-500"
         >
           ✕
         </button>
@@ -680,7 +739,7 @@ function ShoppingView({
     <div>
       <div className="mb-4 flex items-center justify-between">
         <h2 className="font-semibold text-stone-800">Einkaufsliste</h2>
-        <button onClick={shareList} className="rounded-lg border border-stone-300 px-3 py-1 text-xs hover:bg-stone-50">
+        <button onClick={shareList} className="shrink-0 rounded-lg border border-stone-300 px-3 py-2 text-xs hover:bg-stone-50">
           Teilen
         </button>
       </div>
@@ -748,6 +807,9 @@ function AddItemForm({ onAdd }: { onAdd: (ingredient: string) => Promise<void> }
   }
 
   return (
+    // min-w-0 on the input is required here: as a flex-1 child its default
+    // min-width is "auto" (content-based), which was letting a long typed
+    // value push the button off the right edge on narrow screens.
     <div className="flex gap-2">
       <input
         value={value}
@@ -759,12 +821,13 @@ function AddItemForm({ onAdd }: { onAdd: (ingredient: string) => Promise<void> }
           }
         }}
         placeholder="Eigenes hinzufügen…"
-        className="flex-1 rounded-lg border border-stone-300 px-3 py-2 text-sm focus:border-emerald-400 focus:outline-none"
+        className="min-h-11 min-w-0 flex-1 rounded-lg border border-stone-300 px-3 py-2 text-sm focus:border-emerald-400 focus:outline-none"
       />
       <button
         onClick={submit}
         disabled={adding || !value.trim()}
-        className="shrink-0 rounded-lg bg-emerald-600 px-4 py-2 text-sm font-medium text-white hover:bg-emerald-700 disabled:opacity-50"
+        aria-label="Hinzufügen"
+        className="min-h-11 shrink-0 rounded-lg bg-emerald-600 px-4 text-sm font-medium text-white hover:bg-emerald-700 disabled:opacity-50"
       >
         {adding ? '…' : 'Hinzufügen'}
       </button>
@@ -831,7 +894,7 @@ export default function Plan() {
 
   if (loading) {
     return (
-      <main className="mx-auto max-w-xl p-6">
+      <main className="mx-auto max-w-xl px-4 py-5 sm:p-6">
         <div className="flex items-center justify-center py-16 text-stone-400">Lädt…</div>
       </main>
     )
@@ -839,7 +902,7 @@ export default function Plan() {
 
   if (!plan) {
     return (
-      <main className="mx-auto max-w-xl p-6">
+      <main className="mx-auto max-w-xl px-4 py-5 sm:p-6">
         <p className="text-red-600">Plan nicht gefunden.</p>
         <button onClick={() => navigate('/')} className="mt-2 text-sm underline">Home</button>
       </main>
@@ -849,12 +912,12 @@ export default function Plan() {
   const confirmed = (plan.dishes || []).filter((d) => d.dish_status === 'confirmed')
 
   return (
-    <main className="mx-auto max-w-xl p-6">
-      <div className="mb-6 flex items-center justify-between">
-        <button onClick={() => navigate('/')} className="text-sm text-stone-500 underline hover:text-stone-700">
+    <main className="mx-auto max-w-xl px-4 py-5 sm:p-6">
+      <div className="mb-6 flex items-center justify-between gap-2">
+        <button onClick={() => navigate('/')} className="shrink-0 text-sm text-stone-500 underline hover:text-stone-700">
           Zurück
         </button>
-        <span className="text-xs text-stone-400">KW ab {plan.week_start_date}</span>
+        <span className="shrink-0 text-xs text-stone-400">KW ab {plan.week_start_date}</span>
       </div>
 
       {plan.status === 'pending' && (

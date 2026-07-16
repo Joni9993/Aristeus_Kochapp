@@ -23,6 +23,7 @@ textarea {
 
 /* Backgrounds */
 .dark .bg-white     { background-color: rgb(28 25 23); }  /* stone-900 */
+.dark .bg-white\/90 { background-color: rgb(28 25 23 / 0.9); }  /* sticky action bars */
 .dark .bg-stone-50  { background-color: rgb(41 37 36); }  /* stone-800 */
 .dark .bg-stone-100 { background-color: rgb(68 64 60); }  /* stone-700 */
 .dark .bg-stone-200 { background-color: rgb(87 83 78); }  /* stone-600 */

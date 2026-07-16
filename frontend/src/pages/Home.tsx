@@ -129,9 +129,9 @@ function OffersDrawer({
       {/* Drawer */}
       <div className="fixed inset-y-0 right-0 z-50 flex w-full max-w-md flex-col bg-white shadow-2xl">
         {/* Header */}
-        <div className="flex items-start justify-between border-b border-stone-200 px-5 py-4">
-          <div>
-            <h2 className="text-lg font-semibold">{storeLabel} – Angebote</h2>
+        <div className="flex items-start justify-between gap-2 border-b border-stone-200 px-5 py-4">
+          <div className="min-w-0">
+            <h2 className="truncate text-lg font-semibold">{storeLabel} – Angebote</h2>
             {data && (
               <p className="mt-0.5 text-xs text-stone-500">
                 Gültig {formatDate(data.valid_from)}–{formatDate(data.valid_to)}
@@ -144,7 +144,7 @@ function OffersDrawer({
           </div>
           <button
             onClick={onClose}
-            className="ml-4 rounded-md p-1 text-stone-400 hover:bg-stone-100 hover:text-stone-700"
+            className="shrink-0 rounded-md p-2 text-stone-400 hover:bg-stone-100 hover:text-stone-700"
             aria-label="Schließen"
           >
             ✕
@@ -198,7 +198,7 @@ function OffersDrawer({
                     key={offer.id}
                     className="flex items-start justify-between rounded-lg border border-stone-100 bg-stone-50 px-3 py-2"
                   >
-                    <div className="mr-3 flex-1">
+                    <div className="mr-3 min-w-0 flex-1">
                       <p className="text-sm font-medium leading-snug text-stone-800">
                         {offer.product_name}
                       </p>
@@ -288,7 +288,7 @@ function FeedbackPendingCard({
   return (
     <section className="mb-6 rounded-xl border border-amber-300 bg-amber-50 p-4 shadow-sm">
       <div className="flex items-start justify-between gap-3">
-        <div>
+        <div className="min-w-0">
           <p className="font-semibold text-amber-900">
             Wie war eure Woche {fmt(start)} – {fmt(end)}?
           </p>
@@ -298,7 +298,7 @@ function FeedbackPendingCard({
         </div>
         <button
           onClick={onDismiss}
-          className="shrink-0 text-amber-500 hover:text-amber-700"
+          className="shrink-0 p-1 text-amber-500 hover:text-amber-700"
           aria-label="Ausblenden"
         >
           ✕
@@ -390,7 +390,7 @@ export default function Home() {
   const hasAnyOffers = stores.some(([, s]) => s.offer_count > 0)
 
   return (
-    <main className="mx-auto max-w-xl p-6">
+    <main className="mx-auto max-w-xl px-4 py-5 sm:p-6">
       <header className="mb-8 flex items-baseline gap-2">
         <h1 className="text-2xl font-semibold tracking-tight">Aristeus</h1>
         <span className="text-xs text-stone-400">v{APP_VERSION}</span>
@@ -404,14 +404,14 @@ export default function Home() {
 
       {/* Angebots-Freshness */}
       <section className="mb-6 rounded-xl border border-stone-200 bg-white p-4 shadow-sm">
-        <div className="mb-3 flex items-center justify-between">
-          <h2 className="font-semibold">
+        <div className="mb-3 flex items-center justify-between gap-2">
+          <h2 className="min-w-0 truncate font-semibold">
             Angebote {freshness ? `(PLZ ${freshness.plz})` : ''}
           </h2>
           <button
             onClick={handleRefresh}
             disabled={refreshing}
-            className="rounded-lg border border-stone-300 px-3 py-1 text-xs hover:bg-stone-50 disabled:opacity-50"
+            className="shrink-0 rounded-lg border border-stone-300 px-3 py-2 text-xs hover:bg-stone-50 disabled:opacity-50"
           >
             {refreshing ? 'Läuft…' : 'Aktualisieren'}
           </button>
@@ -431,18 +431,18 @@ export default function Home() {
                   key={storeId}
                   onClick={() => hasOffers && setSelectedStore({ id: storeId, label: s.label })}
                   disabled={!hasOffers}
-                  className={`flex w-full items-center justify-between rounded-lg px-2 py-2 text-sm transition-colors ${
+                  className={`flex min-h-11 w-full items-center justify-between gap-2 rounded-lg px-2 py-2 text-sm transition-colors ${
                     hasOffers
                       ? 'cursor-pointer hover:bg-stone-50 active:bg-stone-100'
                       : 'cursor-default'
                   }`}
                 >
-                  <div className="flex items-center gap-2">
-                    <span className={`h-2 w-2 rounded-full ${cfg.dot}`} />
-                    <span className="font-medium">{s.label}</span>
-                    <span className={`text-xs ${cfg.text}`}>{cfg.label}</span>
+                  <div className="flex min-w-0 items-center gap-2">
+                    <span className={`h-2 w-2 shrink-0 rounded-full ${cfg.dot}`} />
+                    <span className="truncate font-medium">{s.label}</span>
+                    <span className={`shrink-0 text-xs ${cfg.text}`}>{cfg.label}</span>
                   </div>
-                  <div className="flex items-center gap-2 text-right text-xs text-stone-500">
+                  <div className="flex shrink-0 flex-wrap items-center justify-end gap-x-2 gap-y-0.5 text-right text-xs text-stone-500">
                     {hasOffers ? (
                       <>
                         <span className="text-stone-700">{s.cooking_relevant_count ?? 0} Koch-Angebote</span>
@@ -470,13 +470,13 @@ export default function Home() {
             {plans.slice(0, 10).map((p) => {
               const st = PLAN_STATUS[p.status] ?? { label: p.status, cls: 'text-stone-400' }
               return (
-                <div key={p.id} className="flex items-center rounded-lg px-2 py-2 hover:bg-stone-50">
+                <div key={p.id} className="flex min-h-11 items-center gap-2 rounded-lg px-2 py-2 hover:bg-stone-50">
                   <Link
                     to={`/plan/${p.id}`}
-                    className="flex flex-1 items-center justify-between"
+                    className="flex min-w-0 flex-1 items-center justify-between gap-2"
                   >
-                    <span className="text-sm font-medium text-stone-700">{formatWeekRange(p.week_start_date)}</span>
-                    <span className={`text-xs ${st.cls}`}>{st.label}</span>
+                    <span className="shrink-0 text-sm font-medium text-stone-700">{formatWeekRange(p.week_start_date)}</span>
+                    <span className={`shrink-0 truncate text-xs ${st.cls}`}>{st.label}</span>
                   </Link>
                   <button
                     onClick={async (e) => {
@@ -485,7 +485,7 @@ export default function Home() {
                       await apiFetch(`/plans/${p.id}`, { method: 'DELETE' }).catch(() => {})
                       setPlans((prev) => prev.filter((x) => x.id !== p.id))
                     }}
-                    className="ml-2 shrink-0 opacity-30 hover:opacity-100 active:opacity-100"
+                    className="shrink-0 p-2 opacity-30 hover:opacity-100 active:opacity-100"
                     title="Plan löschen"
                   >
                     🗑
@@ -499,7 +499,7 @@ export default function Home() {
 
       {/* Wochenplan-CTA */}
       <section className="rounded-xl border border-emerald-200 bg-emerald-50 p-5 text-center">
-        <p className="font-medium text-emerald-800">
+        <p className="break-words font-medium text-emerald-800">
           Willkommen{household?.username ? `, ${household.username}` : ''}!
         </p>
         {hasAnyOffers ? (

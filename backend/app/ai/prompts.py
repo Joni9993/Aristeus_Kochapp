@@ -211,6 +211,69 @@ Empfehlungen: Was sollte zukünftig mehr/weniger vorgeschlagen werden?"""
     ]
 
 
+def build_recipe_import_ingredients_prompt(*, raw_ingredients: list[str]) -> list[dict]:
+    """Structure raw ingredient lines (e.g. from JSON-LD recipeIngredient) into
+    the app's zutaten schema — used by POST /api/recipes/import."""
+    system = (
+        "Du bist ein Kochassistent. Antworte immer auf Deutsch und ausschließlich als gültiges JSON."
+    )
+    lines = "\n".join(f"- {r}" for r in raw_ingredients)
+    user = f"""Wandle diese Zutatenzeilen aus einem Rezept in strukturierte Daten um:
+
+{lines}
+
+Gib exakt dieses JSON zurück:
+{{
+  "zutaten": [
+    {{"name": "Zutatname ohne Menge", "menge": 200, "einheit": "g"}}
+  ]
+}}
+
+- "menge": Zahl (z.B. 0.5, 200) oder null, wenn keine Menge angegeben ist
+- "einheit": kurze Einheit (g, kg, ml, l, EL, TL, Stück, Prise, ...) oder null
+- Behalte Reihenfolge und Anzahl der Zeilen exakt bei (eine Ausgabe pro Eingabezeile)."""
+    return [
+        {"role": "system", "content": system},
+        {"role": "user", "content": user},
+    ]
+
+
+def build_recipe_import_from_text_prompt(*, page_text: str, url: str) -> list[dict]:
+    """Extract a full recipe from unstructured page text (no JSON-LD present —
+    Instagram/Pinterest/blog posts) — used by POST /api/recipes/import."""
+    system = (
+        "Du bist ein Kochassistent, der Rezepte aus unstrukturiertem Webseitentext extrahiert. "
+        "Antworte immer auf Deutsch und ausschließlich als gültiges JSON."
+    )
+    user = f"""Der folgende Text stammt von der Webseite {url}. Prüfe, ob er ein Kochrezept enthält
+(z.B. ein Instagram-Post, Pinterest-Pin oder Blogartikel mit Zutaten und Zubereitung).
+
+=== SEITENTEXT ===
+{page_text}
+
+Wenn KEIN Rezept erkennbar ist (z.B. weil es nur Werbung, ein Profil oder unzusammenhängender Text ist),
+gib zurück: {{"erkannt": false}}
+
+Wenn ein Rezept erkennbar ist, gib exakt dieses JSON zurück:
+{{
+  "erkannt": true,
+  "name": "Gerichtname",
+  "kategorie": "vegetarisch|vegan|Fisch|Fleisch|gemischt",
+  "zutaten": [
+    {{"name": "Zutatname", "menge": 200, "einheit": "g"}}
+  ],
+  "schritte": ["Schritt 1: ...", "Schritt 2: ..."],
+  "geschaetzte_zeit_min": 30,
+  "tipps": ["Tipp"]
+}}
+
+Extrahiere nur, was im Text tatsächlich steht — erfinde keine Zutaten oder Schritte."""
+    return [
+        {"role": "system", "content": system},
+        {"role": "user", "content": user},
+    ]
+
+
 def format_profile(profile, portion_override: int | None = None) -> str:
     """Format a Profile ORM object as a readable string for prompts.
 
@@ -252,7 +315,10 @@ def format_offers(offers: list) -> str:
     if not offers:
         return "Keine Angebote."
     lines = []
-    for o in offers[:80]:  # cap at 80 to stay within context
+    # Deliberately uncapped: every cooking-relevant offer of every selected
+    # store goes into the prompt (~290 offers ≈ 4-5k tokens — fine for the
+    # whole model chain, and offer coverage is the core promise of the app).
+    for o in offers:
         price = f" — {o.price_text}" if o.price_text else ""
         date_hint = f" (ab {o.live_from_date})" if o.live_from_date else ""
         store = o.store.capitalize() if o.store else ""

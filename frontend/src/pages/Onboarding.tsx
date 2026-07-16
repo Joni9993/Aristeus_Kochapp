@@ -87,7 +87,7 @@ export default function Onboarding() {
   const TOTAL = 6
 
   return (
-    <main className="mx-auto flex min-h-screen max-w-lg flex-col p-6">
+    <main className="mx-auto flex min-h-screen max-w-lg flex-col px-4 py-5 sm:p-6">
       <header className="mb-8">
         <p className="text-sm text-stone-500">
           Schritt {step} von {TOTAL}
@@ -111,6 +111,7 @@ export default function Onboarding() {
             onChange={(e) => setData({ ...data, postal_code: e.target.value })}
             placeholder="z.B. 80331"
             maxLength={10}
+            inputMode="numeric"
           />
         </Step>
       )}
