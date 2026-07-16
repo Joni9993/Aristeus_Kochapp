@@ -17,6 +17,7 @@ type TodayInfo = {
   planId: number
   dish: Dish | null
   upcoming: Dish[]
+  savings: Plan['savings'] | null
 }
 
 const PLAN_STATUS: Record<string, { label: string; cls: string }> = {
@@ -430,7 +431,7 @@ export default function Home() {
             .filter((d) => d.cook_day && DAYS.indexOf(d.cook_day) > todayIdx)
             .sort((a, b) => DAYS.indexOf(a.cook_day!) - DAYS.indexOf(b.cook_day!))
             .slice(0, 2)
-          setTodayInfo({ planId: full.id, dish, upcoming })
+          setTodayInfo({ planId: full.id, dish, upcoming, savings: full.savings ?? null })
         }).catch(() => {})
       }
     }).catch(() => {})
@@ -555,6 +556,26 @@ export default function Home() {
           </div>
         )}
       </section>
+
+      {/* e2) Ersparnis dieser Woche — honey banner, only when the current
+          week's plan actually uses offers */}
+      {todayInfo?.savings && todayInfo.savings.offers_used > 0 && (
+        <Link
+          to={`/plan/${todayInfo.planId}`}
+          className="mb-3 flex min-h-11 items-center gap-2 rounded-xl border border-honey/40 bg-honey-soft px-3.5 py-2.5 text-sm"
+        >
+          <span aria-hidden>🏷️</span>
+          <span className="min-w-0 flex-1 font-medium text-ink">
+            {todayInfo.savings.estimated_savings > 0
+              ? `Ca. ${todayInfo.savings.estimated_savings.toLocaleString('de-DE', {
+                  style: 'currency',
+                  currency: 'EUR',
+                })} gespart diese Woche durch Angebote`
+              : `${todayInfo.savings.offers_used} Zutaten diese Woche im Angebot`}
+          </span>
+          <span className="shrink-0 text-honey">→</span>
+        </Link>
+      )}
 
       {/* f) Frühere Wochen — collapsed, doesn't count toward the viewport goal */}
       {plans.length > 0 && (

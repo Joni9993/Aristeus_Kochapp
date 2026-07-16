@@ -2,11 +2,19 @@ import { useState } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { apiFetch } from '../api/client'
 import { useAuth } from '../hooks/useAuth'
+import { useTheme, type ThemeMode } from '../hooks/useTheme'
+
+const THEME_OPTIONS: { value: ThemeMode; label: string }[] = [
+  { value: 'system', label: 'System' },
+  { value: 'light', label: 'Hell' },
+  { value: 'dark', label: 'Dunkel' },
+]
 
 export default function BottomNav() {
   const { household, refresh } = useAuth()
   const navigate = useNavigate()
   const [showOptions, setShowOptions] = useState(false)
+  const [theme, setTheme] = useTheme()
 
   async function handleLogout() {
     setShowOptions(false)
@@ -79,6 +87,23 @@ export default function BottomNav() {
             <p className="mb-4 text-center text-xs font-semibold uppercase tracking-wide text-muted">
               Optionen
             </p>
+
+            <p className="mb-1.5 px-1 text-xs font-medium text-muted">Design</p>
+            <div className="mb-4 grid grid-cols-3 gap-1 rounded-xl bg-surface p-1">
+              {THEME_OPTIONS.map((opt) => (
+                <button
+                  key={opt.value}
+                  onClick={() => setTheme(opt.value)}
+                  className={`min-h-11 rounded-lg text-sm font-medium transition-colors ${
+                    theme === opt.value
+                      ? 'bg-olive text-olive-on'
+                      : 'text-ink/70 hover:bg-card active:bg-card'
+                  }`}
+                >
+                  {opt.label}
+                </button>
+              ))}
+            </div>
 
             <button
               onClick={handleLogout}

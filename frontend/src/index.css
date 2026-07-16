@@ -4,11 +4,12 @@
 
 /* ── Design tokens — "Honig & Olive" ───────────────────────────
    Values are space-separated RGB triplets so Tailwind's color
-   opacity modifiers (e.g. border-honey/30) work. The app follows
-   the OS color-scheme only — no manual/class-based toggle. */
+   opacity modifiers (e.g. border-honey/30) work. A pre-paint script
+   in index.html resolves the theme ('system' follows the OS; manual
+   override under "Mehr") into data-theme="light|dark" on <html>. */
 
 :root {
-  color-scheme: light dark;
+  color-scheme: light;
 
   --surface: 246 241 231;      /* #F6F1E7 */
   --card: 255 253 248;         /* #FFFDF8 */
@@ -26,8 +27,9 @@
   --honey-line: 185 138 46;    /* used with low alpha for hairline dividers */
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
     --surface: 29 26 20;       /* #1D1A14 */
     --card: 39 35 27;          /* #27231B */
     --ink: 237 231 216;        /* #EDE7D8 */
@@ -42,7 +44,6 @@
     --honey: 217 169 74;       /* #D9A94A */
     --honey-soft: 61 52 33;    /* #3D3421 */
     --honey-line: 217 169 74;
-  }
 }
 
 html, body, #root {

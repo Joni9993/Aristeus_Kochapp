@@ -11,6 +11,22 @@
     <meta name="mobile-web-app-capable" content="yes" />
     <link rel="apple-touch-icon" href="/pwa-192.png" />
     <title>Aristeus Kochapp</title>
+    <script>
+      // Resolve the theme before first paint (no flash). 'system' follows the
+      // OS; 'light'/'dark' are manual overrides set under "Mehr" in the app.
+      ;(function () {
+        try {
+          var t = localStorage.getItem('aristeus-theme')
+          var dark =
+            t === 'dark' ||
+            ((t === null || t === 'system') &&
+              window.matchMedia('(prefers-color-scheme: dark)').matches)
+          document.documentElement.dataset.theme = dark ? 'dark' : 'light'
+        } catch (e) {
+          document.documentElement.dataset.theme = 'light'
+        }
+      })()
+    </script>
   </head>
   <body class="antialiased">
     <div id="root"></div>

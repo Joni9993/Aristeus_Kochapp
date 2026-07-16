@@ -1,10 +1,10 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  // No manual toggle — the app follows the OS color-scheme. This keeps
-  // `dark:` variants available (for the handful of literal-color
-  // exceptions like error red) driven by prefers-color-scheme, while the
-  // branded palette below is CSS-variable based and switches automatically.
-  darkMode: 'media',
+  // Theme is resolved into data-theme="light|dark" on <html> (pre-paint
+  // script in index.html + useTheme hook; 'system' follows the OS). `dark:`
+  // variants and the CSS-variable palette both key off that attribute, so
+  // the manual override under "Mehr" affects everything consistently.
+  darkMode: ['selector', '[data-theme="dark"]'],
   content: ['./index.html', './src/**/*.{ts,tsx}'],
   theme: {
     extend: {
