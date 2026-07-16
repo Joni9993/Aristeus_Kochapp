@@ -9,6 +9,7 @@ def build_suggestions_prompt(
     count: int = 10,
     week_start: str,
     exclude_names: list[str] | None = None,
+    wish_text: str | None = None,
 ) -> list[dict]:
     exclude_hint = ""
     if exclude_names:
@@ -17,6 +18,15 @@ def build_suggestions_prompt(
             f"\nDiese Gerichte wurden kürzlich vorgeschlagen oder gekocht — "
             f"schlage sie NICHT erneut vor (auch keine nahezu identischen Varianten): {names}.\n"
         )
+
+    wish_block = ""
+    if wish_text:
+        wish_block = f"""
+
+=== WÜNSCHE DES HAUSHALTS FÜR DIESE WOCHE ===
+{wish_text}
+Berücksichtige diese Wünsche prioritär: nimm explizit gewünschte Gerichte in die Vorschläge auf
+und plane genannte vorhandene Vorräte/Zutaten mit ein, wenn welche erwähnt werden."""
 
     system = (
         "Du bist ein Kochassistent für deutsche Familien. "
@@ -28,6 +38,7 @@ def build_suggestions_prompt(
 
 === HAUSHALTSPROFIL ===
 {profile_text}
+{wish_block}
 
 === LERNKONTEXT (bisherige Vorlieben) ===
 {learn_text or "Noch keine Vorlieben gespeichert."}
@@ -200,16 +211,29 @@ Empfehlungen: Was sollte zukünftig mehr/weniger vorgeschlagen werden?"""
     ]
 
 
-def format_profile(profile) -> str:
-    """Format a Profile ORM object as a readable string for prompts."""
+def format_profile(profile, portion_override: int | None = None) -> str:
+    """Format a Profile ORM object as a readable string for prompts.
+
+    portion_override: when set (a household's "Gäste-Modus" for this one
+    week), the normal household headcount line is replaced with an explicit
+    instruction to cook for that many people this week instead.
+    """
     import json
     allergies = json.loads(profile.allergies_json or "[]")
     no_gos = json.loads(profile.no_gos_json or "[]")
     cuisines = json.loads(profile.preferred_cuisines_json or "[]")
     meats = json.loads(profile.allowed_meats_json or "[]")
 
+    if portion_override:
+        household_line = (
+            f"Haushalt: DIESE WOCHE für {portion_override} Personen kochen "
+            f"(Gäste/abweichende Personenzahl)!"
+        )
+    else:
+        household_line = f"Haushalt: {profile.adults} Erwachsene, {profile.kids} Kinder"
+
     parts = [
-        f"Haushalt: {profile.adults} Erwachsene, {profile.kids} Kinder",
+        household_line,
         f"Diät: {profile.diet}",
         f"Erlaubte Fleischsorten: {', '.join(meats) if meats else 'keine'}",
         f"Max. Kochzeit: {profile.max_cook_time_min} Minuten",

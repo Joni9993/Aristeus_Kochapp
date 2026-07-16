@@ -3,11 +3,13 @@ import AppLayout from './components/AppLayout'
 import { AdminRoute, ProtectedRoute } from './components/ProtectedRoute'
 import { AuthProvider } from './hooks/useAuth'
 import Admin from './pages/Admin'
+import Cookbook from './pages/Cookbook'
 import Home from './pages/Home'
 import Login from './pages/Login'
 import Onboarding from './pages/Onboarding'
 import PasswordReset from './pages/PasswordReset'
 import Plan from './pages/Plan'
+import PlanFeedback from './pages/PlanFeedback'
 import PlanNew from './pages/PlanNew'
 import Profile from './pages/Profile'
 import Register from './pages/Register'
@@ -26,9 +28,11 @@ export default function App() {
           {/* Protected — with bottom nav */}
           <Route element={<ProtectedRoute><AppLayout /></ProtectedRoute>}>
             <Route path="/" element={<Home />} />
+            <Route path="/cookbook" element={<Cookbook />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/plan/new" element={<PlanNew />} />
             <Route path="/plan/:planId" element={<Plan />} />
+            <Route path="/plan/:planId/feedback" element={<PlanFeedback />} />
           </Route>
 
           {/* Admin — with bottom nav */}

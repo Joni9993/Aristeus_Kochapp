@@ -21,8 +21,11 @@ Browser-basierte PWA-Familien-Kochapp. Liest Kaufda-Angebote, schlägt Gerichte 
 - **Frontend:** React 18, Vite 5, TypeScript, Tailwind CSS, React Router v6
 - **LLM:** OpenRouter, Modell-Chain (Stand 2026-07-14): `qwen3-next-80b-a3b-instruct:free` → `gemma-4-31b-it:free` → `llama-3.3-70b-instruct:free` → `nemotron-3-super-120b-a12b:free`. Fast-Failover: bei 429/Parse-Fehler sofort nächstes Modell; erst nach kompletter erfolgloser Runde 35s warten + zweite Runde. Free-Slugs sterben regelmäßig (gpt-oss-120b:free und gemini-2.0-flash-exp:free gaben 404) → bei 404-Fehlern zuerst `curl https://openrouter.ai/api/v1/models` gegen die Chain prüfen
 - **Rezeptquelle:** AI-Vorschläge sind der Primärpfad. Der Chefkoch-Katalog (`recipe_matcher.py`, `chefkoch_scraper.py`) ist **deaktiviert** (`USE_RECIPE_CATALOG=false`, Default) — Code bleibt hinter dem Flag erhalten
-- **AI-Ablauf (seit 2026-07-14):** Rezepte werden gebündelt generiert (4 Gerichte pro LLM-Call, `recipe_batch`); Confirm läuft asynchron (Status `confirming`, Frontend pollt) und ist idempotent. Scheduler: Kaufda-Refresh Sa+So 03:00, **Vorgenerierung So 04:00** (pro Haushalt: Plan für kommende Woche + 30 Vorschläge à 3×10 Calls + alle Rezepte in `dish.recipe_json`) → Plan-Erstellung und Confirm brauchen dann 0 LLM-Calls. `POST /api/plans` gibt einen existierenden pending/suggestions_ready-Plan derselben Woche zurück statt einen neuen anzulegen. `max_tokens` großzügig setzen — Reasoning-Modelle (Nemotron) verbrauchen 1000+ Tokens vor dem JSON, zu knappe Limits truncaten das JSON
-- **Deployment:** Homeserver docker-vm (192.168.50.61), Stack `/opt/stacks/aristeus`, Auto-Deploy GitHub Actions → GHCR → Watchtower (≤5 min). Env-Änderungen: `aristeus.env` auf dem Server + `docker compose up -d`
+- **AI-Ablauf (seit 2026-07-14):** Rezepte werden gebündelt generiert (4 Gerichte pro LLM-Call, `recipe_batch`); Confirm läuft asynchron (Status `confirming`, Frontend pollt) und ist idempotent. Scheduler: Kaufda-Refresh Sa+So 03:00, **Vorgenerierung So 04:00** (pro Haushalt: Plan für kommende Woche + 30 Vorschläge à 3×10 Calls + alle Rezepte in `dish.recipe_json`) → Plan-Erstellung und Confirm brauchen dann 0 LLM-Calls. Feedback-Aggregation Mo 04:00, **Healthcheck Mo 07:00** (prüft, ob jeder Haushalt einen Plan für die Woche hat). `POST /api/plans` gibt einen existierenden pending/suggestions_ready-Plan derselben Woche zurück statt einen neuen anzulegen. `max_tokens` großzügig setzen — Reasoning-Modelle (Nemotron) verbrauchen 1000+ Tokens vor dem JSON, zu knappe Limits truncaten das JSON
+- **Monitoring:** Fehler bei Plan-/Rezept-Generierung + Healthcheck-Befunde gehen als Vorfall an das Status-Dashboard (`STATUS_WEBHOOK_URL`, Kuma-Webhook-Format, s. `backend/app/services/status_webhook.py`; Produktion: `http://192.168.50.62:8080/api/kuma-webhook`) → Eintrag in „Letzte Vorfälle" auf status.tr4jon.com + Web-Push
+- **Optionale Env-Vars:** `OPENROUTER_PAID_MODELS` (bezahlte Modelle ans Ende der Free-Chain), `PEXELS_API_KEY` (Gerichtsfotos, ohne Key Emoji-Platzhalter), `STATUS_WEBHOOK_URL` — alle leer = Feature aus, kein Fehler
+- **Deployment:** Homeserver docker-vm (192.168.50.61), Stack `/opt/stacks/aristeus`, Auto-Deploy GitHub Actions → GHCR → Watchtower (≤5 min). Migrationen laufen automatisch beim Container-Start (`alembic upgrade head` im Dockerfile-CMD). Env-Änderungen: `aristeus.env` auf dem Server + `docker compose up -d`
+- **Versionierung (PFLICHT seit v2.0.0):** Jedes Update (Feature wie Bugfix) bumpt die Version — Semver in `frontend/src/version.ts` (`APP_VERSION`, wird auf Login + Home angezeigt) **und** `frontend/package.json` synchron halten, Version in die Commit-Message, Releases als Git-Tag (`vX.Y.Z`)
 
 ## Lokal starten
 
@@ -67,7 +70,7 @@ cd backend
 .venv\Scripts\alembic upgrade head
 ```
 
-Letzte Migration: `a1b2c3d4e5f6` (Phase 3 — weekly_plans, plan_dishes, shopping_items, learned_preferences, api_calls)
+Letzte Migration: `a2b3c4d5e6f7` (plan_dishes.image_url + weekly_plans.portion_override; davor `f6a7b8c9d0e1` weekly_plans.wish_text). Migrationen laufen im Deployment automatisch beim Container-Start.
 
 ## Keyword-Filter (`backend/app/services/keyword_filter.py`)
 
@@ -150,10 +153,14 @@ print(f"+{len(added)} kochrelevant, -{len(removed)} entfernt")
 - **LLM-basierte Nachklassifizierung:** Zweideutige Produkte (weder klar food noch klar non-food) könnten per Batch-Aufruf vom LLM nachbewertet werden.
 - **Umlaut-Normalisierung:** `_normalize()` konvertiert keine Akzente (é, è, î etc.). Französische Produktnamen wie `Crème fraîche` matchen deshalb nur über das explizit ergänzte `"fraîche"`-Keyword.
 
-## Was Phase 4 braucht (nächster Start)
+## Feature-Welle 2026-07-16 (nach Phase 7)
 
-- **Frontend:** Feedback-Flow nach dem Essen (Daumen ↑/↓, Portion, Freitext) ist im Backend (`PATCH /api/plans/{id}/dishes/{dish_id}/feedback`) bereits implementiert, aber noch nicht als dedizierte UI-Seite vorhanden
-- **Frontend:** Plan-Historie-Seite (`GET /api/plans` → Liste vergangener Wochen)
-- **Frontend:** Sternchen-Favoriten (bereits im Modell `is_favorite`)
-- **Backend:** Feedback → `learned_preferences` Aggregation auslösen (Step 8 der Pipeline)
-- **Backend:** Scheduler-Job der wöchentlich `update_from_feedback()` aufruft
+Alle Phasen fertig; darauf aufbauend kam eine große Alltags-/Robustheits-Welle:
+
+- **Plan-Lifecycle:** Pläne vergangener Wochen werden beim Lesen automatisch `complete`; `GET /api/plans/feedback-pending` liefert den jüngsten complete-Plan mit unbewertetem Gericht (treibt die Feedback-Karte auf Home → Seite `/plan/:id/feedback`)
+- **Plan-Steuerung:** `wish_text` (Freitext-Wünsche/Vorräte, fließt in den Suggestions-Prompt) und `portion_override` (2–20 Personen, Gäste-Modus) bei `POST /api/plans`; `POST .../dishes/{id}/swap` tauscht ein bestätigtes Gericht (Status kurz `confirming`, Einkaufsliste wird unter Erhalt von Häkchen + eigenen Items neu gebaut)
+- **Einkaufsliste:** eigene Items (`POST/DELETE .../shopping`), 10s-Polling-Sync zwischen Geräten, einheitengerechte Mengen-Rundung (`_round_quantity`), `savings`-Block im Plan (`offers_used`, `offer_total`)
+- **UI:** „Heute"-Karte + Wochenkalender, Kochmodus (Wake-Lock, Schritt-für-Schritt), Kochbuch-Seite `/cookbook` (`GET /api/recipes`, dedupe per Name, Suche + Favoriten), Gerichtsbilder via Pexels (`dish_images.py`) mit Emoji-Platzhalter (`DishImage.tsx`); geteilte Frontend-Typen in `frontend/src/types.ts`
+- **Robustheit:** `more-suggestions` asynchron (Frontend pollt Dish-Anzahl), echte LLM-Kosten in `api_calls.cost_estimate` (OpenRouter `usage.include`), Incident-Reporting ans Status-Dashboard, pytest-Suite in `backend/tests/`
+
+Bewusst offen gelassen: Web-Push-Benachrichtigungen („Morgen: X — Fleisch auftauen"), Kategorie-basierter Offer-Pre-Filter, LLM-Nachklassifizierung zweideutiger Angebote (s. Keyword-Filter-Abschnitt).

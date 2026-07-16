@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { apiFetch, ApiError } from '../api/client'
 import { useAuth } from '../hooks/useAuth'
+import { APP_VERSION } from '../version'
 
 export default function Login() {
   const navigate = useNavigate()
@@ -31,7 +32,10 @@ export default function Login() {
   return (
     <main className="flex min-h-screen items-center justify-center bg-stone-50 p-4">
       <div className="w-full max-w-sm">
-        <h1 className="mb-8 text-2xl font-semibold tracking-tight">Aristeus Kochapp</h1>
+        <h1 className="mb-8 text-2xl font-semibold tracking-tight">
+          Aristeus Kochapp{' '}
+          <span className="text-xs font-normal text-stone-400">v{APP_VERSION}</span>
+        </h1>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label className="mb-1 block text-sm font-medium text-stone-700">

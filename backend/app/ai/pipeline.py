@@ -227,7 +227,7 @@ async def _llm_suggestions(
         offers = _filter_monday_only(offers, plan.week_start_date)
 
     learn_ctx = build_learn_context(household.id, db)
-    profile_text = format_profile(profile)
+    profile_text = format_profile(profile, plan.portion_override)
     offers_text = format_offers(offers)
 
     # Anti-repetition: same-plan suggestions + dishes from recent weeks
@@ -243,6 +243,7 @@ async def _llm_suggestions(
         count=count,
         week_start=plan.week_start_date,
         exclude_names=avoid or None,
+        wish_text=plan.wish_text,
     )
 
     # Budget is deliberately huge: free models cost nothing, and reasoning
@@ -317,6 +318,16 @@ def _round_quantity(qty: float, unit: str | None) -> float:
 
     # Default: 1 decimal
     return round(qty, 1)
+
+
+def _format_quantity(qty: float) -> str:
+    """Render a rounded quantity for display — decimals kept, trailing zeros dropped.
+
+    0.5 -> "0.5", 1.5 -> "1.5", 250.0 -> "250" (never "250.0").
+    """
+    if qty == int(qty):
+        return str(int(qty))
+    return f"{qty:.3f}".rstrip("0").rstrip(".")
 
 
 def _load_recipe_from_catalog(
@@ -407,7 +418,8 @@ async def _llm_recipe(
 
     offers = _get_active_offers(plz, stores, db)
     offers_text = format_offers(offers)
-    profile_text = format_profile(profile)
+    portion_override = dish.plan.portion_override if dish.plan else None
+    profile_text = format_profile(profile, portion_override)
 
     messages = build_recipe_prompt(
         dish_name=dish.name,
@@ -442,9 +454,12 @@ async def _llm_recipes_batch(
     stores = json.loads(profile.selected_stores_json or "[]")
     offers = _get_active_offers(profile.postal_code or "", stores, db)
 
+    # All dishes in one batch call belong to the same plan (see generate_recipes callers)
+    portion_override = dishes[0].plan.portion_override if dishes and dishes[0].plan else None
+
     messages = build_recipes_batch_prompt(
         dishes=[(d.name, d.description or "") for d in dishes],
-        profile_text=format_profile(profile),
+        profile_text=format_profile(profile, portion_override),
         offers_text=format_offers(offers),
     )
 
@@ -606,8 +621,14 @@ def build_shopping_list(
 
     items: list[ShoppingItem] = []
     for entry in aggregated.values():
-        qty_rounded = round(entry["total"])
-        qty = str(qty_rounded) if qty_rounded > 0 else None
+        total = entry["total"]
+        if total > 0:
+            qty = _format_quantity(_round_quantity(total, entry["unit"]))
+        else:
+            # Nothing was ever aggregated (e.g. "Salz" with no menge in any
+            # recipe) — no quantity to show, as opposed to a genuine small
+            # amount that rounds down but is still present.
+            qty = None
 
         store: str | None = None
         offer_id: int | None = None
@@ -684,6 +705,17 @@ async def run_suggestions_step(
         saved.append(dish)
 
     db.flush()
+
+    # Best-effort dish photos — a no-op without PEXELS_API_KEY, and any failure
+    # here must never break suggestion generation itself.
+    try:
+        from ..services.dish_images import find_dish_image
+
+        for dish in saved:
+            dish.image_url = await find_dish_image(dish.name, dish.cuisine)
+    except Exception as exc:
+        logger.warning("Dish image lookup failed for plan %d: %s", plan.id, exc)
+
     plan.status = "suggestions_ready"
     db.commit()
     return saved
@@ -743,6 +775,137 @@ async def run_confirm_generation(
     return plan
 
 
+async def run_swap_dish(
+    plan_id: int,
+    dish_id: int,
+    household: Household,
+    db: DbSession,
+) -> WeeklyPlan:
+    """Swap one confirmed dish for a freshly generated one. Runs as background task.
+
+    Rejects the old dish, generates exactly one new confirmed dish on the same
+    cook_day, generates its recipe, and rebuilds the shopping list from the
+    recipes of all currently-confirmed dishes (reusing stored recipe_json for
+    everyone but the new dish). is_checked/is_already_have are carried over by
+    ingredient name (lowercase); custom items (no offer_id) that don't reappear
+    in the new aggregation are kept as-is.
+
+    On any failure the transaction is rolled back and the plan/old dish are
+    explicitly restored — the plan must never be left broken.
+    """
+    plan = db.get(WeeklyPlan, plan_id)
+    if not plan:
+        raise ValueError(f"Plan {plan_id} not found")
+    old_dish = db.get(PlanDish, dish_id)
+    if not old_dish or old_dish.plan_id != plan_id:
+        raise ValueError(f"Dish {dish_id} not found on plan {plan_id}")
+
+    cook_day = old_dish.cook_day
+    existing_names = [d.name for d in plan.dishes]
+    new_dish_id: int | None = None
+
+    try:
+        suggestions = await generate_suggestions(
+            household=household,
+            plan=plan,
+            db=db,
+            count=1,
+            exclude_names=existing_names,
+            max_desserts=1,
+        )
+        if not suggestions:
+            raise RuntimeError("Kein neuer Gerichtsvorschlag generiert")
+        s = suggestions[0]
+
+        old_dish.dish_status = "rejected"
+
+        new_dish = PlanDish(
+            plan_id=plan.id,
+            name=s["name"],
+            description=s["beschreibung"],
+            cuisine=s.get("kategorie"),
+            cook_time_min=s.get("kochzeit_min", 30),
+            cook_day=cook_day,
+            dish_status="confirmed",
+            used_offer_ids_json="[]",
+            recipe_id=s.get("recipe_id"),
+        )
+        db.add(new_dish)
+        db.flush()
+        new_dish_id = new_dish.id
+
+        recipes = await generate_recipes([new_dish], household, db)
+        if new_dish.id not in recipes:
+            raise RuntimeError(f"Rezept-Generierung für '{new_dish.name}' fehlgeschlagen")
+
+        # Recipes for the shopping list rebuild: new dish's fresh recipe +
+        # stored recipe_json for every other currently-confirmed dish.
+        all_recipes: dict[int, RecipeResponse] = {}
+        for d in plan.dishes:
+            if d.dish_status != "confirmed":
+                continue
+            if d.id == new_dish.id:
+                all_recipes[d.id] = recipes[new_dish.id]
+                continue
+            stored = _recipe_from_stored_json(d)
+            if stored:
+                all_recipes[d.id] = stored
+
+        old_items = list(plan.shopping_items)
+        old_state = {
+            i.ingredient.strip().lower(): (i.is_checked, i.is_already_have)
+            for i in old_items
+        }
+        custom_items = [i for i in old_items if i.offer_id is None]
+
+        for item in old_items:
+            db.delete(item)
+        db.flush()
+
+        new_items = build_shopping_list(plan, all_recipes, household, db)
+        new_names = {i.ingredient.strip().lower() for i in new_items}
+        for item in new_items:
+            state = old_state.get(item.ingredient.strip().lower())
+            if state:
+                item.is_checked, item.is_already_have = state
+
+        # Custom items the user added by hand — keep them if the new
+        # aggregation didn't happen to produce the same ingredient again.
+        for custom in custom_items:
+            key = custom.ingredient.strip().lower()
+            if key not in new_names:
+                db.add(ShoppingItem(
+                    plan_id=plan.id,
+                    ingredient=custom.ingredient,
+                    quantity=custom.quantity,
+                    unit=custom.unit,
+                    store=None,
+                    offer_id=None,
+                    price_text=None,
+                    is_checked=custom.is_checked,
+                    is_already_have=custom.is_already_have,
+                ))
+
+        plan.status = "confirmed"
+        db.commit()
+        return plan
+
+    except Exception:
+        db.rollback()
+        plan = db.get(WeeklyPlan, plan_id)
+        old_dish = db.get(PlanDish, dish_id)
+        if old_dish:
+            old_dish.dish_status = "confirmed"
+        if new_dish_id is not None:
+            leftover = db.get(PlanDish, new_dish_id)
+            if leftover:
+                db.delete(leftover)
+        if plan:
+            plan.status = "confirmed"
+        db.commit()
+        raise
+
+
 async def pregenerate_recipes_for_plan(
     plan: WeeklyPlan,
     household: Household,
@@ -782,7 +945,7 @@ def _log_api_call(
             purpose=purpose,
             input_tokens=usage.get("prompt_tokens", 0),
             output_tokens=usage.get("completion_tokens", 0),
-            cost_estimate=0,
+            cost_estimate=usage.get("cost") or 0,
         ))
         db.flush()
     except Exception as exc:

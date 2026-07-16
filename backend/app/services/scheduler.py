@@ -17,6 +17,7 @@ from ..db import SessionLocal
 from ..models import Household, Profile, WeeklyPlan
 from ..ai.learned_prefs import aggregate_notes_with_llm, update_from_feedback
 from .kaufda import refresh_plz
+from .status_webhook import report_incident
 
 logger = logging.getLogger(__name__)
 
@@ -87,6 +88,11 @@ def _next_monday() -> str:
     return (today + timedelta(days=days_ahead)).isoformat()
 
 
+def _this_monday() -> str:
+    today = date.today()
+    return (today - timedelta(days=today.weekday())).isoformat()
+
+
 async def _run_pregeneration_async(week_start: str | None = None, force: bool = False) -> None:
     """Sunday 04:00: pre-generate next week's plan for every onboarded household.
 
@@ -151,6 +157,10 @@ async def _run_pregeneration_async(week_start: str | None = None, force: bool = 
                 )
             except Exception as exc:
                 logger.error("Pre-generation failed for household %d: %s", household.id, exc, exc_info=True)
+                await report_incident(
+                    f"Vorgenerierung für Woche {week_start} fehlgeschlagen "
+                    f"(Haushalt {household.id}): {exc}"
+                )
     finally:
         db.close()
     logger.info("Weekly pre-generation finished")
@@ -158,6 +168,54 @@ async def _run_pregeneration_async(week_start: str | None = None, force: bool = 
 
 def _run_pregeneration_sync() -> None:
     asyncio.run(_run_pregeneration_async())
+
+
+async def _run_healthcheck_async() -> None:
+    """Monday 07:00: verify every onboarded household got a plan for the
+    current week from the Sunday pre-generation. Never raises — a broken
+    healthcheck must not take the scheduler down."""
+    logger.info("Pre-generation healthcheck started")
+    db = SessionLocal()
+    try:
+        week_start = _this_monday()
+        households = db.scalars(
+            select(Household)
+            .join(Profile)
+            .where(Profile.onboarding_complete.is_(True), Profile.postal_code != "")
+        ).all()
+
+        missing: list[int] = []
+        for household in households:
+            existing = db.scalar(
+                select(WeeklyPlan).where(
+                    WeeklyPlan.household_id == household.id,
+                    WeeklyPlan.week_start_date == week_start,
+                    WeeklyPlan.status != "error",
+                )
+            )
+            if not existing:
+                missing.append(household.id)
+
+        if missing:
+            summary = (
+                f"Healthcheck {week_start}: {len(missing)}/{len(households)} "
+                f"Haushalt(e) ohne gültigen Plan für die aktuelle Woche: {missing}"
+            )
+            logger.warning(summary)
+            await report_incident(summary)
+        else:
+            logger.info(
+                "Healthcheck %s: all %d households have a plan", week_start, len(households)
+            )
+    except Exception as exc:
+        logger.error("Pre-generation healthcheck failed: %s", exc, exc_info=True)
+    finally:
+        db.close()
+    logger.info("Pre-generation healthcheck finished")
+
+
+def _run_healthcheck_sync() -> None:
+    asyncio.run(_run_healthcheck_async())
 
 
 def start_scheduler() -> None:
@@ -201,10 +259,20 @@ def start_scheduler() -> None:
         replace_existing=True,
         misfire_grace_time=3600,
     )
+    scheduler.add_job(
+        _run_healthcheck_sync,
+        trigger="cron",
+        day_of_week="mon",
+        hour=7,
+        minute=0,
+        id="monday_pregeneration_healthcheck",
+        replace_existing=True,
+        misfire_grace_time=3600,
+    )
     scheduler.start()
     logger.info(
         "APScheduler started — Kaufda refresh Sa+So 03:00, pre-generation So 04:00, "
-        "feedback aggregation Mo 04:00"
+        "feedback aggregation Mo 04:00, pre-generation healthcheck Mo 07:00"
     )
 
 

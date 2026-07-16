@@ -177,6 +177,9 @@ class WeeklyPlan(Base):
     week_start_date: Mapped[str] = mapped_column(String(10), nullable=False)  # YYYY-MM-DD
     # pending | suggestions_ready | confirmed | complete
     status: Mapped[str] = mapped_column(String(20), default="pending", nullable=False)
+    wish_text: Mapped[str | None] = mapped_column(Text, nullable=True)
+    # Optional one-off headcount for this week only (guests etc.); NULL = use profile
+    portion_override: Mapped[int | None] = mapped_column(Integer, nullable=True)
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), server_default=func.now(), nullable=False
     )
@@ -203,6 +206,7 @@ class PlanDish(Base):
     cook_time_min: Mapped[int | None] = mapped_column(Integer, nullable=True)
     cook_day: Mapped[str | None] = mapped_column(String(20), nullable=True)  # "Montag" etc.
     recipe_json: Mapped[str | None] = mapped_column(Text, nullable=True)     # JSON string
+    image_url: Mapped[str | None] = mapped_column(String(500), nullable=True)
     used_offer_ids_json: Mapped[str] = mapped_column(Text, default="[]", nullable=False)
     # confirmed = user selected this dish; suggestion = still a candidate
     dish_status: Mapped[str] = mapped_column(String(20), default="suggestion", nullable=False)

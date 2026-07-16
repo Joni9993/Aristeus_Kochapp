@@ -32,6 +32,8 @@ _LAST_RESORT_MODELS = [
 def _effective_chain(settings) -> list[str]:
     chain = list(settings.model_chain)
     chain += [m for m in _LAST_RESORT_MODELS if m not in chain]
+    paid = [m.strip() for m in settings.openrouter_paid_models.split(",") if m.strip()]
+    chain += [m for m in paid if m not in chain]
     return chain
 
 
@@ -58,7 +60,7 @@ async def _call_once(
     reasoning_effort: str | None = None,
 ) -> tuple[str, dict, float]:
     """Single HTTP call to OpenRouter. Returns (content, usage, elapsed_s). Raises on any failure."""
-    body: dict[str, Any] = {"model": model, "messages": messages}
+    body: dict[str, Any] = {"model": model, "messages": messages, "usage": {"include": True}}
     if response_format:
         body["response_format"] = response_format
     if temperature is not None:

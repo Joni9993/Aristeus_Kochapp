@@ -1,64 +1,11 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { apiFetch, ApiError } from '../api/client'
-
-// ---------------------------------------------------------------------------
-// Types
-// ---------------------------------------------------------------------------
-
-type Dish = {
-  id: number
-  name: string
-  description: string | null
-  cuisine: string | null
-  cook_time_min: number | null
-  cook_day: string | null
-  dish_status: 'suggestion' | 'confirmed' | 'rejected'
-  is_favorite: boolean
-  feedback_thumbs: number | null
-  feedback_portion_note: string | null
-  feedback_free_text: string | null
-  recipe: Recipe | null
-  image_url: string | null
-}
-
-type RecipeIngredient = {
-  name: string
-  menge: number | null
-  einheit: string | null
-  ist_angebot: boolean
-}
-
-type Recipe = {
-  zutaten: RecipeIngredient[]
-  schritte: string[]
-  geschaetzte_zeit_min: number
-  tipps: string[]
-}
-
-type ShoppingItem = {
-  id: number
-  ingredient: string
-  quantity: string | null
-  unit: string | null
-  store: string | null
-  live_from_date: string | null
-  is_checked: boolean
-  is_already_have: boolean
-  is_angebot: boolean
-  price_text: string | null
-}
-
-type Plan = {
-  id: number
-  week_start_date: string
-  status: string
-  created_at: string
-  dishes?: Dish[]
-  shopping_items?: ShoppingItem[]
-}
-
-const DAYS = ['Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag', 'Sonntag']
+import DishImage from '../components/DishImage'
+import FeedbackRow from '../components/FeedbackRow'
+import RecipeDetails from '../components/RecipeDetails'
+import { cuisineBadgeClass, DAYS, germanWeekdayName } from '../types'
+import type { Dish, Plan, ShoppingItem } from '../types'
 
 // ---------------------------------------------------------------------------
 // Pending view
@@ -114,14 +61,7 @@ function DishCard({
   sel: Selection
   onChange: (s: Selection) => void
 }) {
-  const cuisineColor: Record<string, string> = {
-    vegetarisch: 'bg-emerald-100 text-emerald-700',
-    vegan: 'bg-green-100 text-green-700',
-    Fisch: 'bg-blue-100 text-blue-700',
-    Fleisch: 'bg-amber-100 text-amber-700',
-    gemischt: 'bg-stone-100 text-stone-600',
-  }
-  const color = cuisineColor[dish.cuisine || 'gemischt'] || 'bg-stone-100 text-stone-600'
+  const color = cuisineBadgeClass(dish.cuisine)
 
   return (
     <div
@@ -129,14 +69,7 @@ function DishCard({
         sel.checked ? 'border-emerald-400 bg-emerald-50' : 'border-stone-200 bg-white'
       }`}
     >
-      {dish.image_url && (
-        <img
-          src={dish.image_url}
-          alt={dish.name}
-          className="w-full h-36 object-cover"
-          loading="lazy"
-        />
-      )}
+      <DishImage imageUrl={dish.image_url} name={dish.name} cuisine={dish.cuisine} className="h-36" />
       <div className="flex items-start gap-3 p-4">
         <input
           type="checkbox"
@@ -201,6 +134,7 @@ function SuggestionsView({
   const [loadingMore, setLoadingMore] = useState(false)
   const [confirming, setConfirming] = useState(false)
   const [error, setError] = useState('')
+  const pollRef = useRef<ReturnType<typeof setInterval> | null>(null)
 
   // Sync when dishes change (after +5 more)
   useEffect(() => {
@@ -213,19 +147,49 @@ function SuggestionsView({
     })
   }, [dishes.length])
 
+  // Clean up any running poll on unmount (e.g. plan gets confirmed/navigated away).
+  useEffect(() => {
+    return () => {
+      if (pollRef.current) clearInterval(pollRef.current)
+    }
+  }, [])
+
   const selected = dishes.filter((d) => selections[d.id]?.checked)
 
   async function handleMoreSuggestions() {
     setLoadingMore(true)
     setError('')
+    const startCount = dishes.length
     try {
       await apiFetch(`/plans/${plan.id}/more-suggestions`, { method: 'POST' })
-      onReload()
     } catch (err) {
       setError(err instanceof ApiError ? err.message : 'Fehler')
-    } finally {
       setLoadingMore(false)
+      return
     }
+
+    const startedAt = Date.now()
+    pollRef.current = setInterval(async () => {
+      try {
+        const updated = await apiFetch<Plan>(`/plans/${plan.id}`)
+        const newCount = (updated.dishes || []).filter((d) => d.dish_status === 'suggestion').length
+        if (newCount > startCount) {
+          if (pollRef.current) clearInterval(pollRef.current)
+          pollRef.current = null
+          setLoadingMore(false)
+          onReload()
+          return
+        }
+      } catch {
+        // transient error — keep polling until timeout
+      }
+      if (Date.now() - startedAt > 120000) {
+        if (pollRef.current) clearInterval(pollRef.current)
+        pollRef.current = null
+        setLoadingMore(false)
+        setError('Dauert ungewöhnlich lange — später erneut versuchen.')
+      }
+    }, 3000)
   }
 
   async function handleConfirm() {
@@ -299,16 +263,82 @@ function SuggestionsView({
 // Recipes view
 // ---------------------------------------------------------------------------
 
-function RecipesView({ plan }: { plan: Plan }) {
+function RecipesView({ plan, onReload }: { plan: Plan; onReload: () => void }) {
   const [open, setOpen] = useState<number | null>(null)
+  const [cookModeDish, setCookModeDish] = useState<Dish | null>(null)
+  const itemRefs = useRef<Record<number, HTMLDivElement | null>>({})
   const confirmed = (plan.dishes || []).filter((d) => d.dish_status === 'confirmed')
+  const flexible = confirmed.filter((d) => !d.cook_day)
+  const todayName = germanWeekdayName(new Date())
+
+  function openDish(id: number) {
+    setOpen(id)
+    requestAnimationFrame(() => {
+      itemRefs.current[id]?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    })
+  }
+
+  async function handleSwap(dish: Dish) {
+    if (!confirm(`${dish.name} durch ein neues Gericht ersetzen? Die Einkaufsliste wird angepasst.`)) return
+    try {
+      await apiFetch(`/plans/${plan.id}/dishes/${dish.id}/swap`, { method: 'POST' })
+    } catch {
+      // ignore — reload shows current state either way
+    }
+    onReload()
+  }
 
   return (
     <div>
       <h2 className="mb-4 font-semibold text-stone-800">Rezepte</h2>
+
+      {/* Wochenkalender */}
+      <div className="mb-2 grid grid-cols-7 gap-1">
+        {DAYS.map((day) => {
+          const dish = confirmed.find((d) => d.cook_day === day)
+          const isToday = day === todayName
+          return (
+            <button
+              key={day}
+              onClick={() => dish && openDish(dish.id)}
+              disabled={!dish}
+              className={`flex flex-col items-center gap-1 rounded-lg p-1.5 text-center transition-colors ${
+                isToday ? 'bg-emerald-100' : 'bg-stone-50'
+              } ${dish ? 'cursor-pointer hover:bg-emerald-50' : 'cursor-default opacity-40'}`}
+            >
+              <span className={`text-xs font-semibold ${isToday ? 'text-emerald-700' : 'text-stone-500'}`}>
+                {day.slice(0, 2)}
+              </span>
+              <span className="line-clamp-2 text-[10px] leading-tight text-stone-600">
+                {dish ? dish.name : '–'}
+              </span>
+            </button>
+          )
+        })}
+      </div>
+
+      {flexible.length > 0 && (
+        <div className="mb-4 rounded-lg bg-stone-50 px-3 py-2 text-xs text-stone-500">
+          <span className="font-semibold">Flexibel: </span>
+          {flexible.map((d, i) => (
+            <span key={d.id}>
+              <button onClick={() => openDish(d.id)} className="underline hover:text-emerald-700">
+                {d.name}
+              </button>
+              {i < flexible.length - 1 ? ', ' : ''}
+            </span>
+          ))}
+        </div>
+      )}
+      {flexible.length === 0 && <div className="mb-4" />}
+
       <div className="space-y-2">
         {confirmed.map((d) => (
-          <div key={d.id} className="rounded-xl border border-stone-200 overflow-hidden">
+          <div
+            key={d.id}
+            ref={(el) => { itemRefs.current[d.id] = el }}
+            className="rounded-xl border border-stone-200 overflow-hidden"
+          >
             <button
               className="flex w-full items-center justify-between p-4 text-left hover:bg-stone-50"
               onClick={() => setOpen(open === d.id ? null : d.id)}
@@ -324,45 +354,24 @@ function RecipesView({ plan }: { plan: Plan }) {
 
             {open === d.id && d.recipe && (
               <div className="border-t border-stone-100 text-sm">
-                {d.image_url && (
-                  <img
-                    src={d.image_url}
-                    alt={d.name}
-                    className="w-full h-48 object-cover"
-                    loading="lazy"
-                  />
-                )}
+                <DishImage imageUrl={d.image_url} name={d.name} cuisine={d.cuisine} className="h-48" />
                 <div className="p-4">
-                <h3 className="mb-2 font-semibold text-stone-700">Zutaten</h3>
-                <ul className="mb-4 space-y-1">
-                  {d.recipe.zutaten.map((ing, i) => (
-                    <li key={i} className="flex gap-2 text-stone-600">
-                      {ing.menge && <span className="font-medium">{ing.menge} {ing.einheit}</span>}
-                      <span>{ing.name}</span>
-                      {ing.ist_angebot && (
-                        <span className="rounded bg-emerald-100 px-1 text-xs text-emerald-700">Angebot</span>
-                      )}
-                    </li>
-                  ))}
-                </ul>
+                <RecipeDetails recipe={d.recipe} />
 
-                <h3 className="mb-2 font-semibold text-stone-700">Zubereitung</h3>
-                <ol className="mb-4 space-y-1 list-decimal list-inside">
-                  {d.recipe.schritte.map((step, i) => (
-                    <li key={i} className="text-stone-600 leading-relaxed">{step}</li>
-                  ))}
-                </ol>
-
-                {d.recipe.tipps.length > 0 && (
-                  <>
-                    <h3 className="mb-2 font-semibold text-stone-700">Tipps</h3>
-                    <ul className="space-y-1">
-                      {d.recipe.tipps.map((tip, i) => (
-                        <li key={i} className="text-stone-500">💡 {tip}</li>
-                      ))}
-                    </ul>
-                  </>
-                )}
+                <div className="mt-4 flex flex-wrap gap-2 border-t border-stone-100 pt-3">
+                  <button
+                    onClick={() => setCookModeDish(d)}
+                    className="rounded-lg border border-emerald-300 px-3 py-1.5 text-xs font-medium text-emerald-700 hover:bg-emerald-50"
+                  >
+                    👨‍🍳 Kochmodus
+                  </button>
+                  <button
+                    onClick={() => handleSwap(d)}
+                    className="rounded-lg border border-stone-300 px-3 py-1.5 text-xs text-stone-600 hover:bg-stone-50"
+                  >
+                    🔄 Gericht tauschen
+                  </button>
+                </div>
 
                 <FeedbackRow planId={plan.id} dish={d} />
                 </div>
@@ -376,107 +385,97 @@ function RecipesView({ plan }: { plan: Plan }) {
           </div>
         ))}
       </div>
+
+      {cookModeDish && (
+        <CookMode dish={cookModeDish} onClose={() => setCookModeDish(null)} />
+      )}
     </div>
   )
 }
 
-function FeedbackRow({ planId, dish }: { planId: number; dish: Dish }) {
-  const [thumbs, setThumbs] = useState<number | null>(dish.feedback_thumbs)
-  const [portion, setPortion] = useState<string | null>(dish.feedback_portion_note)
-  const [fav, setFav] = useState(dish.is_favorite)
-  const [freeText, setFreeText] = useState(dish.feedback_free_text ?? '')
-  const [saving, setSaving] = useState(false)
-  const [textSaved, setTextSaved] = useState(false)
+// ---------------------------------------------------------------------------
+// Cook mode (fullscreen, wake-lock enabled step-by-step view)
+// ---------------------------------------------------------------------------
 
-  async function sendPatch(patch: Record<string, unknown>) {
-    try {
-      await apiFetch(`/plans/${planId}/dishes/${dish.id}/feedback`, {
-        method: 'PATCH',
-        body: patch,
-      })
-    } catch {
-      //
+function CookMode({ dish, onClose }: { dish: Dish; onClose: () => void }) {
+  const [step, setStep] = useState(0)
+  const wakeLockRef = useRef<WakeLockSentinel | null>(null)
+
+  useEffect(() => {
+    async function acquire() {
+      try {
+        if ('wakeLock' in navigator) {
+          wakeLockRef.current = await navigator.wakeLock.request('screen')
+        }
+      } catch {
+        // unsupported or denied — cooking mode still works without it
+      }
     }
-  }
+    acquire()
 
-  async function handleThumbs(t: number) {
-    setThumbs(t)
-    await sendPatch({ thumbs: t })
-  }
+    function handleVisibility() {
+      if (document.visibilityState === 'visible' && !wakeLockRef.current) {
+        acquire()
+      }
+    }
+    document.addEventListener('visibilitychange', handleVisibility)
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibility)
+      wakeLockRef.current?.release().catch(() => {})
+      wakeLockRef.current = null
+    }
+  }, [])
 
-  async function handlePortion(opt: string) {
-    const next = portion === opt ? '' : opt
-    setPortion(next || null)
-    await sendPatch({ portion_note: next })
-  }
-
-  async function handleFav() {
-    const next = !fav
-    setFav(next)
-    await sendPatch({ is_favorite: next })
-  }
-
-  async function saveText() {
-    setSaving(true)
-    setTextSaved(false)
-    await sendPatch({ free_text: freeText })
-    setSaving(false)
-    setTextSaved(true)
-    setTimeout(() => setTextSaved(false), 2000)
-  }
+  const steps = dish.recipe?.schritte || []
+  if (!dish.recipe) return null
 
   return (
-    <div className="mt-4 space-y-3 border-t border-stone-100 pt-3">
-      <div className="flex items-center gap-3">
-        <span className="text-xs text-stone-400">Wie war's?</span>
+    <div className="fixed inset-0 z-50 flex flex-col bg-stone-50">
+      <div className="flex items-center justify-between border-b border-stone-200 bg-white px-4 py-3">
+        <span className="font-semibold text-stone-800">{dish.name}</span>
         <button
-          onClick={() => handleThumbs(1)}
-          className={`rounded-full px-3 py-1 text-sm ${thumbs === 1 ? 'bg-emerald-500 text-white' : 'bg-stone-100 text-stone-600 hover:bg-stone-200'}`}
+          onClick={onClose}
+          className="text-xl leading-none text-stone-400 hover:text-stone-600"
+          aria-label="Schließen"
         >
-          👍
-        </button>
-        <button
-          onClick={() => handleThumbs(-1)}
-          className={`rounded-full px-3 py-1 text-sm ${thumbs === -1 ? 'bg-red-400 text-white' : 'bg-stone-100 text-stone-600 hover:bg-stone-200'}`}
-        >
-          👎
-        </button>
-        <button
-          onClick={handleFav}
-          className={`ml-auto text-lg leading-none ${fav ? 'text-amber-400' : 'text-stone-300 hover:text-stone-400'}`}
-          title={fav ? 'Aus Favoriten entfernen' : 'Als Favorit merken'}
-        >
-          {fav ? '★' : '☆'}
+          ✕
         </button>
       </div>
 
-      <div className="flex flex-wrap items-center gap-2">
-        <span className="text-xs text-stone-400">Portion:</span>
-        {(['zu wenig', 'genau richtig', 'zu viel'] as const).map((opt) => (
-          <button
-            key={opt}
-            onClick={() => handlePortion(opt)}
-            className={`rounded-full px-2 py-0.5 text-xs ${portion === opt ? 'bg-emerald-500 text-white' : 'bg-stone-100 text-stone-600 hover:bg-stone-200'}`}
-          >
-            {opt}
-          </button>
-        ))}
+      <details className="border-b border-stone-200 bg-white px-4 py-2">
+        <summary className="cursor-pointer text-sm font-medium text-stone-600">
+          Zutaten ({dish.recipe.zutaten.length})
+        </summary>
+        <ul className="mt-2 space-y-1 pb-2 text-sm text-stone-600">
+          {dish.recipe.zutaten.map((ing, i) => (
+            <li key={i}>
+              {ing.menge && <span className="font-medium">{ing.menge} {ing.einheit} </span>}
+              {ing.name}
+            </li>
+          ))}
+        </ul>
+      </details>
+
+      <div className="flex flex-1 flex-col items-center justify-center overflow-y-auto p-6 text-center">
+        <p className="mb-4 text-xs font-semibold uppercase tracking-wide text-stone-400">
+          Schritt {step + 1}/{steps.length}
+        </p>
+        <p className="max-w-md text-xl leading-relaxed text-stone-800">{steps[step]}</p>
       </div>
 
-      <div className="flex gap-2">
-        <textarea
-          value={freeText}
-          onChange={(e) => setFreeText(e.target.value)}
-          placeholder="Notiz (optional)…"
-          rows={2}
-          className="flex-1 resize-none rounded-lg border border-stone-200 p-2 text-sm focus:border-emerald-400 focus:outline-none"
-        />
+      <div className="flex items-center gap-3 border-t border-stone-200 bg-white p-4">
         <button
-          onClick={saveText}
-          disabled={saving}
-          className="self-end rounded-lg bg-stone-100 px-3 py-1.5 text-xs text-stone-600 hover:bg-stone-200 disabled:opacity-50"
+          onClick={() => setStep((s) => Math.max(0, s - 1))}
+          disabled={step === 0}
+          className="flex-1 rounded-xl bg-stone-100 py-4 text-lg font-medium text-stone-600 disabled:opacity-30"
         >
-          {saving ? '…' : textSaved ? '✓' : 'Speichern'}
+          ← Zurück
+        </button>
+        <button
+          onClick={() => (step < steps.length - 1 ? setStep((s) => s + 1) : onClose())}
+          className="flex-1 rounded-xl bg-emerald-600 py-4 text-lg font-medium text-white hover:bg-emerald-700"
+        >
+          {step < steps.length - 1 ? 'Weiter →' : 'Fertig'}
         </button>
       </div>
     </div>
@@ -495,7 +494,6 @@ const STORE_LABELS: Record<string, string> = {
 const PANTRY_RE = /^(salz|pfeffer|paprikapulver|curry|kurkuma|zimt|zucker|mehl|essig|backpulver|natron|hefe)\b/i
 
 function isPantry(item: ShoppingItem): boolean {
-  if (item.quantity === '0') return true
   const n = item.ingredient.toLowerCase()
   return n.endsWith('öl') || PANTRY_RE.test(n)
 }
@@ -512,7 +510,19 @@ function getFoodCategory(ingredient: string): number {
   return 8
 }
 
-function ShoppingView({ plan, onItemUpdate }: { plan: Plan; onItemUpdate: (id: number, changes: Partial<ShoppingItem>) => void }) {
+function ShoppingView({
+  plan,
+  onItemUpdate,
+  onItemAdded,
+  onItemRemoved,
+  onSync,
+}: {
+  plan: Plan
+  onItemUpdate: (id: number, changes: Partial<ShoppingItem>) => void
+  onItemAdded: (item: ShoppingItem) => void
+  onItemRemoved: (id: number) => void
+  onSync: (items: ShoppingItem[]) => void
+}) {
   const allItems = plan.shopping_items || []
 
   // Build angebot ingredient set from recipe data (fallback for plans without store set)
@@ -527,6 +537,21 @@ function ShoppingView({ plan, onItemUpdate }: { plan: Plan; onItemUpdate: (id: n
     return item.is_angebot || angebotNames.has(item.ingredient.toLowerCase())
   }
 
+  // Periodically pull shopping_items from the server so changes made on
+  // another device show up here too — only while this tab is visible and
+  // mounted. Replaces shopping_items wholesale (simplest robust approach);
+  // the add-item input keeps its own local state so in-progress typing
+  // survives a sync.
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (document.visibilityState !== 'visible') return
+      apiFetch<Plan>(`/plans/${plan.id}`)
+        .then((p) => onSync(p.shopping_items || []))
+        .catch(() => {})
+    }, 10000)
+    return () => clearInterval(interval)
+  }, [plan.id, onSync])
+
   async function toggle(item: ShoppingItem, field: 'is_checked' | 'is_already_have') {
     const newVal = !item[field]
     onItemUpdate(item.id, { [field]: newVal })
@@ -537,6 +562,27 @@ function ShoppingView({ plan, onItemUpdate }: { plan: Plan; onItemUpdate: (id: n
       })
     } catch {
       onItemUpdate(item.id, { [field]: item[field] })
+    }
+  }
+
+  async function removeItem(item: ShoppingItem) {
+    onItemRemoved(item.id)
+    try {
+      await apiFetch(`/plans/${plan.id}/shopping/${item.id}`, { method: 'DELETE' })
+    } catch {
+      onItemAdded(item)
+    }
+  }
+
+  async function addItem(ingredient: string) {
+    try {
+      const item = await apiFetch<ShoppingItem>(`/plans/${plan.id}/shopping`, {
+        method: 'POST',
+        body: { ingredient },
+      })
+      onItemAdded(item)
+    } catch {
+      // silently ignore — user can retype
     }
   }
 
@@ -568,6 +614,14 @@ function ShoppingView({ plan, onItemUpdate }: { plan: Plan; onItemUpdate: (id: n
           className={`shrink-0 rounded-full px-3 py-1.5 text-xs ${item.is_already_have ? 'bg-sky-100 text-sky-700' : 'text-stone-400 hover:text-stone-600 active:text-stone-600'}`}
         >
           Habe ich
+        </button>
+        <button
+          onClick={() => removeItem(item)}
+          title="Entfernen"
+          aria-label="Entfernen"
+          className="shrink-0 text-stone-300 hover:text-red-500 active:text-red-500"
+        >
+          ✕
         </button>
       </div>
     )
@@ -669,6 +723,51 @@ function ShoppingView({ plan, onItemUpdate }: { plan: Plan; onItemUpdate: (id: n
           </div>
         </details>
       )}
+
+      <div className="mt-4 rounded-xl border border-stone-200 bg-white p-3">
+        <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-stone-500">
+          Eigenes hinzufügen
+        </p>
+        <AddItemForm onAdd={addItem} />
+      </div>
+    </div>
+  )
+}
+
+function AddItemForm({ onAdd }: { onAdd: (ingredient: string) => Promise<void> }) {
+  const [value, setValue] = useState('')
+  const [adding, setAdding] = useState(false)
+
+  async function submit() {
+    const v = value.trim()
+    if (!v) return
+    setAdding(true)
+    await onAdd(v)
+    setValue('')
+    setAdding(false)
+  }
+
+  return (
+    <div className="flex gap-2">
+      <input
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter') {
+            e.preventDefault()
+            submit()
+          }
+        }}
+        placeholder="Eigenes hinzufügen…"
+        className="flex-1 rounded-lg border border-stone-300 px-3 py-2 text-sm focus:border-emerald-400 focus:outline-none"
+      />
+      <button
+        onClick={submit}
+        disabled={adding || !value.trim()}
+        className="shrink-0 rounded-lg bg-emerald-600 px-4 py-2 text-sm font-medium text-white hover:bg-emerald-700 disabled:opacity-50"
+      >
+        {adding ? '…' : 'Hinzufügen'}
+      </button>
     </div>
   )
 }
@@ -712,6 +811,24 @@ export default function Plan() {
     )
   }
 
+  function addShoppingItem(item: ShoppingItem) {
+    setPlan((prev) =>
+      prev ? { ...prev, shopping_items: [...(prev.shopping_items || []), item] } : prev
+    )
+  }
+
+  function removeShoppingItem(id: number) {
+    setPlan((prev) =>
+      prev
+        ? { ...prev, shopping_items: (prev.shopping_items || []).filter((i) => i.id !== id) }
+        : prev
+    )
+  }
+
+  const syncShoppingItems = useCallback((items: ShoppingItem[]) => {
+    setPlan((prev) => (prev ? { ...prev, shopping_items: items } : prev))
+  }, [])
+
   if (loading) {
     return (
       <main className="mx-auto max-w-xl p-6">
@@ -745,7 +862,7 @@ export default function Plan() {
       )}
 
       {plan.status === 'confirming' && (
-        <PendingView onRefresh={loadPlan} message="Rezepte & Einkaufsliste werden erstellt…" />
+        <PendingView onRefresh={loadPlan} message="Plan wird aktualisiert…" />
       )}
 
       {plan.status === 'error' && (
@@ -774,6 +891,13 @@ export default function Plan() {
 
       {plan.status === 'confirmed' && (
         <div>
+          {plan.savings && plan.savings.offers_used > 0 && (
+            <div className="mb-4 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
+              🏷️ {plan.savings.offers_used} Angebote genutzt · zusammen{' '}
+              {plan.savings.offer_total.toLocaleString('de-DE', { style: 'currency', currency: 'EUR' })}
+            </div>
+          )}
+
           <div className="mb-4 flex gap-2">
             <button
               onClick={() => setTab('recipes')}
@@ -789,9 +913,15 @@ export default function Plan() {
             </button>
           </div>
 
-          {tab === 'recipes' && <RecipesView plan={plan} />}
+          {tab === 'recipes' && <RecipesView plan={plan} onReload={loadPlan} />}
           {tab === 'shopping' && (
-            <ShoppingView plan={plan} onItemUpdate={updateShoppingItem} />
+            <ShoppingView
+              plan={plan}
+              onItemUpdate={updateShoppingItem}
+              onItemAdded={addShoppingItem}
+              onItemRemoved={removeShoppingItem}
+              onSync={syncShoppingItems}
+            />
           )}
         </div>
       )}

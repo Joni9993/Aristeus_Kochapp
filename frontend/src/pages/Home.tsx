@@ -2,11 +2,20 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { apiFetch, ApiError } from '../api/client'
 import { useAuth } from '../hooks/useAuth'
+import { cuisineBadgeClass, DAYS, germanWeekdayName } from '../types'
+import { APP_VERSION } from '../version'
+import type { Dish, Plan } from '../types'
 
 type PlanSummary = {
   id: number
   week_start_date: string
   status: string
+}
+
+type TodayInfo = {
+  planId: number
+  dish: Dish | null
+  upcoming: Dish[]
 }
 
 const PLAN_STATUS: Record<string, { label: string; cls: string }> = {
@@ -221,6 +230,90 @@ function OffersDrawer({
   )
 }
 
+function TodayCard({ info }: { info: TodayInfo }) {
+  const { dish, upcoming, planId } = info
+
+  if (dish) {
+    return (
+      <Link
+        to={`/plan/${planId}`}
+        className="mb-6 block rounded-xl border border-emerald-200 bg-emerald-50 p-4 shadow-sm hover:bg-emerald-100"
+      >
+        <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-emerald-600">Heute</p>
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="text-lg font-semibold text-emerald-900">{dish.name}</span>
+          {dish.cuisine && (
+            <span className={`rounded-full px-2 py-0.5 text-xs font-medium ${cuisineBadgeClass(dish.cuisine)}`}>
+              {dish.cuisine}
+            </span>
+          )}
+          {dish.cook_time_min && (
+            <span className="text-xs text-emerald-700">{dish.cook_time_min} Min.</span>
+          )}
+        </div>
+      </Link>
+    )
+  }
+
+  return (
+    <Link
+      to={`/plan/${planId}`}
+      className="mb-6 block rounded-xl border border-stone-200 bg-white p-4 shadow-sm hover:bg-stone-50"
+    >
+      <p className="text-sm font-medium text-stone-600">Heute ist nichts geplant</p>
+      {upcoming.length > 0 && (
+        <p className="mt-1 text-xs text-stone-400">
+          Als Nächstes: {upcoming.map((d) => `${d.cook_day}: ${d.name}`).join(' · ')}
+        </p>
+      )}
+    </Link>
+  )
+}
+
+function FeedbackPendingCard({
+  plan,
+  onDismiss,
+}: {
+  plan: Plan
+  onDismiss: () => void
+}) {
+  const pendingCount = (plan.dishes || []).filter(
+    (d) => d.dish_status === 'confirmed' && d.feedback_thumbs === null
+  ).length
+  const start = new Date(plan.week_start_date)
+  const end = new Date(start)
+  end.setDate(end.getDate() + 6)
+  const fmt = (d: Date) => d.toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit' })
+
+  return (
+    <section className="mb-6 rounded-xl border border-amber-300 bg-amber-50 p-4 shadow-sm">
+      <div className="flex items-start justify-between gap-3">
+        <div>
+          <p className="font-semibold text-amber-900">
+            Wie war eure Woche {fmt(start)} – {fmt(end)}?
+          </p>
+          <p className="mt-0.5 text-sm text-amber-700">
+            {pendingCount} {pendingCount === 1 ? 'Gericht wartet' : 'Gerichte warten'} auf Feedback
+          </p>
+        </div>
+        <button
+          onClick={onDismiss}
+          className="shrink-0 text-amber-500 hover:text-amber-700"
+          aria-label="Ausblenden"
+        >
+          ✕
+        </button>
+      </div>
+      <Link
+        to={`/plan/${plan.id}/feedback`}
+        className="mt-3 block w-full rounded-lg bg-amber-600 py-2 text-center text-sm font-semibold text-white hover:bg-amber-700"
+      >
+        Jetzt bewerten
+      </Link>
+    </section>
+  )
+}
+
 export default function Home() {
   const { household } = useAuth()
   const [freshness, setFreshness] = useState<FreshnessResponse | null>(null)
@@ -228,6 +321,9 @@ export default function Home() {
   const [refreshMsg, setRefreshMsg] = useState('')
   const [plans, setPlans] = useState<PlanSummary[]>([])
   const [selectedStore, setSelectedStore] = useState<{ id: string; label: string } | null>(null)
+  const [todayInfo, setTodayInfo] = useState<TodayInfo | null>(null)
+  const [feedbackPlan, setFeedbackPlan] = useState<Plan | null>(null)
+  const [feedbackDismissed, setFeedbackDismissed] = useState(false)
 
   useEffect(() => {
     Promise.all([
@@ -242,7 +338,35 @@ export default function Home() {
       if (needsRefresh) {
         apiFetch('/stores/refresh', { method: 'POST' }).catch(() => {})
       }
+
+      // "Heute" card: find the plan whose cook week contains today.
+      const now = new Date()
+      now.setHours(0, 0, 0, 0)
+      const candidate = plans.find((p) => {
+        if (p.status !== 'confirmed' && p.status !== 'complete') return false
+        const start = new Date(p.week_start_date + 'T00:00:00')
+        const end = new Date(start)
+        end.setDate(end.getDate() + 6)
+        return now >= start && now <= end
+      })
+      if (candidate) {
+        apiFetch<Plan>(`/plans/${candidate.id}`).then((full) => {
+          const weekday = germanWeekdayName(now)
+          const todayIdx = DAYS.indexOf(weekday)
+          const confirmedDishes = (full.dishes || []).filter((d) => d.dish_status === 'confirmed')
+          const dish = confirmedDishes.find((d) => d.cook_day === weekday) || null
+          const upcoming = confirmedDishes
+            .filter((d) => d.cook_day && DAYS.indexOf(d.cook_day) > todayIdx)
+            .sort((a, b) => DAYS.indexOf(a.cook_day!) - DAYS.indexOf(b.cook_day!))
+            .slice(0, 2)
+          setTodayInfo({ planId: full.id, dish, upcoming })
+        }).catch(() => {})
+      }
     }).catch(() => {})
+
+    apiFetch<{ plan: Plan | null }>('/plans/feedback-pending')
+      .then((r) => setFeedbackPlan(r.plan))
+      .catch(() => {})
   }, [])
 
   async function handleRefresh() {
@@ -267,9 +391,16 @@ export default function Home() {
 
   return (
     <main className="mx-auto max-w-xl p-6">
-      <header className="mb-8">
+      <header className="mb-8 flex items-baseline gap-2">
         <h1 className="text-2xl font-semibold tracking-tight">Aristeus</h1>
+        <span className="text-xs text-stone-400">v{APP_VERSION}</span>
       </header>
+
+      {feedbackPlan && !feedbackDismissed && (
+        <FeedbackPendingCard plan={feedbackPlan} onDismiss={() => setFeedbackDismissed(true)} />
+      )}
+
+      {todayInfo && <TodayCard info={todayInfo} />}
 
       {/* Angebots-Freshness */}
       <section className="mb-6 rounded-xl border border-stone-200 bg-white p-4 shadow-sm">

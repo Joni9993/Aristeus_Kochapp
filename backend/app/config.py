@@ -26,6 +26,20 @@ class Settings(BaseSettings):
     # primary path. Set to true to re-enable catalog-first matching.
     use_recipe_catalog: bool = False
 
+    # Optional comma-separated paid fallback models, appended after the free
+    # chain (both retry rounds) — only used when set. Empty = today's behavior.
+    openrouter_paid_models: str = ""
+
+    # Optional status-dashboard webhook (Kuma-format, see services/status_webhook.py)
+    # for plan-generation failures + the Monday 07:00 healthcheck. In production:
+    # http://192.168.50.62:8080/api/kuma-webhook (monitor-LXC, LAN-only).
+    # Empty = incidents are only logged.
+    status_webhook_url: str = ""
+
+    # Optional Pexels API key (free, from https://www.pexels.com/api/) for dish
+    # photos on suggestion cards + recipes. Empty = no image search (no-op).
+    pexels_api_key: str = ""
+
     @property
     def model_chain(self) -> list[str]:
         """All models to try in order: default first, then each fallback."""
