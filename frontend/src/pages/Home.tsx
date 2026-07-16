@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { apiFetch, ApiError } from '../api/client'
-import { useAuth } from '../hooks/useAuth'
-import { cuisineBadgeClass, DAYS, germanWeekdayName } from '../types'
+import DishImage from '../components/DishImage'
+import Laurel from '../components/Laurel'
+import { DAYS, germanWeekdayName } from '../types'
 import { APP_VERSION } from '../version'
 import type { Dish, Plan } from '../types'
 
@@ -19,10 +20,10 @@ type TodayInfo = {
 }
 
 const PLAN_STATUS: Record<string, { label: string; cls: string }> = {
-  pending: { label: 'Läuft…', cls: 'text-stone-400' },
-  suggestions_ready: { label: 'Vorschläge bereit', cls: 'text-blue-600' },
-  confirmed: { label: 'Aktiv', cls: 'text-emerald-700' },
-  complete: { label: 'Abgeschlossen', cls: 'text-stone-400' },
+  pending: { label: 'Läuft…', cls: 'text-muted' },
+  suggestions_ready: { label: 'Vorschläge bereit', cls: 'text-indigo-600 dark:text-indigo-400' },
+  confirmed: { label: 'Aktiv', cls: 'text-olive' },
+  complete: { label: 'Abgeschlossen', cls: 'text-muted' },
 }
 
 function formatWeekRange(startIso: string): string {
@@ -31,6 +32,15 @@ function formatWeekRange(startIso: string): string {
   end.setDate(end.getDate() + 6)
   const fmt = (d: Date) => d.toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit' })
   return `${fmt(start)} – ${fmt(end)}`
+}
+
+function isCurrentWeek(startIso: string): boolean {
+  const now = new Date()
+  now.setHours(0, 0, 0, 0)
+  const start = new Date(startIso + 'T00:00:00')
+  const end = new Date(start)
+  end.setDate(end.getDate() + 6)
+  return now >= start && now <= end
 }
 
 type StoreStatus = {
@@ -70,11 +80,13 @@ type StoreOffersResponse = {
   offers: OfferItem[]
 }
 
-const STATUS_CONFIG = {
-  fresh: { dot: 'bg-emerald-500', text: 'text-emerald-700', label: 'Aktuell' },
-  stale: { dot: 'bg-amber-400', text: 'text-amber-700', label: 'Veraltet' },
-  outdated: { dot: 'bg-red-400', text: 'text-red-700', label: 'Sehr alt' },
-  not_fetched: { dot: 'bg-stone-300', text: 'text-stone-500', label: 'Noch nicht geladen' },
+// Freshness status dots — a functional traffic-light, not the honey/offers
+// accent (honey is reserved for offer badges, savings and favorite stars).
+const STATUS_CONFIG: Record<StoreStatus['status'], { dot: string; label: string }> = {
+  fresh: { dot: 'bg-olive', label: 'Aktuell' },
+  stale: { dot: 'bg-amber-400 dark:bg-amber-500', label: 'Veraltet' },
+  outdated: { dot: 'bg-red-400 dark:bg-red-500', label: 'Sehr alt' },
+  not_fetched: { dot: 'bg-line', label: 'Noch nicht geladen' },
 }
 
 function formatDate(iso: string | null): string {
@@ -123,17 +135,17 @@ function OffersDrawer({
     <>
       {/* Backdrop */}
       <div
-        className="fixed inset-0 z-40 bg-black/30"
+        className="fixed inset-0 z-40 bg-ink/30"
         onClick={onClose}
       />
       {/* Drawer */}
-      <div className="fixed inset-y-0 right-0 z-50 flex w-full max-w-md flex-col bg-white shadow-2xl">
+      <div className="fixed inset-y-0 right-0 z-50 flex w-full max-w-md flex-col bg-card shadow-2xl">
         {/* Header */}
-        <div className="flex items-start justify-between gap-2 border-b border-stone-200 px-5 py-4">
+        <div className="flex items-start justify-between gap-2 border-b border-line px-5 py-4">
           <div className="min-w-0">
-            <h2 className="truncate text-lg font-semibold">{storeLabel} – Angebote</h2>
+            <h2 className="truncate font-display text-lg font-semibold text-ink">{storeLabel} – Angebote</h2>
             {data && (
-              <p className="mt-0.5 text-xs text-stone-500">
+              <p className="mt-0.5 text-xs text-muted">
                 Gültig {formatDate(data.valid_from)}–{formatDate(data.valid_to)}
                 {' · '}
                 {cookingOnly
@@ -144,7 +156,7 @@ function OffersDrawer({
           </div>
           <button
             onClick={onClose}
-            className="shrink-0 rounded-md p-2 text-stone-400 hover:bg-stone-100 hover:text-stone-700"
+            className="shrink-0 rounded-md p-2 text-muted hover:bg-surface hover:text-ink"
             aria-label="Schließen"
           >
             ✕
@@ -152,13 +164,13 @@ function OffersDrawer({
         </div>
 
         {/* Controls */}
-        <div className="flex items-center justify-between border-b border-stone-100 px-5 py-2">
-          <label className="flex cursor-pointer items-center gap-2 text-sm">
+        <div className="flex items-center justify-between border-b border-line px-5 py-2">
+          <label className="flex cursor-pointer items-center gap-2 text-sm text-ink/75">
             <input
               type="checkbox"
               checked={cookingOnly}
               onChange={(e) => setCookingOnly(e.target.checked)}
-              className="rounded"
+              className="rounded accent-olive"
             />
             Nur Koch-Angebote
           </label>
@@ -167,7 +179,7 @@ function OffersDrawer({
               href={data.brochure_url}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-xs text-emerald-700 underline hover:text-emerald-900"
+              className="text-xs text-olive underline hover:text-olive-hover"
             >
               Prospekt auf Kaufda →
             </a>
@@ -177,45 +189,45 @@ function OffersDrawer({
         {/* Content */}
         <div className="flex-1 overflow-y-auto px-5 py-4">
           {loading && (
-            <p className="text-center text-sm text-stone-400">Lädt…</p>
+            <p className="text-center text-sm text-muted">Lädt…</p>
           )}
           {error && (
-            <p className="text-center text-sm text-red-500">{error}</p>
+            <p className="text-center text-sm text-red-500 dark:text-red-400">{error}</p>
           )}
           {!loading && !error && data && data.offers.length === 0 && (
-            <p className="text-center text-sm text-stone-400">
+            <p className="text-center text-sm text-muted">
               Keine Angebote gefunden.
             </p>
           )}
           {!loading && !error && categoryKeys.map((cat) => (
             <div key={cat} className="mb-5">
-              <h3 className="mb-2 text-xs font-semibold uppercase tracking-wide text-stone-400">
+              <h3 className="mb-2 text-xs font-semibold uppercase tracking-wide text-muted">
                 {cat}
               </h3>
               <div className="space-y-2">
                 {groups[cat].map((offer) => (
                   <div
                     key={offer.id}
-                    className="flex items-start justify-between rounded-lg border border-stone-100 bg-stone-50 px-3 py-2"
+                    className="flex items-start justify-between rounded-lg border border-line bg-surface px-3 py-2"
                   >
                     <div className="mr-3 min-w-0 flex-1">
-                      <p className="text-sm font-medium leading-snug text-stone-800">
+                      <p className="text-sm font-medium leading-snug text-ink">
                         {offer.product_name}
                       </p>
                       {offer.quantity_text && (
-                        <p className="mt-0.5 text-xs text-stone-500">{offer.quantity_text}</p>
+                        <p className="mt-0.5 text-xs text-muted">{offer.quantity_text}</p>
                       )}
                       {offer.hint && (
-                        <p className="mt-0.5 text-xs text-stone-400 italic">{offer.hint}</p>
+                        <p className="mt-0.5 text-xs text-muted italic">{offer.hint}</p>
                       )}
                     </div>
                     {offer.price_text && (
                       <div className="shrink-0 text-right">
-                        <span className="text-base font-bold text-emerald-700">
+                        <span className="text-base font-bold text-honey">
                           {offer.price_text}
                         </span>
                         {offer.base_price && (
-                          <p className="text-xs text-stone-400">{offer.base_price}</p>
+                          <p className="text-xs text-muted">{offer.base_price}</p>
                         )}
                       </div>
                     )}
@@ -230,92 +242,151 @@ function OffersDrawer({
   )
 }
 
-function TodayCard({ info }: { info: TodayInfo }) {
-  const { dish, upcoming, planId } = info
+// ---------------------------------------------------------------------------
+// "Heute" hero — the single most important thing on the page. Three states:
+// today's confirmed dish (photo hero), an active plan with nothing cooking
+// today, or no plan for the current week at all (CTA).
+// ---------------------------------------------------------------------------
 
-  if (dish) {
+function TodayHero({
+  todayInfo,
+  currentWeekPlan,
+}: {
+  todayInfo: TodayInfo | null
+  currentWeekPlan: PlanSummary | null
+}) {
+  const todayName = germanWeekdayName(new Date())
+
+  if (todayInfo?.dish) {
+    const { dish, planId } = todayInfo
     return (
       <Link
-        to={`/plan/${planId}`}
-        className="mb-6 block rounded-xl border border-emerald-200 bg-emerald-50 p-4 shadow-sm hover:bg-emerald-100"
+        to={`/plan/${planId}?dish=${dish.id}`}
+        className="relative mb-3 block h-40 overflow-hidden rounded-2xl shadow-sm"
       >
-        <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-emerald-600">Heute</p>
-        <div className="flex flex-wrap items-center gap-2">
-          <span className="text-lg font-semibold text-emerald-900">{dish.name}</span>
-          {dish.cuisine && (
-            <span className={`rounded-full px-2 py-0.5 text-xs font-medium ${cuisineBadgeClass(dish.cuisine)}`}>
-              {dish.cuisine}
-            </span>
-          )}
+        <DishImage
+          imageUrl={dish.image_url}
+          name={dish.name}
+          cuisine={dish.cuisine}
+          className="absolute inset-0 h-full w-full object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-ink/85 via-ink/25 to-transparent" />
+        <div className="absolute inset-x-0 bottom-0 p-4">
+          <p className="text-xs font-semibold uppercase tracking-wide text-white/80">
+            Heute · {todayName}
+          </p>
+          <p className="mt-1 line-clamp-2 font-display text-xl font-semibold leading-tight text-white">
+            {dish.name}
+          </p>
           {dish.cook_time_min && (
-            <span className="text-xs text-emerald-700">{dish.cook_time_min} Min.</span>
+            <p className="mt-1 text-xs text-white/80">{dish.cook_time_min} Min.</p>
           )}
         </div>
       </Link>
     )
   }
 
+  if (todayInfo) {
+    const { upcoming, planId } = todayInfo
+    return (
+      <Link
+        to={`/plan/${planId}`}
+        className="mb-3 block rounded-2xl border border-line bg-card px-4 py-3.5 hover:bg-surface"
+      >
+        <p className="text-xs font-semibold uppercase tracking-wide text-muted">Heute · {todayName}</p>
+        <p className="mt-1 text-sm text-ink/75 line-clamp-2">
+          {upcoming.length > 0
+            ? `Nichts geplant — als Nächstes: ${upcoming.map((d) => `${d.cook_day}: ${d.name}`).join(' · ')}`
+            : 'Heute ist nichts geplant.'}
+        </p>
+      </Link>
+    )
+  }
+
+  if (currentWeekPlan) {
+    const st = PLAN_STATUS[currentWeekPlan.status]
+    const label =
+      currentWeekPlan.status === 'suggestions_ready'
+        ? 'Vorschläge bereit — jetzt auswählen'
+        : currentWeekPlan.status === 'error'
+          ? 'Fehler bei der Planung — erneut versuchen'
+          : 'Vorschläge werden erstellt…'
+    return (
+      <Link
+        to={`/plan/${currentWeekPlan.id}`}
+        className="mb-3 block rounded-2xl border border-line bg-card px-4 py-3.5 hover:bg-surface"
+      >
+        <p className="text-xs font-semibold uppercase tracking-wide text-muted">Heute · {todayName}</p>
+        <p className={`mt-1 text-sm font-medium ${st?.cls ?? 'text-ink/75'}`}>{label}</p>
+      </Link>
+    )
+  }
+
   return (
     <Link
-      to={`/plan/${planId}`}
-      className="mb-6 block rounded-xl border border-stone-200 bg-white p-4 shadow-sm hover:bg-stone-50"
+      to="/plan/new"
+      className="mb-3 flex flex-col items-center justify-center gap-1 rounded-2xl border border-line bg-card px-4 py-6 text-center hover:bg-surface"
     >
-      <p className="text-sm font-medium text-stone-600">Heute ist nichts geplant</p>
-      {upcoming.length > 0 && (
-        <p className="mt-1 text-xs text-stone-400">
-          Als Nächstes: {upcoming.map((d) => `${d.cook_day}: ${d.name}`).join(' · ')}
-        </p>
-      )}
+      <span className="font-display text-lg font-semibold text-ink">Noch kein Plan für diese Woche</span>
+      <span className="text-sm font-medium text-olive">Neue Woche planen →</span>
     </Link>
   )
 }
 
-function FeedbackPendingCard({
-  plan,
-  onDismiss,
-}: {
-  plan: Plan
-  onDismiss: () => void
-}) {
-  const pendingCount = (plan.dishes || []).filter(
-    (d) => d.dish_status === 'confirmed' && d.feedback_thumbs === null
-  ).length
-  const start = new Date(plan.week_start_date)
-  const end = new Date(start)
-  end.setDate(end.getDate() + 6)
-  const fmt = (d: Date) => d.toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit' })
+// ---------------------------------------------------------------------------
+// Quick-link tile row
+// ---------------------------------------------------------------------------
 
+function QuickTile({ to, label, icon }: { to: string; label: string; icon: React.ReactNode }) {
   return (
-    <section className="mb-6 rounded-xl border border-amber-300 bg-amber-50 p-4 shadow-sm">
-      <div className="flex items-start justify-between gap-3">
-        <div className="min-w-0">
-          <p className="font-semibold text-amber-900">
-            Wie war eure Woche {fmt(start)} – {fmt(end)}?
-          </p>
-          <p className="mt-0.5 text-sm text-amber-700">
-            {pendingCount} {pendingCount === 1 ? 'Gericht wartet' : 'Gerichte warten'} auf Feedback
-          </p>
-        </div>
-        <button
-          onClick={onDismiss}
-          className="shrink-0 p-1 text-amber-500 hover:text-amber-700"
-          aria-label="Ausblenden"
-        >
-          ✕
-        </button>
-      </div>
-      <Link
-        to={`/plan/${plan.id}/feedback`}
-        className="mt-3 block w-full rounded-lg bg-amber-600 py-2 text-center text-sm font-semibold text-white hover:bg-amber-700"
-      >
-        Jetzt bewerten
-      </Link>
-    </section>
+    <Link
+      to={to}
+      className="flex flex-col items-center justify-center gap-1.5 rounded-2xl border border-line bg-card py-3.5 text-center hover:bg-surface active:bg-surface"
+    >
+      <span className="text-olive">{icon}</span>
+      <span className="text-xs font-medium text-ink">{label}</span>
+    </Link>
   )
 }
 
+function CalendarIcon() {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="h-6 w-6">
+      <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5" />
+    </svg>
+  )
+}
+
+function CartIcon() {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="h-6 w-6">
+      <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 1.972-4.688 2.545-7.153.126-.541-.298-1.047-.854-1.047H5.106M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
+    </svg>
+  )
+}
+
+function BookIcon() {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="h-6 w-6">
+      <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" />
+    </svg>
+  )
+}
+
+function RefreshIcon({ className = 'h-4 w-4' }: { className?: string }) {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.75} stroke="currentColor" className={className}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
+    </svg>
+  )
+}
+
+// ---------------------------------------------------------------------------
+// Main page — everything above the "Frühere Wochen" accordion is designed to
+// fit a ~360×740 viewport without scrolling.
+// ---------------------------------------------------------------------------
+
 export default function Home() {
-  const { household } = useAuth()
   const [freshness, setFreshness] = useState<FreshnessResponse | null>(null)
   const [refreshing, setRefreshing] = useState(false)
   const [refreshMsg, setRefreshMsg] = useState('')
@@ -387,42 +458,78 @@ export default function Home() {
   }
 
   const stores = freshness ? Object.entries(freshness.stores) : []
-  const hasAnyOffers = stores.some(([, s]) => s.offer_count > 0)
+
+  const currentWeekPlan = plans.find((p) => isCurrentWeek(p.week_start_date)) || null
+  const planTileTarget = currentWeekPlan ? `/plan/${currentWeekPlan.id}` : '/plan/new'
+
+  const pendingCount = feedbackPlan
+    ? (feedbackPlan.dishes || []).filter(
+        (d) => d.dish_status === 'confirmed' && d.feedback_thumbs === null
+      ).length
+    : 0
 
   return (
-    <main className="mx-auto max-w-xl px-4 py-5 sm:p-6">
-      <header className="mb-8 flex items-baseline gap-2">
-        <h1 className="text-2xl font-semibold tracking-tight">Aristeus</h1>
-        <span className="text-xs text-stone-400">v{APP_VERSION}</span>
+    <main className="mx-auto max-w-xl px-4 py-4 sm:p-6">
+      {/* a) Compact header */}
+      <header className="mb-3 flex items-center justify-between">
+        <div className="flex items-center gap-1.5">
+          <Laurel className="h-4 w-4 shrink-0 -scale-x-100 text-olive" />
+          <h1 className="font-display text-xl font-semibold tracking-tight text-ink">Aristeus</h1>
+        </div>
+        <span className="text-xs text-muted">v{APP_VERSION}</span>
       </header>
 
+      {/* b) Feedback pending — single compact row */}
       {feedbackPlan && !feedbackDismissed && (
-        <FeedbackPendingCard plan={feedbackPlan} onDismiss={() => setFeedbackDismissed(true)} />
+        <div className="mb-3 flex min-h-11 items-center gap-1 rounded-xl border border-honey/40 bg-honey-soft pl-3.5 pr-1.5 py-1.5 text-sm">
+          <Link to={`/plan/${feedbackPlan.id}/feedback`} className="flex min-w-0 flex-1 items-center gap-2">
+            <span className="min-w-0 truncate font-medium text-ink">
+              Wie war eure Woche? {pendingCount} {pendingCount === 1 ? 'Gericht offen' : 'Gerichte offen'}
+            </span>
+            <span className="shrink-0 text-olive">→</span>
+          </Link>
+          <button
+            onClick={() => setFeedbackDismissed(true)}
+            aria-label="Ausblenden"
+            className="shrink-0 p-2 text-ink/50 hover:text-ink"
+          >
+            ✕
+          </button>
+        </div>
       )}
 
-      {todayInfo && <TodayCard info={todayInfo} />}
+      {/* c) Heute-Hero */}
+      <TodayHero todayInfo={todayInfo} currentWeekPlan={currentWeekPlan} />
 
-      {/* Angebots-Freshness */}
-      <section className="mb-6 rounded-xl border border-stone-200 bg-white p-4 shadow-sm">
-        <div className="mb-3 flex items-center justify-between gap-2">
-          <h2 className="min-w-0 truncate font-semibold">
-            Angebote {freshness ? `(PLZ ${freshness.plz})` : ''}
-          </h2>
+      {/* d) Quick-link tiles */}
+      <div className="mb-3 grid grid-cols-3 gap-2">
+        <QuickTile to={planTileTarget} label="Wochenplan" icon={<CalendarIcon />} />
+        <QuickTile to="/shopping" label="Einkauf" icon={<CartIcon />} />
+        <QuickTile to="/cookbook" label="Rezepte" icon={<BookIcon />} />
+      </div>
+
+      {/* e) Angebote — compact single card, horizontal store chips */}
+      <section className="mb-3 rounded-2xl border border-line bg-card p-3">
+        <div className="mb-2 flex items-center justify-between gap-2">
+          <p className="min-w-0 truncate text-xs font-semibold uppercase tracking-wide text-muted">
+            Angebote{freshness ? ` · PLZ ${freshness.plz}` : ''}
+          </p>
           <button
             onClick={handleRefresh}
             disabled={refreshing}
-            className="shrink-0 rounded-lg border border-stone-300 px-3 py-2 text-xs hover:bg-stone-50 disabled:opacity-50"
+            aria-label="Angebote aktualisieren"
+            className="shrink-0 rounded-full p-1.5 text-muted hover:bg-surface hover:text-ink disabled:opacity-50"
           >
-            {refreshing ? 'Läuft…' : 'Aktualisieren'}
+            <RefreshIcon className={`h-4 w-4 ${refreshing ? 'animate-spin' : ''}`} />
           </button>
         </div>
 
-        {refreshMsg && <p className="mb-2 text-xs text-amber-600">{refreshMsg}</p>}
+        {refreshMsg && <p className="mb-2 text-xs text-olive">{refreshMsg}</p>}
 
         {stores.length === 0 ? (
-          <p className="text-sm text-stone-400">Keine Läden konfiguriert oder noch nicht geladen.</p>
+          <p className="text-xs text-muted">Keine Läden konfiguriert oder noch nicht geladen.</p>
         ) : (
-          <div className="space-y-1">
+          <div className="-mx-1 flex gap-1.5 overflow-x-auto px-1 pb-0.5">
             {stores.map(([storeId, s]) => {
               const cfg = STATUS_CONFIG[s.status]
               const hasOffers = s.offer_count > 0
@@ -431,30 +538,17 @@ export default function Home() {
                   key={storeId}
                   onClick={() => hasOffers && setSelectedStore({ id: storeId, label: s.label })}
                   disabled={!hasOffers}
-                  className={`flex min-h-11 w-full items-center justify-between gap-2 rounded-lg px-2 py-2 text-sm transition-colors ${
+                  className={`flex min-h-9 shrink-0 items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs transition-colors ${
                     hasOffers
-                      ? 'cursor-pointer hover:bg-stone-50 active:bg-stone-100'
-                      : 'cursor-default'
+                      ? 'border-line hover:bg-surface active:bg-surface'
+                      : 'border-line/60 opacity-50'
                   }`}
                 >
-                  <div className="flex min-w-0 items-center gap-2">
-                    <span className={`h-2 w-2 shrink-0 rounded-full ${cfg.dot}`} />
-                    <span className="truncate font-medium">{s.label}</span>
-                    <span className={`shrink-0 text-xs ${cfg.text}`}>{cfg.label}</span>
-                  </div>
-                  <div className="flex shrink-0 flex-wrap items-center justify-end gap-x-2 gap-y-0.5 text-right text-xs text-stone-500">
-                    {hasOffers ? (
-                      <>
-                        <span className="text-stone-700">{s.cooking_relevant_count ?? 0} Koch-Angebote</span>
-                        {s.valid_from && s.valid_to && (
-                          <span>{formatDate(s.valid_from)}–{formatDate(s.valid_to)}</span>
-                        )}
-                        <span className="text-stone-400">›</span>
-                      </>
-                    ) : (
-                      <span>–</span>
-                    )}
-                  </div>
+                  <span className={`h-1.5 w-1.5 shrink-0 rounded-full ${cfg.dot}`} />
+                  <span className="font-medium text-ink">{s.label}</span>
+                  {hasOffers && (
+                    <span className="text-muted">{s.cooking_relevant_count ?? 0}</span>
+                  )}
                 </button>
               )
             })}
@@ -462,20 +556,22 @@ export default function Home() {
         )}
       </section>
 
-      {/* Letzte Pläne */}
+      {/* f) Frühere Wochen — collapsed, doesn't count toward the viewport goal */}
       {plans.length > 0 && (
-        <section className="mb-6 rounded-xl border border-stone-200 bg-white p-4 shadow-sm">
-          <h2 className="mb-3 font-semibold">Letzte Pläne</h2>
-          <div className="space-y-1">
+        <details className="rounded-2xl border border-line bg-card">
+          <summary className="cursor-pointer select-none px-4 py-3 text-sm font-medium text-ink/75">
+            Frühere Wochen
+          </summary>
+          <div className="space-y-1 px-2 pb-2">
             {plans.slice(0, 10).map((p) => {
-              const st = PLAN_STATUS[p.status] ?? { label: p.status, cls: 'text-stone-400' }
+              const st = PLAN_STATUS[p.status] ?? { label: p.status, cls: 'text-muted' }
               return (
-                <div key={p.id} className="flex min-h-11 items-center gap-2 rounded-lg px-2 py-2 hover:bg-stone-50">
+                <div key={p.id} className="flex min-h-11 items-center gap-2 rounded-lg px-2 py-2 hover:bg-surface">
                   <Link
                     to={`/plan/${p.id}`}
                     className="flex min-w-0 flex-1 items-center justify-between gap-2"
                   >
-                    <span className="shrink-0 text-sm font-medium text-stone-700">{formatWeekRange(p.week_start_date)}</span>
+                    <span className="shrink-0 text-sm font-medium text-ink/75">{formatWeekRange(p.week_start_date)}</span>
                     <span className={`shrink-0 truncate text-xs ${st.cls}`}>{st.label}</span>
                   </Link>
                   <button
@@ -494,37 +590,8 @@ export default function Home() {
               )
             })}
           </div>
-        </section>
+        </details>
       )}
-
-      {/* Wochenplan-CTA */}
-      <section className="rounded-xl border border-emerald-200 bg-emerald-50 p-5 text-center">
-        <p className="break-words font-medium text-emerald-800">
-          Willkommen{household?.username ? `, ${household.username}` : ''}!
-        </p>
-        {hasAnyOffers ? (
-          <>
-            <p className="mt-1 text-sm text-emerald-700">
-              Angebote aus deiner Region sind geladen.
-            </p>
-            <Link
-              to="/plan/new"
-              className="mt-4 block w-full rounded-lg bg-emerald-600 px-4 py-2 text-center text-sm font-medium text-white hover:bg-emerald-700"
-            >
-              Neue Woche planen
-            </Link>
-          </>
-        ) : (
-          <>
-            <p className="mt-1 text-sm text-emerald-700">
-              Lade zuerst die Angebote für deine Region — klicke auf „Aktualisieren".
-            </p>
-            <p className="mt-1 text-xs text-emerald-600">
-              Der erste Lauf dauert ~30–60 Sekunden.
-            </p>
-          </>
-        )}
-      </section>
 
       {/* Offers drawer */}
       {selectedStore && (

@@ -2,93 +2,80 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ── Design tokens — "Honig & Olive" ───────────────────────────
+   Values are space-separated RGB triplets so Tailwind's color
+   opacity modifiers (e.g. border-honey/30) work. The app follows
+   the OS color-scheme only — no manual/class-based toggle. */
+
+:root {
+  color-scheme: light dark;
+
+  --surface: 246 241 231;      /* #F6F1E7 */
+  --card: 255 253 248;         /* #FFFDF8 */
+  --ink: 44 42 34;             /* #2C2A22 */
+  --muted: 138 130 113;        /* #8A8271 */
+  --line: 231 223 207;         /* #E7DFCF */
+
+  --olive: 92 107 60;          /* #5C6B3C */
+  --olive-hover: 76 90 49;     /* #4C5A31 */
+  --olive-soft: 238 240 227;   /* #EEF0E3 */
+  --olive-on: 255 253 248;     /* text/icon color on solid olive */
+
+  --honey: 185 138 46;         /* #B98A2E */
+  --honey-soft: 247 236 212;   /* #F7ECD4 */
+  --honey-line: 185 138 46;    /* used with low alpha for hairline dividers */
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --surface: 29 26 20;       /* #1D1A14 */
+    --card: 39 35 27;          /* #27231B */
+    --ink: 237 231 216;        /* #EDE7D8 */
+    --muted: 156 148 130;      /* #9C9482 */
+    --line: 58 52 40;          /* #3A3428 */
+
+    --olive: 155 171 104;      /* #9BAB68 */
+    --olive-hover: 134 152 90; /* darker sage for hover/active */
+    --olive-soft: 51 58 38;    /* #333A26 */
+    --olive-on: 29 26 20;      /* dark text/icon on light-olive buttons */
+
+    --honey: 217 169 74;       /* #D9A94A */
+    --honey-soft: 61 52 33;    /* #3D3421 */
+    --honey-line: 217 169 74;
+  }
+}
+
 html, body, #root {
   height: 100%;
 }
 
-/* Prevent iOS Safari auto-zoom on input focus (requires ≥16px font-size) */
+body {
+  background-color: rgb(var(--surface));
+  color: rgb(var(--ink));
+}
+
+/* Prevent iOS Safari auto-zoom on input focus (requires ≥16px font-size),
+   and make form controls follow the theme tokens everywhere. */
 input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),
 select,
 textarea {
   font-size: 16px !important;
+  background-color: rgb(var(--card));
+  color: rgb(var(--ink));
+  border-color: rgb(var(--line));
 }
 
-/* ── Dark mode ──────────────────────────────────────────────── */
-/* .dark .classname has specificity 0,2,0 — beats Tailwind's 0,1,0 without !important */
-
-.dark { color-scheme: dark; }
-
-/* Body — needs !important to beat bg-stone-50 class on <body> */
-.dark body { background-color: rgb(12 10 9) !important; color: rgb(231 229 228); }
-
-/* Backgrounds */
-.dark .bg-white     { background-color: rgb(28 25 23); }  /* stone-900 */
-.dark .bg-white\/90 { background-color: rgb(28 25 23 / 0.9); }  /* sticky action bars */
-.dark .bg-stone-50  { background-color: rgb(41 37 36); }  /* stone-800 */
-.dark .bg-stone-100 { background-color: rgb(68 64 60); }  /* stone-700 */
-.dark .bg-stone-200 { background-color: rgb(87 83 78); }  /* stone-600 */
-.dark .bg-stone-300 { background-color: rgb(120 113 108); }
-.dark .bg-emerald-50  { background-color: rgb(2 44 34 / 0.7); }
-.dark .bg-emerald-100 { background-color: rgb(4 47 46 / 0.5); }
-.dark .bg-red-50    { background-color: rgb(69 10 10 / 0.5); }
-.dark .bg-sky-100   { background-color: rgb(8 47 73 / 0.5); }
-.dark .bg-amber-100 { background-color: rgb(78 29 8 / 0.5); }
-
-/* Hover / active backgrounds */
-.dark .hover\:bg-stone-50:hover    { background-color: rgb(68 64 60); }
-.dark .hover\:bg-stone-100:hover   { background-color: rgb(68 64 60); }
-.dark .hover\:bg-stone-200:hover   { background-color: rgb(87 83 78); }
-.dark .active\:bg-stone-50:active  { background-color: rgb(68 64 60); }
-.dark .active\:bg-stone-100:active { background-color: rgb(68 64 60); }
-.dark .active\:bg-stone-200:active { background-color: rgb(87 83 78); }
-.dark .hover\:bg-emerald-50:hover  { background-color: rgb(2 44 34 / 0.7); }
-.dark .active\:bg-emerald-50:active { background-color: rgb(2 44 34 / 0.7); }
-.dark .hover\:bg-red-50:hover      { background-color: rgb(69 10 10 / 0.5); }
-.dark .active\:bg-red-50:active    { background-color: rgb(69 10 10 / 0.5); }
-
-/* Borders */
-.dark .border-stone-100  { border-color: rgb(68 64 60); }
-.dark .border-stone-200  { border-color: rgb(68 64 60); }
-.dark .border-stone-300  { border-color: rgb(87 83 78); }
-.dark .border-stone-400  { border-color: rgb(120 113 108); }
-.dark .border-emerald-200 { border-color: rgb(4 120 87 / 0.4); }
-.dark .border-emerald-400 { border-color: rgb(16 185 129 / 0.5); }
-.dark .border-red-200    { border-color: rgb(185 28 28 / 0.5); }
-.dark .border-red-300    { border-color: rgb(185 28 28 / 0.5); }
-
-/* Text */
-.dark .text-stone-900 { color: rgb(245 245 244); }  /* stone-100 */
-.dark .text-stone-800 { color: rgb(231 229 228); }  /* stone-200 */
-.dark .text-stone-700 { color: rgb(214 211 208); }  /* stone-300 */
-.dark .text-stone-600 { color: rgb(168 162 158); }  /* stone-400 */
-.dark .text-stone-500 { color: rgb(168 162 158); }  /* stone-400 */
-.dark .text-stone-400 { color: rgb(120 113 108); }  /* stone-500 */
-.dark .text-stone-300 { color: rgb(87 83 78); }     /* stone-600 */
-.dark .text-emerald-600 { color: rgb(52 211 153); } /* emerald-400 */
-.dark .text-emerald-700 { color: rgb(52 211 153); }
-.dark .text-emerald-800 { color: rgb(110 231 183); }
-.dark .text-blue-600    { color: rgb(96 165 250); }
-.dark .text-amber-600   { color: rgb(251 191 36); }
-.dark .text-amber-700   { color: rgb(251 191 36); }
-.dark .text-sky-700     { color: rgb(56 189 248); }
-.dark .text-red-500     { color: rgb(248 113 113); }
-.dark .text-red-600     { color: rgb(248 113 113); }
-.dark .text-red-700     { color: rgb(252 165 165); }
-
-/* Inputs */
-.dark input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),
-.dark select,
-.dark textarea {
-  background-color: rgb(41 37 36) !important;
-  color: rgb(231 229 228) !important;
-  border-color: rgb(87 83 78) !important;
+::placeholder {
+  color: rgb(var(--muted));
+  opacity: 1;
 }
-.dark ::placeholder { color: rgb(87 83 78); opacity: 1; }
 
-/* Toggle knob — stays bright in dark mode */
-.dark .toggle-knob { background-color: rgb(214 211 208) !important; } /* stone-200 */
+/* Toggle knob (feature switches, e.g. "Desserts vorschlagen") */
+.toggle-knob {
+  background-color: rgb(var(--card));
+}
 
-/* Shadows */
-.dark .shadow-sm  { box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.4); }
-.dark .shadow-2xl { box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.7); }
-
+/* Thin gold hairline used under page headers */
+.divider-gold {
+  border-bottom: 1px solid rgb(var(--honey-line) / 0.35);
+}

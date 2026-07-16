@@ -1,14 +1,22 @@
 """Recipes router — "Unser Kochbuch".
 
-Merges two sources into one list:
-  - "gekocht": every confirmed dish with a stored recipe across all of a
-    household's plans, deduped by name (original behaviour).
+The cookbook is a plain read of saved_recipes — every entry has an `origin`:
+  - "gekocht": archived from a confirmed PlanDish by archive_recipes_to_cookbook
+    (see ../ai/pipeline.py), called at the end of confirm/swap/regenerate and
+    plan-into-week. Surviving in its own table means deleting the plan that
+    originally produced the recipe no longer removes it from the cookbook.
   - "eigene": a household's own SavedRecipe entries — imported from a URL or
     entered by hand.
 
+GET /api/recipes best-effort-enriches "gekocht" entries with the newest
+confirmed PlanDish of the same name (dish_id/plan_id/feedback_thumbs) so the
+frontend can still show the thumbs-up/down row; if that plan was since
+deleted these stay null and the frontend just hides the row.
+
 Also hosts the URL-import / manual-entry / favorite / delete endpoints for
-SavedRecipe, and "plan-into-week" which drops any recipe (gekocht or eigene)
-into the current or next weekly plan.
+SavedRecipe (favorite + delete now apply to every entry, not just "eigene"),
+and "plan-into-week" which drops any recipe (gekocht or eigene) into the
+current or next weekly plan.
 """
 
 import ipaddress
@@ -26,7 +34,12 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session as DbSession
 
 from ..ai.client import chat_completion_json
-from ..ai.pipeline import _all_confirmed_recipes, build_shopping_list, rebuild_shopping_list_preserving
+from ..ai.pipeline import (
+    _all_confirmed_recipes,
+    archive_recipes_to_cookbook,
+    build_shopping_list,
+    rebuild_shopping_list_preserving,
+)
 from ..ai.prompts import build_recipe_import_from_text_prompt, build_recipe_import_ingredients_prompt
 from ..ai.schemas import ImportedRecipeResponse, ImportIngredientsResponse, RecipeResponse
 from ..db import get_db
@@ -46,40 +59,6 @@ _IMPORT_USER_AGENT = (
 # Pure helpers (unit-testable without a DB session)
 # ---------------------------------------------------------------------------
 
-def dedupe_by_name(dishes: list[PlanDish]) -> list[PlanDish]:
-    """Keep one PlanDish per case-insensitive name.
-
-    Callers must pass dishes ordered newest-first — the first dish seen for
-    a given name is the one kept, so "neuester gewinnt".
-    """
-    seen: set[str] = set()
-    result: list[PlanDish] = []
-    for d in dishes:
-        key = d.name.strip().lower()
-        if key in seen:
-            continue
-        seen.add(key)
-        result.append(d)
-    return result
-
-
-def sort_dishes(dishes: list[PlanDish]) -> list[PlanDish]:
-    """Favorites first, then alphabetical by name."""
-    return sorted(dishes, key=lambda d: (0 if d.is_favorite else 1, d.name.strip().lower()))
-
-
-def filter_dishes(
-    dishes: list[PlanDish], *, q: str | None = None, favorites_only: bool = False
-) -> list[PlanDish]:
-    result = dishes
-    if q:
-        q_lower = q.strip().lower()
-        result = [d for d in result if q_lower in d.name.lower()]
-    if favorites_only:
-        result = [d for d in result if d.is_favorite]
-    return result
-
-
 def filter_saved(
     saved: list[SavedRecipe], *, q: str | None = None, favorites_only: bool = False
 ) -> list[SavedRecipe]:
@@ -92,30 +71,11 @@ def filter_saved(
     return result
 
 
-def _dish_out(dish: PlanDish) -> dict:
-    recipe = None
-    if dish.recipe_json:
-        try:
-            recipe = json.loads(dish.recipe_json)
-        except Exception:
-            pass
-    return {
-        "source": "gekocht",
-        "dish_id": dish.id,
-        "plan_id": dish.plan_id,
-        "saved_recipe_id": None,
-        "name": dish.name,
-        "cuisine": dish.cuisine,
-        "cook_time_min": dish.cook_time_min,
-        "is_favorite": dish.is_favorite,
-        "feedback_thumbs": dish.feedback_thumbs,
-        "image_url": dish.image_url or (dish.recipe.image_url if dish.recipe else None),
-        "week_start_date": dish.plan.week_start_date if dish.plan else None,
-        "recipe": recipe,
-    }
-
-
-def _saved_out(saved: SavedRecipe) -> dict:
+def _saved_out(saved: SavedRecipe, dish: PlanDish | None = None) -> dict:
+    """`dish`, when given, is the newest confirmed PlanDish with the same
+    (case-insensitive) name — best-effort enrichment for "gekocht" entries so
+    the frontend can show/patch the thumbs-up/down feedback row. None for
+    "eigene" entries or once the originating plan has been deleted."""
     recipe = None
     if saved.recipe_json:
         try:
@@ -123,23 +83,23 @@ def _saved_out(saved: SavedRecipe) -> dict:
         except Exception:
             pass
     return {
-        "source": "eigene",
-        "dish_id": None,
-        "plan_id": None,
+        "source": saved.origin,
+        "dish_id": dish.id if dish else None,
+        "plan_id": dish.plan_id if dish else None,
         "saved_recipe_id": saved.id,
         "name": saved.name,
         "cuisine": saved.cuisine,
         "cook_time_min": saved.cook_time_min,
         "is_favorite": saved.is_favorite,
-        "feedback_thumbs": None,
+        "feedback_thumbs": dish.feedback_thumbs if dish else None,
         "image_url": saved.image_url,
-        "week_start_date": None,
+        "week_start_date": dish.plan.week_start_date if dish and dish.plan else None,
         "recipe": recipe,
     }
 
 
 # ---------------------------------------------------------------------------
-# GET /api/recipes — merged "gekocht" + "eigene" list
+# GET /api/recipes — saved_recipes only (origin "gekocht" | "eigene")
 # ---------------------------------------------------------------------------
 
 @router.get("")
@@ -149,33 +109,34 @@ def list_recipes(
     household: Household = Depends(get_current_household),
     db: DbSession = Depends(get_db),
 ) -> list[dict]:
-    dishes = db.scalars(
-        select(PlanDish)
-        .join(WeeklyPlan, PlanDish.plan_id == WeeklyPlan.id)
-        .where(
-            WeeklyPlan.household_id == household.id,
-            PlanDish.dish_status == "confirmed",
-            PlanDish.recipe_json.is_not(None),
-        )
-        .order_by(WeeklyPlan.week_start_date.desc(), PlanDish.id.desc())
-    ).all()
-
-    deduped = dedupe_by_name(dishes)
-    filtered = filter_dishes(deduped, q=q, favorites_only=favorites_only)
-    ordered = sort_dishes(filtered)
-    dish_entries = [_dish_out(d) for d in ordered]
-
     saved = db.scalars(
         select(SavedRecipe)
         .where(SavedRecipe.household_id == household.id)
         .order_by(SavedRecipe.created_at.desc())
     ).all()
-    saved_filtered = filter_saved(saved, q=q, favorites_only=favorites_only)
-    saved_entries = [_saved_out(s) for s in saved_filtered]
+    filtered = filter_saved(saved, q=q, favorites_only=favorites_only)
+    ordered = sorted(filtered, key=lambda s: (0 if s.is_favorite else 1, s.name.strip().lower()))
 
-    combined = dish_entries + saved_entries
-    combined.sort(key=lambda e: (0 if e["is_favorite"] else 1, e["name"].strip().lower()))
-    return combined
+    # Newest confirmed PlanDish per case-insensitive name — drives the thumbs
+    # row for "gekocht" entries. Fetched once for the whole household rather
+    # than per-entry.
+    dish_by_name: dict[str, PlanDish] = {}
+    if any(s.origin == "gekocht" for s in ordered):
+        dishes = db.scalars(
+            select(PlanDish)
+            .join(WeeklyPlan, PlanDish.plan_id == WeeklyPlan.id)
+            .where(
+                WeeklyPlan.household_id == household.id,
+                PlanDish.dish_status == "confirmed",
+            )
+            .order_by(WeeklyPlan.week_start_date.desc(), PlanDish.id.desc())
+        ).all()
+        for d in dishes:
+            key = d.name.strip().lower()
+            if key not in dish_by_name:
+                dish_by_name[key] = d
+
+    return [_saved_out(s, dish_by_name.get(s.name.strip().lower())) for s in ordered]
 
 
 # ---------------------------------------------------------------------------
@@ -636,6 +597,7 @@ def plan_into_week(
         rebuild_shopping_list_preserving(target, all_recipes, household, db)
 
         target.status = "confirmed"
+        archive_recipes_to_cookbook(target, db)
         db.commit()
         return {
             "plan_id": target.id,
@@ -688,6 +650,7 @@ def plan_into_week(
     db.flush()
 
     build_shopping_list(new_plan, {new_dish.id: recipe_obj}, household, db)
+    archive_recipes_to_cookbook(new_plan, db)
     db.commit()
     return {
         "plan_id": new_plan.id,

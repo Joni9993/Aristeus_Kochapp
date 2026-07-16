@@ -48,6 +48,7 @@ export type ShoppingItem = {
 export type Savings = {
   offers_used: number
   offer_total: number
+  estimated_savings: number
 }
 
 export type Plan = {
@@ -62,14 +63,18 @@ export type Plan = {
   savings?: Savings
 }
 
-// One entry in "Unser Kochbuch" (GET /api/recipes) — either a deduped
-// confirmed dish with its stored recipe from a past plan (source: "gekocht"),
-// or a household's own imported/manual recipe (source: "eigene").
+// One entry in "Unser Kochbuch" (GET /api/recipes) — a row in saved_recipes,
+// either archived from a confirmed plan dish (source: "gekocht") or a
+// household's own imported/manual recipe (source: "eigene"). saved_recipe_id
+// is always present (favorite/delete always go through /recipes/saved/{id});
+// dish_id/plan_id/feedback_thumbs are best-effort enrichment for "gekocht"
+// entries (newest confirmed PlanDish with the same name) and are null once
+// that plan has been deleted — the frontend just hides the thumbs row then.
 export type CookbookEntry = {
   source: 'gekocht' | 'eigene'
+  saved_recipe_id: number
   dish_id: number | null
   plan_id: number | null
-  saved_recipe_id: number | null
   name: string
   cuisine: string | null
   cook_time_min: number | null
@@ -80,9 +85,9 @@ export type CookbookEntry = {
   recipe: Recipe | null
 }
 
-/** Stable identity for a cookbook entry across the two possible sources. */
+/** Stable identity for a cookbook entry. */
 export function cookbookEntryKey(entry: CookbookEntry): string {
-  return entry.source === 'eigene' ? `saved-${entry.saved_recipe_id}` : `dish-${entry.dish_id}`
+  return `saved-${entry.saved_recipe_id}`
 }
 
 export const DAYS = ['Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag', 'Sonntag']
@@ -94,13 +99,13 @@ export function germanWeekdayName(d: Date): string {
 }
 
 const CUISINE_COLORS: Record<string, string> = {
-  vegetarisch: 'bg-emerald-100 text-emerald-700',
-  vegan: 'bg-green-100 text-green-700',
-  Fisch: 'bg-blue-100 text-blue-700',
-  Fleisch: 'bg-amber-100 text-amber-700',
-  gemischt: 'bg-stone-100 text-stone-600',
+  vegetarisch: 'bg-olive-soft text-olive',
+  vegan: 'bg-lime-100 text-lime-800 dark:bg-lime-900/30 dark:text-lime-300',
+  Fisch: 'bg-slate-100 text-slate-600 dark:bg-slate-800/60 dark:text-slate-300',
+  Fleisch: 'bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-300',
+  gemischt: 'bg-line/60 text-muted',
 }
 
 export function cuisineBadgeClass(cuisine: string | null): string {
-  return CUISINE_COLORS[cuisine || 'gemischt'] || 'bg-stone-100 text-stone-600'
+  return CUISINE_COLORS[cuisine || 'gemischt'] || 'bg-line/60 text-muted'
 }

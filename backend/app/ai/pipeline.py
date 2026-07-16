@@ -31,6 +31,7 @@ from ..models import (
     PlanDish,
     Recipe,
     RecipeIngredient,
+    SavedRecipe,
     ShoppingItem,
     WeeklyPlan,
 )
@@ -678,6 +679,50 @@ def build_shopping_list(
     return items
 
 
+def archive_recipes_to_cookbook(plan: WeeklyPlan, db: DbSession) -> int:
+    """Upsert every confirmed dish with a recipe on `plan` into saved_recipes
+    (origin="gekocht") so it survives the plan being deleted later.
+
+    Skips dishes whose name (case-insensitive) is already saved for this
+    household — idempotent, safe to call repeatedly (e.g. confirm, then
+    swap, then regenerate on the same plan). Never raises: a cookbook
+    archiving failure must never break the plan flow that calls it.
+    Returns the number of rows inserted (0 on failure).
+    """
+    try:
+        household_id = plan.household_id
+        existing_names = {
+            (name or "").strip().lower()
+            for (name,) in db.execute(
+                select(SavedRecipe.name).where(SavedRecipe.household_id == household_id)
+            ).all()
+        }
+        added = 0
+        for dish in plan.dishes:
+            if dish.dish_status != "confirmed" or not dish.recipe_json:
+                continue
+            key = dish.name.strip().lower()
+            if not key or key in existing_names:
+                continue
+            existing_names.add(key)
+            db.add(SavedRecipe(
+                household_id=household_id,
+                name=dish.name,
+                cuisine=dish.cuisine,
+                cook_time_min=dish.cook_time_min,
+                is_favorite=dish.is_favorite,
+                image_url=dish.image_url or (dish.recipe.image_url if dish.recipe else None),
+                recipe_json=dish.recipe_json,
+                origin="gekocht",
+            ))
+            added += 1
+        db.flush()
+        return added
+    except Exception:
+        logger.warning("archive_recipes_to_cookbook failed for plan %d", plan.id, exc_info=True)
+        return 0
+
+
 # ---------------------------------------------------------------------------
 # Full pipeline entrypoints
 # ---------------------------------------------------------------------------
@@ -785,6 +830,7 @@ async def run_confirm_generation(
 
     build_shopping_list(plan, recipes, household, db)
     plan.status = "confirmed"
+    archive_recipes_to_cookbook(plan, db)
     db.commit()
 
     # Partial failure: some confirmed dishes never got a recipe (e.g. every
@@ -941,6 +987,7 @@ async def run_swap_dish(
         rebuild_shopping_list_preserving(plan, all_recipes, household, db)
 
         plan.status = "confirmed"
+        archive_recipes_to_cookbook(plan, db)
         db.commit()
         return plan
 
@@ -992,6 +1039,7 @@ async def run_regenerate_recipe(
         rebuild_shopping_list_preserving(plan, all_recipes, household, db)
 
         plan.status = original_status
+        archive_recipes_to_cookbook(plan, db)
         db.commit()
         return plan
 

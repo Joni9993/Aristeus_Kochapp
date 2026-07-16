@@ -78,14 +78,14 @@ export default function Profile() {
   }
 
   if (!profile) return (
-    <div className="flex min-h-screen items-center justify-center text-stone-400">Laden…</div>
+    <div className="flex min-h-screen items-center justify-center text-muted">Laden…</div>
   )
 
   const f = form as Profile
 
   return (
     <main className="mx-auto max-w-xl px-4 py-6">
-      <h1 className="mb-6 text-xl font-semibold">Profil</h1>
+      <h1 className="mb-6 border-b border-honey/30 pb-4 font-display text-xl font-semibold text-ink">Profil</h1>
 
       <form onSubmit={handleSave} className="space-y-4">
 
@@ -93,7 +93,7 @@ export default function Profile() {
         <Card title="Adresse">
           <Row label="Postleitzahl">
             <input
-              className="w-36 rounded-xl border border-stone-300 px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+              className="w-36 rounded-xl border border-line px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-olive"
               value={f.postal_code ?? ''}
               onChange={e => setForm({ ...f, postal_code: e.target.value })}
               maxLength={10}
@@ -110,7 +110,7 @@ export default function Profile() {
             min={1} max={10}
             onChange={v => setForm({ ...f, adults: v })}
           />
-          <div className="border-t border-stone-100" />
+          <div className="border-t border-line" />
           <Counter
             label="Kinder"
             value={f.kids ?? 0}
@@ -130,9 +130,9 @@ export default function Profile() {
             ].map(opt => (
               <label
                 key={opt.id}
-                className="flex cursor-pointer items-center justify-between rounded-xl px-3 py-3 active:bg-stone-50"
+                className="flex cursor-pointer items-center justify-between rounded-xl px-3 py-3 active:bg-surface"
               >
-                <span className="text-sm text-stone-700">{opt.label}</span>
+                <span className="text-sm text-ink">{opt.label}</span>
                 <input
                   type="radio"
                   name="diet"
@@ -143,7 +143,7 @@ export default function Profile() {
                     diet: opt.id,
                     allowed_meats: (opt.id === 'vegan' || opt.id === 'vegetarian') ? [] : f.allowed_meats,
                   })}
-                  className="h-4 w-4 accent-emerald-600"
+                  className="h-4 w-4 accent-olive"
                 />
               </label>
             ))}
@@ -151,8 +151,8 @@ export default function Profile() {
 
           {f.diet !== 'vegan' && f.diet !== 'vegetarian' && (
             <>
-              <div className="border-t border-stone-100 pt-3">
-                <p className="mb-2 px-3 text-xs font-semibold uppercase tracking-wide text-stone-400">
+              <div className="border-t border-line pt-3">
+                <p className="mb-2 px-3 text-xs font-semibold uppercase tracking-wide text-muted">
                   Fleisch &amp; Fisch
                 </p>
                 <div className="flex flex-wrap gap-2 px-3 pb-1">
@@ -174,24 +174,24 @@ export default function Profile() {
         <Card title="Kochzeit &amp; Budget">
           <div className="px-1">
             <div className="flex items-center justify-between mb-2">
-              <span className="text-sm text-stone-700">Max. Kochzeit</span>
-              <span className="text-sm font-semibold text-stone-800">{f.max_cook_time_min} Min</span>
+              <span className="text-sm text-ink">Max. Kochzeit</span>
+              <span className="text-sm font-semibold text-ink">{f.max_cook_time_min} Min</span>
             </div>
             <input
               type="range" min={10} max={120} step={5}
               value={f.max_cook_time_min ?? 50}
               onChange={e => setForm({ ...f, max_cook_time_min: Number(e.target.value) })}
-              className="w-full accent-emerald-600"
+              className="w-full accent-olive"
             />
-            <div className="flex justify-between text-xs text-stone-400 mt-0.5">
+            <div className="flex justify-between text-xs text-muted mt-0.5">
               <span>10 Min</span><span>120 Min</span>
             </div>
           </div>
 
-          <div className="border-t border-stone-100 pt-4 px-1">
+          <div className="border-t border-line pt-4 px-1">
             <div className="flex items-center justify-between mb-2">
-              <span className="text-sm text-stone-700">Angebots-Orientierung</span>
-              <span className="text-sm font-semibold text-stone-800">
+              <span className="text-sm text-ink">Angebots-Orientierung</span>
+              <span className="text-sm font-semibold text-ink">
                 {['', 'Gering', 'Etwas', 'Mittel', 'Stark', 'Maximal'][f.budget_sensitivity ?? 3]}
               </span>
             </div>
@@ -199,9 +199,9 @@ export default function Profile() {
               type="range" min={1} max={5}
               value={f.budget_sensitivity ?? 3}
               onChange={e => setForm({ ...f, budget_sensitivity: Number(e.target.value) })}
-              className="w-full accent-emerald-600"
+              className="w-full accent-olive"
             />
-            <div className="flex justify-between text-xs text-stone-400 mt-0.5">
+            <div className="flex justify-between text-xs text-muted mt-0.5">
               <span>Gering</span><span>Maximal</span>
             </div>
           </div>
@@ -211,7 +211,7 @@ export default function Profile() {
         <Card title="No-Gos">
           <div className="flex gap-2 px-1">
             <input
-              className="flex-1 rounded-xl border border-stone-300 px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+              className="flex-1 rounded-xl border border-line px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-olive"
               value={noGoInput}
               onChange={e => setNoGoInput(e.target.value)}
               placeholder="Zutat oder Gericht…"
@@ -225,7 +225,7 @@ export default function Profile() {
             />
             <button
               type="button"
-              className="rounded-xl border border-stone-300 px-4 py-2.5 text-lg font-medium active:bg-stone-100"
+              className="rounded-xl border border-line px-4 py-2.5 text-lg font-medium active:bg-olive-soft"
               onClick={() => {
                 if (noGoInput.trim()) {
                   setForm({ ...f, no_gos: [...(f.no_gos ?? []), noGoInput.trim()] })
@@ -257,22 +257,22 @@ export default function Profile() {
               />
             ))}
           </div>
-          <div className="border-t border-stone-100 pt-3 space-y-1">
+          <div className="border-t border-line pt-3 space-y-1">
             {[
               { val: true, label: 'Einmal pro Woche (Montag-Angebote)' },
               { val: false, label: 'Mehrmals pro Woche (alle Angebote)' },
             ].map(opt => (
               <label
                 key={String(opt.val)}
-                className="flex cursor-pointer items-center justify-between rounded-xl px-3 py-3 active:bg-stone-50"
+                className="flex cursor-pointer items-center justify-between rounded-xl px-3 py-3 active:bg-surface"
               >
-                <span className="text-sm text-stone-700">{opt.label}</span>
+                <span className="text-sm text-ink">{opt.label}</span>
                 <input
                   type="radio"
                   name="mondayOnly"
                   checked={f.monday_only_offers === opt.val}
                   onChange={() => setForm({ ...f, monday_only_offers: opt.val })}
-                  className="h-4 w-4 accent-emerald-600"
+                  className="h-4 w-4 accent-olive"
                 />
               </label>
             ))}
@@ -281,45 +281,45 @@ export default function Profile() {
 
         {/* Vorschläge */}
         <Card title="Vorschläge">
-          <label className="flex cursor-pointer items-center justify-between rounded-xl px-1 py-1 active:bg-stone-50">
+          <label className="flex cursor-pointer items-center justify-between rounded-xl px-1 py-1 active:bg-surface">
             <div>
-              <p className="text-sm font-medium text-stone-700">Auch Desserts vorschlagen</p>
-              <p className="text-xs text-stone-500 mt-0.5">Kuchen, Süßspeisen und Nachspeisen</p>
+              <p className="text-sm font-medium text-ink">Auch Desserts vorschlagen</p>
+              <p className="text-xs text-muted mt-0.5">Kuchen, Süßspeisen und Nachspeisen</p>
             </div>
             <div
-              className={`relative ml-4 h-7 w-12 shrink-0 overflow-hidden rounded-full transition-colors duration-200 ${f.include_desserts ? 'bg-emerald-600' : 'bg-stone-300'}`}
+              className={`relative ml-4 h-7 w-12 shrink-0 overflow-hidden rounded-full transition-colors duration-200 ${f.include_desserts ? 'bg-olive' : 'bg-line'}`}
               onClick={() => setForm({ ...f, include_desserts: !f.include_desserts })}
             >
-              <span className={`toggle-knob absolute top-1 h-5 w-5 rounded-full bg-white shadow transition-all duration-200 ${f.include_desserts ? 'left-6' : 'left-1'}`} />
+              <span className={`toggle-knob absolute top-1 h-5 w-5 rounded-full bg-card shadow transition-all duration-200 ${f.include_desserts ? 'left-6' : 'left-1'}`} />
             </div>
           </label>
         </Card>
 
-        {error && <p className="px-1 text-sm text-red-600">{error}</p>}
-        {saved && <p className="px-1 text-sm text-emerald-600">✓ Gespeichert</p>}
+        {error && <p className="px-1 text-sm text-red-600 dark:text-red-400">{error}</p>}
+        {saved && <p className="px-1 text-sm text-olive">✓ Gespeichert</p>}
 
         <button
           type="submit"
           disabled={loading}
-          className="w-full rounded-xl bg-emerald-600 py-3.5 text-sm font-semibold text-white active:bg-emerald-700 disabled:opacity-50"
+          className="w-full rounded-xl bg-olive py-3.5 text-sm font-semibold text-olive-on active:bg-olive-hover disabled:opacity-50"
         >
           {loading ? 'Speichern…' : 'Profil speichern'}
         </button>
       </form>
 
       {/* Datenschutz */}
-      <div className="mt-8 border-t border-stone-200 pt-6 space-y-3">
-        <p className="text-xs font-semibold uppercase tracking-wide text-stone-400">Datenschutz</p>
+      <div className="mt-8 border-t border-line pt-6 space-y-3">
+        <p className="text-xs font-semibold uppercase tracking-wide text-muted">Datenschutz</p>
         <button
           onClick={handleExport}
-          className="w-full rounded-xl border border-stone-300 py-3.5 text-sm text-stone-700 active:bg-stone-50"
+          className="w-full rounded-xl border border-line py-3.5 text-sm text-ink active:bg-surface"
         >
           Daten exportieren (JSON)
         </button>
         <button
           onClick={handleDelete}
           disabled={deleting}
-          className="w-full rounded-xl border border-red-300 py-3.5 text-sm text-red-600 active:bg-red-50 disabled:opacity-50"
+          className="w-full rounded-xl border border-red-300 dark:border-red-800 py-3.5 text-sm text-red-600 dark:text-red-400 active:bg-red-50 dark:active:bg-red-950/40 disabled:opacity-50"
         >
           {deleting ? 'Wird gelöscht…' : 'Konto und alle Daten löschen'}
         </button>
@@ -330,9 +330,9 @@ export default function Profile() {
 
 function Card({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <div className="rounded-2xl border border-stone-200 bg-white shadow-sm overflow-hidden">
-      <div className="border-b border-stone-100 px-4 py-3">
-        <h2 className="text-xs font-semibold uppercase tracking-wide text-stone-400">{title}</h2>
+    <div className="rounded-2xl border border-line bg-card shadow-sm overflow-hidden">
+      <div className="border-b border-line px-4 py-3">
+        <h2 className="text-xs font-semibold uppercase tracking-wide text-muted">{title}</h2>
       </div>
       <div className="px-4 py-3 space-y-3">
         {children}
@@ -344,7 +344,7 @@ function Card({ title, children }: { title: string; children: React.ReactNode })
 function Row({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div className="flex items-center justify-between gap-4">
-      <span className="text-sm text-stone-700">{label}</span>
+      <span className="text-sm text-ink">{label}</span>
       {children}
     </div>
   )
@@ -355,12 +355,12 @@ function Counter({ label, value, min, max, onChange }: {
 }) {
   return (
     <div className="flex items-center justify-between">
-      <span className="text-sm text-stone-700">{label}</span>
+      <span className="text-sm text-ink">{label}</span>
       <div className="flex items-center gap-4">
         <button
           type="button"
           onClick={() => onChange(Math.max(min, value - 1))}
-          className="flex h-9 w-9 items-center justify-center rounded-full border border-stone-300 text-lg active:bg-stone-100"
+          className="flex h-9 w-9 items-center justify-center rounded-full border border-line text-lg active:bg-olive-soft"
         >
           −
         </button>
@@ -368,7 +368,7 @@ function Counter({ label, value, min, max, onChange }: {
         <button
           type="button"
           onClick={() => onChange(Math.min(max, value + 1))}
-          className="flex h-9 w-9 items-center justify-center rounded-full border border-stone-300 text-lg active:bg-stone-100"
+          className="flex h-9 w-9 items-center justify-center rounded-full border border-line text-lg active:bg-olive-soft"
         >
           +
         </button>
@@ -383,7 +383,7 @@ function Chip({ label, active, onClick }: { label: string; active: boolean; onCl
       type="button"
       onClick={onClick}
       className={`rounded-full px-3 py-1.5 text-sm transition-colors ${
-        active ? 'bg-emerald-600 text-white' : 'border border-stone-300 text-stone-700 active:bg-stone-100'
+        active ? 'bg-olive text-olive-on' : 'border border-line text-ink active:bg-olive-soft'
       }`}
     >
       {active ? `✓ ${label}` : label}

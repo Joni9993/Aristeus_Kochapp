@@ -36,7 +36,7 @@ export default function DishImage({
   const emoji = CUISINE_EMOJI[cuisine || 'gemischt'] || '🍲'
   return (
     <div
-      className="flex h-20 w-full items-center justify-center bg-gradient-to-br from-stone-100 to-stone-200 text-3xl dark:from-stone-700 dark:to-stone-800"
+      className={`flex w-full items-center justify-center bg-gradient-to-br from-honey-soft to-olive-soft text-3xl ${className || 'h-20'}`}
       aria-hidden="true"
     >
       {emoji}

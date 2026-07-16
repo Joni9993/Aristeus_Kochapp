@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { registerSW } from 'virtual:pwa-register'
+import '@fontsource-variable/fraunces/wght.css'
 import App from './App'
 import './index.css'
 

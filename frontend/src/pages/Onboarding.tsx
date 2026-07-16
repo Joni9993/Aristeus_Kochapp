@@ -89,14 +89,14 @@ export default function Onboarding() {
   return (
     <main className="mx-auto flex min-h-screen max-w-lg flex-col px-4 py-5 sm:p-6">
       <header className="mb-8">
-        <p className="text-sm text-stone-500">
+        <p className="text-sm text-muted">
           Schritt {step} von {TOTAL}
         </p>
         <div className="mt-2 flex gap-1">
           {Array.from({ length: TOTAL }, (_, i) => (
             <div
               key={i}
-              className={`h-1.5 flex-1 rounded-full ${i < step ? 'bg-emerald-500' : 'bg-stone-200'}`}
+              className={`h-1.5 flex-1 rounded-full ${i < step ? 'bg-olive' : 'bg-line'}`}
             />
           ))}
         </div>
@@ -104,9 +104,9 @@ export default function Onboarding() {
 
       {step === 1 && (
         <Step title="Wo wohnst du?">
-          <label className="mb-1 block text-sm font-medium text-stone-700">Postleitzahl</label>
+          <label className="mb-1 block text-sm font-medium text-ink">Postleitzahl</label>
           <input
-            className="w-full rounded-lg border border-stone-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+            className="w-full rounded-lg border border-line px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-olive"
             value={data.postal_code}
             onChange={(e) => setData({ ...data, postal_code: e.target.value })}
             placeholder="z.B. 80331"
@@ -158,14 +158,14 @@ export default function Onboarding() {
                         opt.id === 'vegan' || opt.id === 'vegetarian' ? [] : data.allowed_meats,
                     })
                   }
-                  className="accent-emerald-600"
+                  className="accent-olive"
                 />
                 <span className="text-sm">{opt.label}</span>
               </label>
             ))}
           </div>
           <div className="mt-6">
-            <p className="mb-2 text-sm font-medium text-stone-700">Allergien / Unverträglichkeiten</p>
+            <p className="mb-2 text-sm font-medium text-ink">Allergien / Unverträglichkeiten</p>
             <div className="flex flex-wrap gap-2">
               {ALLERGIES.map((a) => (
                 <Chip
@@ -183,12 +183,12 @@ export default function Onboarding() {
       {step === 4 && (
         <Step title="Fleisch & Fisch">
           {data.diet === 'vegan' || data.diet === 'vegetarian' ? (
-            <p className="text-sm text-stone-500">
+            <p className="text-sm text-muted">
               Nicht relevant für deine Ernährungsweise.
             </p>
           ) : (
             <>
-              <p className="mb-3 text-sm text-stone-600">
+              <p className="mb-3 text-sm text-ink/75">
                 Welche Fleisch- und Fischsorten sollen im Wochenplan vorkommen?
               </p>
               <div className="flex flex-wrap gap-2">
@@ -211,7 +211,7 @@ export default function Onboarding() {
       {step === 5 && (
         <Step title="Kochzeit & Vorlieben">
           <div className="mb-6">
-            <label className="mb-1 block text-sm font-medium text-stone-700">
+            <label className="mb-1 block text-sm font-medium text-ink">
               Maximale Kochzeit: <strong>{data.max_cook_time_min} Min</strong>
             </label>
             <input
@@ -221,15 +221,15 @@ export default function Onboarding() {
               step={5}
               value={data.max_cook_time_min}
               onChange={(e) => setData({ ...data, max_cook_time_min: Number(e.target.value) })}
-              className="w-full accent-emerald-600"
+              className="w-full accent-olive"
             />
-            <div className="flex justify-between text-xs text-stone-400">
+            <div className="flex justify-between text-xs text-muted">
               <span>10 Min</span>
               <span>120 Min</span>
             </div>
           </div>
           <div className="mb-6">
-            <p className="mb-2 text-sm font-medium text-stone-700">
+            <p className="mb-2 text-sm font-medium text-ink">
               Angebots-Orientierung:{' '}
               <strong>
                 {['', 'Gering', 'Etwas', 'Mittel', 'Stark', 'Maximal'][data.budget_sensitivity]}
@@ -241,20 +241,20 @@ export default function Onboarding() {
               max={5}
               value={data.budget_sensitivity}
               onChange={(e) => setData({ ...data, budget_sensitivity: Number(e.target.value) })}
-              className="w-full accent-emerald-600"
+              className="w-full accent-olive"
             />
-            <div className="flex justify-between text-xs text-stone-400">
+            <div className="flex justify-between text-xs text-muted">
               <span>Gering</span>
               <span>Maximal</span>
             </div>
           </div>
           <div>
-            <label className="mb-1 block text-sm font-medium text-stone-700">
+            <label className="mb-1 block text-sm font-medium text-ink">
               No-Gos (Zutaten / Gerichte, die du nicht magst)
             </label>
             <div className="flex gap-2">
               <input
-                className="flex-1 rounded-lg border border-stone-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                className="flex-1 rounded-lg border border-line px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-olive"
                 value={noGoInput}
                 onChange={(e) => setNoGoInput(e.target.value)}
                 placeholder="z.B. Pilze"
@@ -268,7 +268,7 @@ export default function Onboarding() {
               />
               <button
                 type="button"
-                className="rounded-lg border border-stone-300 px-3 py-2 text-sm hover:bg-stone-100"
+                className="rounded-lg border border-line px-3 py-2 text-sm hover:bg-olive-soft"
                 onClick={() => {
                   if (noGoInput.trim()) {
                     setData({ ...data, no_gos: [...data.no_gos, noGoInput.trim()] })
@@ -298,7 +298,7 @@ export default function Onboarding() {
       {step === 6 && (
         <Step title="Läden & Einkaufsplan">
           <div className="mb-6">
-            <p className="mb-2 text-sm font-medium text-stone-700">Welche Läden nutzt du?</p>
+            <p className="mb-2 text-sm font-medium text-ink">Welche Läden nutzt du?</p>
             <div className="flex flex-wrap gap-2">
               {STORES.map((s) => (
                 <Chip
@@ -312,8 +312,8 @@ export default function Onboarding() {
               ))}
             </div>
           </div>
-          <div className="rounded-xl border border-stone-200 bg-stone-50 p-4">
-            <p className="mb-3 text-sm font-medium text-stone-700">Wie oft gehst du einkaufen?</p>
+          <div className="rounded-xl border border-line bg-surface p-4">
+            <p className="mb-3 text-sm font-medium text-ink">Wie oft gehst du einkaufen?</p>
             <div className="space-y-3">
               <label className="flex cursor-pointer items-start gap-3">
                 <input
@@ -321,11 +321,11 @@ export default function Onboarding() {
                   name="mondayOnly"
                   checked={data.monday_only_offers}
                   onChange={() => setData({ ...data, monday_only_offers: true })}
-                  className="mt-0.5 accent-emerald-600"
+                  className="mt-0.5 accent-olive"
                 />
                 <div>
                   <p className="text-sm font-medium">Einmal pro Woche (Montag)</p>
-                  <p className="text-xs text-stone-500">
+                  <p className="text-xs text-muted">
                     Nur Angebote, die ab Montag gelten. Praktisch für einen einzigen Einkauf.
                   </p>
                 </div>
@@ -336,11 +336,11 @@ export default function Onboarding() {
                   name="mondayOnly"
                   checked={!data.monday_only_offers}
                   onChange={() => setData({ ...data, monday_only_offers: false })}
-                  className="mt-0.5 accent-emerald-600"
+                  className="mt-0.5 accent-olive"
                 />
                 <div>
                   <p className="text-sm font-medium">Mehrmals pro Woche</p>
-                  <p className="text-xs text-stone-500">
+                  <p className="text-xs text-muted">
                     Alle Angebote, auch wenn sie erst Mi. oder Fr. starten.
                   </p>
                 </div>
@@ -350,13 +350,13 @@ export default function Onboarding() {
         </Step>
       )}
 
-      {error && <p className="mt-3 text-sm text-red-600">{error}</p>}
+      {error && <p className="mt-3 text-sm text-red-600 dark:text-red-400">{error}</p>}
 
       <div className="mt-auto flex gap-3 pt-8">
         {step > 1 && (
           <button
             onClick={() => setStep(step - 1)}
-            className="flex-1 rounded-lg border border-stone-300 px-4 py-2 text-sm hover:bg-stone-100"
+            className="flex-1 rounded-lg border border-line px-4 py-2 text-sm hover:bg-olive-soft"
           >
             Zurück
           </button>
@@ -364,7 +364,7 @@ export default function Onboarding() {
         {step < TOTAL ? (
           <button
             onClick={() => setStep(step + 1)}
-            className="flex-1 rounded-lg bg-emerald-600 px-4 py-2 text-sm font-medium text-white hover:bg-emerald-700"
+            className="flex-1 rounded-lg bg-olive px-4 py-2 text-sm font-medium text-olive-on hover:bg-olive-hover"
           >
             Weiter
           </button>
@@ -372,7 +372,7 @@ export default function Onboarding() {
           <button
             onClick={finish}
             disabled={saving || data.selected_stores.length === 0}
-            className="flex-1 rounded-lg bg-emerald-600 px-4 py-2 text-sm font-medium text-white hover:bg-emerald-700 disabled:opacity-50"
+            className="flex-1 rounded-lg bg-olive px-4 py-2 text-sm font-medium text-olive-on hover:bg-olive-hover disabled:opacity-50"
           >
             {saving ? 'Speichern…' : 'Fertig – App starten'}
           </button>
@@ -385,7 +385,7 @@ export default function Onboarding() {
 function Step({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <div className="flex-1">
-      <h2 className="mb-6 text-xl font-semibold">{title}</h2>
+      <h2 className="mb-6 font-display text-xl font-semibold text-ink">{title}</h2>
       <div className="space-y-4">{children}</div>
     </div>
   )
@@ -406,12 +406,12 @@ function Counter({
 }) {
   return (
     <div className="flex items-center justify-between">
-      <span className="text-sm font-medium text-stone-700">{label}</span>
+      <span className="text-sm font-medium text-ink">{label}</span>
       <div className="flex items-center gap-3">
         <button
           type="button"
           onClick={() => onChange(Math.max(min, value - 1))}
-          className="flex h-8 w-8 items-center justify-center rounded-full border border-stone-300 text-lg hover:bg-stone-100"
+          className="flex h-8 w-8 items-center justify-center rounded-full border border-line text-lg hover:bg-olive-soft"
         >
           −
         </button>
@@ -419,7 +419,7 @@ function Counter({
         <button
           type="button"
           onClick={() => onChange(Math.min(max, value + 1))}
-          className="flex h-8 w-8 items-center justify-center rounded-full border border-stone-300 text-lg hover:bg-stone-100"
+          className="flex h-8 w-8 items-center justify-center rounded-full border border-line text-lg hover:bg-olive-soft"
         >
           +
         </button>
@@ -443,8 +443,8 @@ function Chip({
       onClick={onClick}
       className={`rounded-full px-3 py-1 text-sm transition-colors ${
         active
-          ? 'bg-emerald-600 text-white'
-          : 'border border-stone-300 text-stone-700 hover:bg-stone-100'
+          ? 'bg-olive text-olive-on'
+          : 'border border-line text-ink hover:bg-olive-soft'
       }`}
     >
       {active ? `✓ ${label}` : label}

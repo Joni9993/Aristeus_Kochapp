@@ -70,7 +70,7 @@ cd backend
 .venv\Scripts\alembic upgrade head
 ```
 
-Letzte Migration: `a2b3c4d5e6f7` (plan_dishes.image_url + weekly_plans.portion_override; davor `f6a7b8c9d0e1` weekly_plans.wish_text). Migrationen laufen im Deployment automatisch beim Container-Start.
+Letzte Migration: `c4d5e6f7a8b9` (saved_recipes.origin + Backfill gekochter Rezepte; davor `b3c4d5e6f7a8` saved_recipes, `a2b3c4d5e6f7` image_url/portion_override, `f6a7b8c9d0e1` wish_text). Migrationen laufen im Deployment automatisch beim Container-Start.
 
 ## Keyword-Filter (`backend/app/services/keyword_filter.py`)
 
@@ -164,3 +164,12 @@ Alle Phasen fertig; darauf aufbauend kam eine große Alltags-/Robustheits-Welle:
 - **Robustheit:** `more-suggestions` asynchron (Frontend pollt Dish-Anzahl), echte LLM-Kosten in `api_calls.cost_estimate` (OpenRouter `usage.include`), Incident-Reporting ans Status-Dashboard, pytest-Suite in `backend/tests/`
 
 Bewusst offen gelassen: Web-Push-Benachrichtigungen („Morgen: X — Fleisch auftauen"), Kategorie-basierter Offer-Pre-Filter, LLM-Nachklassifizierung zweideutiger Angebote (s. Keyword-Filter-Abschnitt).
+
+## v2.1/v2.2 (2026-07-16, nach Live-Test)
+
+- **Angebote im Prompt uncapped:** `format_offers` schneidet nicht mehr bei 80 ab — ALLE kochrelevanten Angebote aller gewählten Läden gehen ins LLM; `_get_active_offers` verzahnt die Läden Round-Robin (sonst verdrängt Rewe mit 145 Angeboten Lidl/Aldi aus dem Aufmerksamkeits-Anfang)
+- **Kochbuch = `saved_recipes` (dauerhaft):** einzige Quelle für `GET /api/recipes` (`origin` "gekocht"|"eigene"). `archive_recipes_to_cookbook(plan, db)` upsertet bestätigte Rezepte (dedupe per Haushalt+lowercase-Name) — aufgerufen nach Confirm/Swap/Regenerate/Einplanen. Plan-Löschen berührt das Kochbuch nicht; jeder Eintrag einzeln löschbar. Eigene Rezepte: `POST /api/recipes/import` (URL: JSON-LD → LLM-Fallback, SSRF-Guard) + `POST /api/recipes/manual`; Einplanen via `POST /api/recipes/plan-into-week` (current|next, baut Einkaufsliste unter Erhalt von Häkchen/Custom-Items neu, `build_shopping_list` matcht ALLE Zutaten gegen aktive Angebote)
+- **Rezept-Nachgenerierung:** `POST .../dishes/{id}/regenerate-recipe` für bestätigte Gerichte ohne recipe_json (Free-Tier-429-Reparatur, Button „Rezept jetzt generieren"); Teilausfälle beim Confirm melden sich als Vorfall
+- **Ersparnis:** `savings.estimated_savings` schätzt echte Ersparnis aus „statt X"/UVP/Prozent in Offer.hint/price_text (`estimate_item_savings` in plans.py) — nie erfinden, Fallback auf „N Zutaten im Angebot"
+- **UI:** Einkaufs-Tab `/shopping` (Wochen-Auswahl, geteilte `components/ShoppingView.tsx`), Heute-Karte deep-linkt `/plan/{id}?dish={dishId}`, „Gericht tauschen" aus der UI entfernt (Backend-Endpoint bleibt), Kochmodus-Button im `zutatenAction`-Slot von RecipeDetails
+- **Design „Honig & Olive":** CSS-Variablen-Tokens in `frontend/src/index.css` (surface/card/ink/muted/line/olive/honey als RGB-Triplets), Dark Mode via `prefers-color-scheme` (`darkMode: 'media'`, kein Klassen-Toggle mehr), Fraunces (`@fontsource-variable/fraunces`, lokal) als `font-display` für Titel/Gerichtsnamen, `components/Laurel.tsx`. REGEL: Honig-Gold exklusiv für Angebote/Ersparnis/Favoriten-Sterne, Olivgrün für Primäraktionen, keine `stone-`/`emerald-`-Klassen mehr in src/

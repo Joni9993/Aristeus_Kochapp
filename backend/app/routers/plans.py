@@ -10,7 +10,7 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session as DbSession
 
 from ..db import SessionLocal, get_db
-from ..models import Household, PlanDish, ShoppingItem, WeeklyPlan
+from ..models import Household, Offer, PlanDish, ShoppingItem, WeeklyPlan
 from ..security import get_current_household
 from ..ai.pipeline import (
     apply_confirm_selection,
@@ -126,7 +126,63 @@ def _parse_price(price_text: str | None) -> float | None:
         return None
 
 
-def _plan_out(plan: WeeklyPlan, include_dishes: bool = True) -> dict:
+def _parse_decimal(num_str: str) -> float | None:
+    """"3,49" or "3.49" -> 3.49. Used on regex capture groups, which are
+    already digits-plus-one-separator, so this never has to guess."""
+    try:
+        return float(num_str.replace(",", "."))
+    except (TypeError, ValueError):
+        return None
+
+
+# "statt 3,49 €" / "UVP 2,99" — a crossed-out reference price near the sale
+# price. Allows a little text/punctuation between the keyword and the number
+# ("statt nur 3,49") but not so much it wanders into an unrelated sentence.
+_REFERENCE_PRICE_RE = re.compile(r"(?:statt|uvp)\D{0,12}?(\d+(?:[.,]\d{1,2})?)", re.IGNORECASE)
+
+# "-25%" (a leading minus sign) or "25% günstiger/billiger/...". Deliberately
+# narrower than "any percentage in the text" — offers also use "%" for
+# unrelated things ("25% mehr Inhalt"), which isn't a price discount.
+_PERCENT_MINUS_RE = re.compile(r"-\s*(\d+(?:[.,]\d{1,2})?)\s*%")
+_PERCENT_WORD_RE = re.compile(
+    r"(\d+(?:[.,]\d{1,2})?)\s*%\s*(?:günstiger|billiger|sparen|rabatt|reduziert)",
+    re.IGNORECASE,
+)
+
+
+def estimate_item_savings(price_text: str | None, hint: str | None) -> float:
+    """Best-effort savings for one shopping item, derived only from the
+    offer's own text (its price_text and the originating Offer.hint).
+
+    Tries, in order:
+      1. A "statt X" / "UVP X" reference price -> savings = reference − price.
+      2. A discount percentage ("-25%", "25% günstiger") -> savings =
+         price × p/(100−p).
+    Returns 0.0 when neither pattern is found — never guesses (task 5).
+    """
+    current = _parse_price(price_text)
+    if current is None:
+        return 0.0
+    haystack = " ".join(t for t in (price_text, hint) if t)
+    if not haystack:
+        return 0.0
+
+    m = _REFERENCE_PRICE_RE.search(haystack)
+    if m:
+        reference = _parse_decimal(m.group(1))
+        if reference is not None and reference > current:
+            return round(reference - current, 2)
+
+    m = _PERCENT_MINUS_RE.search(haystack) or _PERCENT_WORD_RE.search(haystack)
+    if m:
+        pct = _parse_decimal(m.group(1))
+        if pct is not None and 0 < pct < 100:
+            return round(current * pct / (100 - pct), 2)
+
+    return 0.0
+
+
+def _plan_out(plan: WeeklyPlan, db: DbSession, include_dishes: bool = True) -> dict:
     out: dict = {
         "id": plan.id,
         "week_start_date": plan.week_start_date,
@@ -144,9 +200,22 @@ def _plan_out(plan: WeeklyPlan, include_dishes: bool = True) -> dict:
             (p for p in (_parse_price(i.price_text) for i in offer_items) if p is not None),
             0.0,
         )
+
+        estimated_savings = 0.0
+        if offer_items:
+            offer_ids = [i.offer_id for i in offer_items]
+            offers_by_id = {
+                o.id: o for o in db.scalars(select(Offer).where(Offer.id.in_(offer_ids))).all()
+            }
+            for item in offer_items:
+                offer = offers_by_id.get(item.offer_id)
+                hint = offer.hint if offer else None
+                estimated_savings += estimate_item_savings(item.price_text, hint)
+
         out["savings"] = {
             "offers_used": len(offer_items),
             "offer_total": round(offer_total, 2),
+            "estimated_savings": round(estimated_savings, 2),
         }
     return out
 
@@ -191,7 +260,7 @@ def list_plans(
         .limit(20)
     ).all()
     _auto_complete_plans(plans, db)
-    return [_plan_out(p, include_dishes=False) for p in plans]
+    return [_plan_out(p, db, include_dishes=False) for p in plans]
 
 
 @router.get("/feedback-pending")
@@ -217,7 +286,7 @@ def feedback_pending(
         if plan.status != "complete":
             continue
         if any(d.dish_status == "confirmed" and d.feedback_thumbs is None for d in plan.dishes):
-            return {"plan": _plan_out(plan)}
+            return {"plan": _plan_out(plan, db)}
     return {"plan": None}
 
 
@@ -282,7 +351,7 @@ def get_plan(
 ) -> dict:
     plan = _get_plan_or_404(plan_id, household.id, db)
     _auto_complete_plans([plan], db)
-    return _plan_out(plan)
+    return _plan_out(plan, db)
 
 
 @router.post("/{plan_id}/more-suggestions")
@@ -325,7 +394,7 @@ def confirm_plan(
     """
     plan = _get_plan_or_404(plan_id, household.id, db)
     if plan.status in ("confirming", "confirmed"):
-        return _plan_out(plan)
+        return _plan_out(plan, db)
     if plan.status not in ("suggestions_ready", "pending"):
         raise HTTPException(400, f"Plan status '{plan.status}' erlaubt keine Bestätigung")
     if not body.selections:
@@ -333,7 +402,7 @@ def confirm_plan(
 
     apply_confirm_selection(plan, body.selections, db)
     background_tasks.add_task(_bg_confirm, plan.id, household.id)
-    return _plan_out(plan)
+    return _plan_out(plan, db)
 
 
 @router.post("/{plan_id}/dishes/{dish_id}/swap")

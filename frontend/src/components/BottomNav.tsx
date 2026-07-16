@@ -2,13 +2,11 @@ import { useState } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { apiFetch } from '../api/client'
 import { useAuth } from '../hooks/useAuth'
-import { useDarkMode } from '../hooks/useDarkMode'
 
 export default function BottomNav() {
   const { household, refresh } = useAuth()
   const navigate = useNavigate()
   const [showOptions, setShowOptions] = useState(false)
-  const { dark, toggle: toggleDark } = useDarkMode()
 
   async function handleLogout() {
     setShowOptions(false)
@@ -17,35 +15,43 @@ export default function BottomNav() {
     navigate('/login', { replace: true })
   }
 
-  const base = 'flex flex-1 flex-col items-center gap-0.5 py-2 text-xs transition-colors'
-  const on = 'text-emerald-600'
-  const off = 'text-stone-400'
+  const base = 'relative flex flex-1 flex-col items-center gap-0.5 py-2 text-xs transition-colors'
+  const on = 'text-olive font-medium'
+  const off = 'text-muted'
+
+  function dot(isActive: boolean) {
+    return (
+      <span
+        className={`absolute top-1 h-1 w-1 rounded-full transition-opacity ${isActive ? 'bg-olive opacity-100' : 'opacity-0'}`}
+      />
+    )
+  }
 
   return (
     <>
       <nav
-        className="fixed bottom-0 left-0 right-0 z-30 flex border-t border-stone-200 bg-white"
+        className="fixed bottom-0 left-0 right-0 z-30 flex border-t border-line bg-card/90 backdrop-blur-md"
         style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
       >
         <NavLink to="/" end className={({ isActive }) => `${base} ${isActive ? on : off}`}>
-          <HomeIcon />
-          <span>Start</span>
+          {({ isActive }) => (<>{dot(isActive)}<HomeIcon /><span>Start</span></>)}
         </NavLink>
 
         <NavLink to="/cookbook" className={({ isActive }) => `${base} ${isActive ? on : off}`}>
-          <BookIcon />
-          <span>Rezepte</span>
+          {({ isActive }) => (<>{dot(isActive)}<BookIcon /><span>Rezepte</span></>)}
+        </NavLink>
+
+        <NavLink to="/shopping" className={({ isActive }) => `${base} ${isActive ? on : off}`}>
+          {({ isActive }) => (<>{dot(isActive)}<CartIcon /><span>Einkauf</span></>)}
         </NavLink>
 
         <NavLink to="/profile" className={({ isActive }) => `${base} ${isActive ? on : off}`}>
-          <PersonIcon />
-          <span>Profil</span>
+          {({ isActive }) => (<>{dot(isActive)}<PersonIcon /><span>Profil</span></>)}
         </NavLink>
 
         {household?.is_admin && (
           <NavLink to="/admin" className={({ isActive }) => `${base} ${isActive ? on : off}`}>
-            <CogIcon />
-            <span>Admin</span>
+            {({ isActive }) => (<>{dot(isActive)}<CogIcon /><span>Admin</span></>)}
           </NavLink>
         )}
 
@@ -53,6 +59,7 @@ export default function BottomNav() {
           onClick={() => setShowOptions(true)}
           className={`${base} ${showOptions ? on : off}`}
         >
+          {dot(showOptions)}
           <DotsIcon />
           <span>Mehr</span>
         </button>
@@ -61,42 +68,27 @@ export default function BottomNav() {
       {showOptions && (
         <>
           <div
-            className="fixed inset-0 z-40 bg-black/30"
+            className="fixed inset-0 z-40 bg-ink/30"
             onClick={() => setShowOptions(false)}
           />
           <div
-            className="fixed bottom-0 left-0 right-0 z-50 rounded-t-2xl bg-white px-4 pt-5"
+            className="fixed bottom-0 left-0 right-0 z-50 rounded-t-2xl bg-card px-4 pt-5"
             style={{ paddingBottom: 'max(1.5rem, env(safe-area-inset-bottom))' }}
           >
-            <div className="mx-auto mb-5 h-1 w-10 rounded-full bg-stone-200" />
-            <p className="mb-4 text-center text-xs font-semibold uppercase tracking-wide text-stone-400">
+            <div className="mx-auto mb-5 h-1 w-10 rounded-full bg-line" />
+            <p className="mb-4 text-center text-xs font-semibold uppercase tracking-wide text-muted">
               Optionen
             </p>
 
-            {/* Dark mode toggle */}
-            <div className="mb-3 flex items-center justify-between rounded-xl bg-stone-100 px-4 py-3.5">
-              <span className="text-sm font-medium text-stone-800">Dunkles Design</span>
-              <button
-                type="button"
-                onClick={toggleDark}
-                className={`relative h-7 w-12 shrink-0 overflow-hidden rounded-full transition-colors duration-200 ${dark ? 'bg-emerald-600' : 'bg-stone-300'}`}
-                aria-label="Dunkles Design umschalten"
-              >
-                <span
-                  className={`toggle-knob absolute top-1 h-5 w-5 rounded-full bg-white shadow transition-all duration-200 ${dark ? 'left-6' : 'left-1'}`}
-                />
-              </button>
-            </div>
-
             <button
               onClick={handleLogout}
-              className="w-full rounded-xl border border-red-200 py-3.5 text-sm font-medium text-red-600 active:bg-red-50"
+              className="w-full rounded-xl border border-red-300 py-3.5 text-sm font-medium text-red-600 active:bg-red-50 dark:border-red-800 dark:text-red-400 dark:active:bg-red-950/40"
             >
               Abmelden
             </button>
             <button
               onClick={() => setShowOptions(false)}
-              className="mt-2.5 mb-1 w-full rounded-xl bg-stone-100 py-3.5 text-sm font-medium text-stone-600 active:bg-stone-200"
+              className="mt-2.5 mb-1 w-full rounded-xl bg-olive-soft py-3.5 text-sm font-medium text-ink active:bg-line"
             >
               Schließen
             </button>
@@ -119,6 +111,14 @@ function BookIcon() {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="h-6 w-6">
       <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" />
+    </svg>
+  )
+}
+
+function CartIcon() {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="h-6 w-6">
+      <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 1.972-4.688 2.545-7.153.126-.541-.298-1.047-.854-1.047H5.106M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
     </svg>
   )
 }

@@ -40,13 +40,13 @@ function UrlImportForm({ onAdded }: { onAdded: (entry: CookbookEntry) => void })
         onChange={(e) => setUrl(e.target.value)}
         placeholder="https://…"
         inputMode="url"
-        className="w-full min-w-0 rounded-lg border border-stone-300 px-3 py-2 text-sm focus:border-emerald-400 focus:outline-none"
+        className="w-full min-w-0 rounded-lg border border-line px-3 py-2 text-sm focus:border-olive focus:outline-none"
       />
-      {error && <p className="rounded bg-red-50 p-2 text-xs text-red-700">{error}</p>}
+      {error && <p className="rounded bg-red-50 dark:bg-red-950/40 p-2 text-xs text-red-700 dark:text-red-300">{error}</p>}
       <button
         onClick={submit}
         disabled={loading || !url.trim()}
-        className="min-h-11 w-full rounded-lg bg-emerald-600 py-2.5 text-sm font-medium text-white hover:bg-emerald-700 disabled:opacity-50"
+        className="min-h-11 w-full rounded-lg bg-olive py-2.5 text-sm font-medium text-olive-on hover:bg-olive-hover disabled:opacity-50"
       >
         {loading ? 'Rezept wird gelesen…' : 'Importieren'}
       </button>
@@ -117,13 +117,13 @@ function ManualEntryForm({ onAdded }: { onAdded: (entry: CookbookEntry) => void 
         value={name}
         onChange={(e) => setName(e.target.value)}
         placeholder="Name des Gerichts"
-        className="w-full min-w-0 rounded-lg border border-stone-300 px-3 py-2 text-sm focus:border-emerald-400 focus:outline-none"
+        className="w-full min-w-0 rounded-lg border border-line px-3 py-2 text-sm focus:border-olive focus:outline-none"
       />
       <div className="flex gap-2">
         <select
           value={cuisine}
           onChange={(e) => setCuisine(e.target.value)}
-          className="min-w-0 flex-1 rounded-lg border border-stone-300 px-2 py-2 text-sm"
+          className="min-w-0 flex-1 rounded-lg border border-line px-2 py-2 text-sm"
         >
           <option value="">Kategorie…</option>
           <option value="vegetarisch">vegetarisch</option>
@@ -137,12 +137,12 @@ function ManualEntryForm({ onAdded }: { onAdded: (entry: CookbookEntry) => void 
           onChange={(e) => setCookTime(e.target.value.replace(/[^0-9]/g, ''))}
           placeholder="Min."
           inputMode="numeric"
-          className="w-16 shrink-0 rounded-lg border border-stone-300 px-2 py-2 text-sm"
+          className="w-16 shrink-0 rounded-lg border border-line px-2 py-2 text-sm"
         />
       </div>
 
       <div>
-        <p className="mb-1.5 text-xs font-semibold text-stone-500">Zutaten</p>
+        <p className="mb-1.5 text-xs font-semibold text-muted">Zutaten</p>
         <div className="space-y-2">
           {ingredients.map((row, i) => (
             <div key={i} className="flex items-center gap-1.5">
@@ -150,24 +150,24 @@ function ManualEntryForm({ onAdded }: { onAdded: (entry: CookbookEntry) => void 
                 value={row.menge}
                 onChange={(e) => updateIngredient(i, 'menge', e.target.value)}
                 placeholder="Menge"
-                className="w-14 min-w-0 shrink-0 rounded-lg border border-stone-300 px-2 py-2 text-sm"
+                className="w-14 min-w-0 shrink-0 rounded-lg border border-line px-2 py-2 text-sm"
               />
               <input
                 value={row.einheit}
                 onChange={(e) => updateIngredient(i, 'einheit', e.target.value)}
                 placeholder="Einh."
-                className="w-14 min-w-0 shrink-0 rounded-lg border border-stone-300 px-2 py-2 text-sm"
+                className="w-14 min-w-0 shrink-0 rounded-lg border border-line px-2 py-2 text-sm"
               />
               <input
                 value={row.name}
                 onChange={(e) => updateIngredient(i, 'name', e.target.value)}
                 placeholder="Zutat"
-                className="min-w-0 flex-1 rounded-lg border border-stone-300 px-2 py-2 text-sm"
+                className="min-w-0 flex-1 rounded-lg border border-line px-2 py-2 text-sm"
               />
               <button
                 onClick={() => setIngredients((prev) => prev.filter((_, idx) => idx !== i))}
                 aria-label="Zeile entfernen"
-                className="shrink-0 p-2 text-stone-300 hover:text-red-500"
+                className="shrink-0 p-2 text-muted/50 hover:text-red-500 dark:text-red-400"
               >
                 ✕
               </button>
@@ -176,37 +176,37 @@ function ManualEntryForm({ onAdded }: { onAdded: (entry: CookbookEntry) => void 
         </div>
         <button
           onClick={() => setIngredients((prev) => [...prev, { name: '', menge: '', einheit: '' }])}
-          className="mt-2 rounded-lg border border-stone-300 px-3 py-1.5 text-xs text-stone-600 hover:bg-stone-50"
+          className="mt-2 rounded-lg border border-line px-3 py-1.5 text-xs text-ink/75 hover:bg-surface"
         >
           + Zeile
         </button>
       </div>
 
       <div>
-        <p className="mb-1.5 text-xs font-semibold text-stone-500">Zubereitung (eine Zeile pro Schritt)</p>
+        <p className="mb-1.5 text-xs font-semibold text-muted">Zubereitung (eine Zeile pro Schritt)</p>
         <textarea
           value={steps}
           onChange={(e) => setSteps(e.target.value)}
           rows={5}
-          className="w-full min-w-0 resize-y rounded-lg border border-stone-300 p-2 text-sm focus:border-emerald-400 focus:outline-none"
+          className="w-full min-w-0 resize-y rounded-lg border border-line p-2 text-sm focus:border-olive focus:outline-none"
         />
       </div>
 
       <div>
-        <p className="mb-1.5 text-xs font-semibold text-stone-500">Tipps (optional, eine Zeile pro Tipp)</p>
+        <p className="mb-1.5 text-xs font-semibold text-muted">Tipps (optional, eine Zeile pro Tipp)</p>
         <textarea
           value={tips}
           onChange={(e) => setTips(e.target.value)}
           rows={2}
-          className="w-full min-w-0 resize-y rounded-lg border border-stone-300 p-2 text-sm focus:border-emerald-400 focus:outline-none"
+          className="w-full min-w-0 resize-y rounded-lg border border-line p-2 text-sm focus:border-olive focus:outline-none"
         />
       </div>
 
-      {error && <p className="rounded bg-red-50 p-2 text-xs text-red-700">{error}</p>}
+      {error && <p className="rounded bg-red-50 dark:bg-red-950/40 p-2 text-xs text-red-700 dark:text-red-300">{error}</p>}
       <button
         onClick={submit}
         disabled={loading}
-        className="min-h-11 w-full rounded-lg bg-emerald-600 py-2.5 text-sm font-medium text-white hover:bg-emerald-700 disabled:opacity-50"
+        className="min-h-11 w-full rounded-lg bg-olive py-2.5 text-sm font-medium text-olive-on hover:bg-olive-hover disabled:opacity-50"
       >
         {loading ? 'Speichert…' : 'Rezept speichern'}
       </button>
@@ -229,16 +229,16 @@ function AddRecipeDialog({
       onClick={onClose}
     >
       <div
-        className="max-h-[85vh] w-full max-w-lg overflow-y-auto rounded-t-2xl bg-white p-4 sm:rounded-2xl sm:p-6"
+        className="max-h-[85vh] w-full max-w-lg overflow-y-auto rounded-t-2xl bg-card p-4 sm:rounded-2xl sm:p-6"
         style={{ paddingBottom: 'max(1rem, env(safe-area-inset-bottom))' }}
         onClick={(e) => e.stopPropagation()}
       >
         <div className="mb-4 flex items-center justify-between gap-2">
-          <h2 className="min-w-0 truncate font-semibold text-stone-800">Rezept hinzufügen</h2>
+          <h2 className="min-w-0 truncate font-display font-semibold text-ink">Rezept hinzufügen</h2>
           <button
             onClick={onClose}
             aria-label="Schließen"
-            className="shrink-0 p-2 text-xl leading-none text-stone-400 hover:text-stone-600"
+            className="shrink-0 p-2 text-xl leading-none text-muted hover:text-ink"
           >
             ✕
           </button>
@@ -247,7 +247,7 @@ function AddRecipeDialog({
           <button
             onClick={() => setMode('url')}
             className={`min-h-10 flex-1 rounded-full px-3 py-2 text-sm font-medium transition-colors ${
-              mode === 'url' ? 'bg-emerald-600 text-white' : 'bg-stone-100 text-stone-600 hover:bg-stone-200'
+              mode === 'url' ? 'bg-olive text-olive-on' : 'bg-olive-soft text-ink/75 hover:bg-line'
             }`}
           >
             Per Link
@@ -255,7 +255,7 @@ function AddRecipeDialog({
           <button
             onClick={() => setMode('manual')}
             className={`min-h-10 flex-1 rounded-full px-3 py-2 text-sm font-medium transition-colors ${
-              mode === 'manual' ? 'bg-emerald-600 text-white' : 'bg-stone-100 text-stone-600 hover:bg-stone-200'
+              mode === 'manual' ? 'bg-olive text-olive-on' : 'bg-olive-soft text-ink/75 hover:bg-line'
             }`}
           >
             Manuell eintragen
@@ -283,9 +283,7 @@ function PlanIntoWeekPanel({ entry }: { entry: CookbookEntry }) {
   async function submit() {
     setStatus('loading')
     try {
-      const body: Record<string, unknown> = { week }
-      if (entry.source === 'eigene') body.saved_recipe_id = entry.saved_recipe_id
-      else body.dish_id = entry.dish_id
+      const body: Record<string, unknown> = { week, saved_recipe_id: entry.saved_recipe_id }
       if (cookDay) body.cook_day = cookDay
       const res = await apiFetch<{ plan_id: number; message: string }>('/recipes/plan-into-week', {
         method: 'POST',
@@ -304,7 +302,7 @@ function PlanIntoWeekPanel({ entry }: { entry: CookbookEntry }) {
     return (
       <button
         onClick={() => setOpen(true)}
-        className="min-h-11 rounded-lg border border-emerald-300 px-3 py-2 text-xs font-medium text-emerald-700 hover:bg-emerald-50"
+        className="min-h-11 rounded-lg border border-olive/50 px-3 py-2 text-xs font-medium text-olive hover:bg-olive-soft"
       >
         📅 Einplanen
       </button>
@@ -312,14 +310,14 @@ function PlanIntoWeekPanel({ entry }: { entry: CookbookEntry }) {
   }
 
   return (
-    <div className="w-full rounded-lg border border-stone-200 bg-stone-50 p-3">
+    <div className="w-full rounded-lg border border-line bg-surface p-3">
       {status === 'done' ? (
-        <div className="text-sm text-emerald-700">
+        <div className="text-sm text-olive">
           <p>{message}</p>
           {planId && (
             <button
               onClick={() => navigate(`/plan/${planId}`)}
-              className="mt-2 font-medium underline hover:text-emerald-800"
+              className="mt-2 font-medium underline hover:text-olive"
             >
               Zum Wochenplan →
             </button>
@@ -331,7 +329,7 @@ function PlanIntoWeekPanel({ entry }: { entry: CookbookEntry }) {
             <button
               onClick={() => setWeek('current')}
               className={`min-h-9 flex-1 rounded-full px-2 py-1.5 text-xs font-medium ${
-                week === 'current' ? 'bg-emerald-600 text-white' : 'bg-white text-stone-600 border border-stone-300'
+                week === 'current' ? 'bg-olive text-olive-on' : 'bg-card text-ink/75 border border-line'
               }`}
             >
               Diese Woche
@@ -339,7 +337,7 @@ function PlanIntoWeekPanel({ entry }: { entry: CookbookEntry }) {
             <button
               onClick={() => setWeek('next')}
               className={`min-h-9 flex-1 rounded-full px-2 py-1.5 text-xs font-medium ${
-                week === 'next' ? 'bg-emerald-600 text-white' : 'bg-white text-stone-600 border border-stone-300'
+                week === 'next' ? 'bg-olive text-olive-on' : 'bg-card text-ink/75 border border-line'
               }`}
             >
               Nächste Woche
@@ -348,25 +346,25 @@ function PlanIntoWeekPanel({ entry }: { entry: CookbookEntry }) {
           <select
             value={cookDay}
             onChange={(e) => setCookDay(e.target.value)}
-            className="mb-2 w-full min-w-0 rounded-lg border border-stone-300 px-2 py-2 text-xs"
+            className="mb-2 w-full min-w-0 rounded-lg border border-line px-2 py-2 text-xs"
           >
             <option value="">Wochentag (optional)</option>
             {DAYS.map((d) => (
               <option key={d} value={d}>{d}</option>
             ))}
           </select>
-          {status === 'error' && <p className="mb-2 rounded bg-red-50 p-2 text-xs text-red-700">{message}</p>}
+          {status === 'error' && <p className="mb-2 rounded bg-red-50 dark:bg-red-950/40 p-2 text-xs text-red-700 dark:text-red-300">{message}</p>}
           <div className="flex gap-2">
             <button
               onClick={() => setOpen(false)}
-              className="min-h-9 rounded-lg border border-stone-300 px-3 py-1.5 text-xs text-stone-500 hover:bg-white"
+              className="min-h-9 rounded-lg border border-line px-3 py-1.5 text-xs text-muted hover:bg-card"
             >
               Abbrechen
             </button>
             <button
               onClick={submit}
               disabled={status === 'loading'}
-              className="min-h-9 flex-1 rounded-lg bg-emerald-600 px-3 py-1.5 text-xs font-medium text-white hover:bg-emerald-700 disabled:opacity-50"
+              className="min-h-9 flex-1 rounded-lg bg-olive px-3 py-1.5 text-xs font-medium text-olive-on hover:bg-olive-hover disabled:opacity-50"
             >
               {status === 'loading' ? 'Wird eingeplant…' : 'Bestätigen'}
             </button>
@@ -435,24 +433,17 @@ export default function Cookbook() {
     const next = !entry.is_favorite
     patchEntry(key, { is_favorite: next })
     try {
-      if (entry.source === 'eigene') {
-        await apiFetch(`/recipes/saved/${entry.saved_recipe_id}`, {
-          method: 'PATCH',
-          body: { is_favorite: next },
-        })
-      } else {
-        await apiFetch(`/plans/${entry.plan_id}/dishes/${entry.dish_id}/feedback`, {
-          method: 'PATCH',
-          body: { is_favorite: next },
-        })
-      }
+      await apiFetch(`/recipes/saved/${entry.saved_recipe_id}`, {
+        method: 'PATCH',
+        body: { is_favorite: next },
+      })
     } catch {
       patchEntry(key, { is_favorite: !next })
     }
   }
 
   async function setThumbs(entry: CookbookEntry, thumbs: number) {
-    if (entry.source !== 'gekocht') return
+    if (!entry.dish_id || !entry.plan_id) return
     const key = cookbookEntryKey(entry)
     const prevThumbs = entry.feedback_thumbs
     patchEntry(key, { feedback_thumbs: thumbs })
@@ -466,8 +457,7 @@ export default function Cookbook() {
     }
   }
 
-  async function deleteSaved(entry: CookbookEntry) {
-    if (entry.source !== 'eigene') return
+  async function deleteEntry(entry: CookbookEntry) {
     if (!confirm(`"${entry.name}" wirklich löschen?`)) return
     const key = cookbookEntryKey(entry)
     setEntries((prev) => prev?.filter((e) => cookbookEntryKey(e) !== key) ?? prev)
@@ -492,14 +482,14 @@ export default function Cookbook() {
 
   return (
     <main className="mx-auto max-w-xl px-4 py-5 sm:p-6">
-      <header className="mb-6 flex items-start justify-between gap-3">
+      <header className="mb-6 flex items-start justify-between gap-3 border-b border-honey/30 pb-4">
         <div className="min-w-0">
-          <h1 className="text-2xl font-semibold tracking-tight">Unsere Rezepte</h1>
-          <p className="mt-1 text-sm text-stone-500">Alle Gerichte, die ihr schon gekocht oder gespeichert habt.</p>
+          <h1 className="font-display text-2xl font-semibold tracking-tight text-ink">Unsere Rezepte</h1>
+          <p className="mt-1 text-sm text-muted">Alle Gerichte, die ihr schon gekocht oder gespeichert habt.</p>
         </div>
         <button
           onClick={() => setShowAddDialog(true)}
-          className="min-h-11 shrink-0 rounded-lg bg-emerald-600 px-3 py-2 text-sm font-medium text-white hover:bg-emerald-700"
+          className="min-h-11 shrink-0 rounded-lg bg-olive px-3 py-2 text-sm font-medium text-olive-on hover:bg-olive-hover"
         >
           + Rezept
         </button>
@@ -510,14 +500,14 @@ export default function Cookbook() {
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder="Rezept suchen…"
-          className="min-w-0 flex-1 rounded-lg border border-stone-300 px-3 py-2 text-sm focus:border-emerald-400 focus:outline-none"
+          className="min-w-0 flex-1 rounded-lg border border-line px-3 py-2 text-sm focus:border-olive focus:outline-none"
         />
         <button
           onClick={() => setFavoritesOnly((v) => !v)}
           className={`shrink-0 rounded-lg border px-3 py-2 text-sm transition-colors ${
             favoritesOnly
-              ? 'border-amber-300 bg-amber-50 text-amber-700'
-              : 'border-stone-300 text-stone-500 hover:bg-stone-50'
+              ? 'border-honey/40 bg-honey-soft text-ink'
+              : 'border-line text-muted hover:bg-surface'
           }`}
           title="Nur Favoriten anzeigen"
         >
@@ -525,15 +515,15 @@ export default function Cookbook() {
         </button>
       </div>
 
-      {error && <p className="mb-3 rounded bg-red-50 p-3 text-sm text-red-700">{error}</p>}
+      {error && <p className="mb-3 rounded bg-red-50 dark:bg-red-950/40 p-3 text-sm text-red-700 dark:text-red-300">{error}</p>}
 
       {entries === null && !error && (
-        <p className="py-12 text-center text-sm text-stone-400">Lädt…</p>
+        <p className="py-12 text-center text-sm text-muted">Lädt…</p>
       )}
 
       {entries !== null && entries.length === 0 && (
-        <div className="rounded-xl border border-stone-200 bg-white p-8 text-center">
-          <p className="text-sm text-stone-500">
+        <div className="rounded-xl border border-line bg-card p-8 text-center">
+          <p className="text-sm text-muted">
             {query || favoritesOnly
               ? 'Keine Rezepte gefunden.'
               : 'Noch keine Rezepte — bestätige deinen ersten Wochenplan oder füge eins hinzu.'}
@@ -550,8 +540,8 @@ export default function Cookbook() {
               <div
                 key={key}
                 ref={(el) => { itemRefs.current[key] = el }}
-                className={`overflow-hidden rounded-xl border bg-white transition-all ${
-                  isOpen ? 'border-emerald-300 sm:col-span-2' : 'border-stone-200'
+                className={`overflow-hidden rounded-xl border bg-card transition-all ${
+                  isOpen ? 'border-olive/50 sm:col-span-2' : 'border-line'
                 }`}
               >
                 <div className="relative">
@@ -566,8 +556,8 @@ export default function Cookbook() {
                   <button
                     onClick={() => toggleFavorite(entry)}
                     title={entry.is_favorite ? 'Aus Favoriten entfernen' : 'Als Favorit merken'}
-                    className={`absolute right-2 top-2 flex h-9 w-9 items-center justify-center rounded-full bg-white/90 text-lg leading-none shadow-sm ${
-                      entry.is_favorite ? 'text-amber-400' : 'text-stone-300 hover:text-stone-400'
+                    className={`absolute right-2 top-2 flex h-9 w-9 items-center justify-center rounded-full bg-card/90 text-lg leading-none shadow-sm ${
+                      entry.is_favorite ? 'text-honey' : 'text-muted/50 hover:text-ink'
                     }`}
                   >
                     {entry.is_favorite ? '★' : '☆'}
@@ -577,13 +567,13 @@ export default function Cookbook() {
                 <button onClick={() => openCard(key)} className="block w-full text-left">
                   <div className="p-3">
                     <div className="mb-1 flex items-start justify-between gap-1">
-                      <span className="min-w-0 line-clamp-2 text-sm font-semibold leading-tight text-stone-800">
+                      <span className="min-w-0 line-clamp-2 font-display text-sm font-semibold leading-tight text-ink">
                         {entry.name}
                       </span>
                     </div>
                     <div className="flex flex-wrap items-center gap-1.5">
                       {entry.source === 'eigene' && (
-                        <span className="rounded-full bg-sky-100 px-2 py-0.5 text-xs font-medium text-sky-700">
+                        <span className="rounded-full bg-indigo-100 px-2 py-0.5 text-xs font-medium text-indigo-700 dark:bg-indigo-900/30 dark:text-indigo-300">
                           Eigenes
                         </span>
                       )}
@@ -595,24 +585,24 @@ export default function Cookbook() {
                         </span>
                       )}
                       {entry.cook_time_min && (
-                        <span className="text-xs text-stone-400">{entry.cook_time_min} Min.</span>
+                        <span className="text-xs text-muted">{entry.cook_time_min} Min.</span>
                       )}
                     </div>
                   </div>
                 </button>
 
                 {isOpen && entry.recipe && (
-                  <div className="border-t border-stone-100 p-4 text-sm">
+                  <div className="border-t border-line p-4 text-sm">
                     <RecipeDetails recipe={entry.recipe} />
 
-                    <div className="mt-4 flex flex-wrap items-center gap-3 border-t border-stone-100 pt-3">
-                      {entry.source === 'gekocht' && (
+                    <div className="mt-4 flex flex-wrap items-center gap-3 border-t border-line pt-3">
+                      {entry.dish_id && entry.plan_id && (
                         <div className="flex items-center gap-2">
-                          <span className="text-xs text-stone-400">Wie war's?</span>
+                          <span className="text-xs text-muted">Wie war's?</span>
                           <button
                             onClick={() => setThumbs(entry, 1)}
                             className={`min-h-9 min-w-9 rounded-full px-2.5 py-1.5 text-sm ${
-                              entry.feedback_thumbs === 1 ? 'bg-emerald-500 text-white' : 'bg-stone-100 text-stone-600 hover:bg-stone-200'
+                              entry.feedback_thumbs === 1 ? 'bg-olive text-olive-on' : 'bg-olive-soft text-ink/75 hover:bg-line'
                             }`}
                           >
                             👍
@@ -620,7 +610,7 @@ export default function Cookbook() {
                           <button
                             onClick={() => setThumbs(entry, -1)}
                             className={`min-h-9 min-w-9 rounded-full px-2.5 py-1.5 text-sm ${
-                              entry.feedback_thumbs === -1 ? 'bg-red-400 text-white' : 'bg-stone-100 text-stone-600 hover:bg-stone-200'
+                              entry.feedback_thumbs === -1 ? 'bg-red-500 text-white' : 'bg-olive-soft text-ink/75 hover:bg-line'
                             }`}
                           >
                             👎
@@ -628,19 +618,17 @@ export default function Cookbook() {
                         </div>
                       )}
                       <PlanIntoWeekPanel entry={entry} />
-                      {entry.source === 'eigene' && (
-                        <button
-                          onClick={() => deleteSaved(entry)}
-                          className="ml-auto min-h-9 rounded-lg border border-red-200 px-3 py-1.5 text-xs text-red-600 hover:bg-red-50"
-                        >
-                          Löschen
-                        </button>
-                      )}
+                      <button
+                        onClick={() => deleteEntry(entry)}
+                        className="ml-auto min-h-9 rounded-lg border border-red-200 dark:border-red-800 px-3 py-1.5 text-xs text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/40"
+                      >
+                        Löschen
+                      </button>
                     </div>
                   </div>
                 )}
                 {isOpen && !entry.recipe && (
-                  <div className="border-t border-stone-100 p-4 text-sm text-stone-400">
+                  <div className="border-t border-line p-4 text-sm text-muted">
                     Kein Rezept verfügbar.
                   </div>
                 )}

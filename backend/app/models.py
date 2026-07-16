@@ -357,6 +357,8 @@ class SavedRecipe(Base):
     image_url: Mapped[str | None] = mapped_column(String(500), nullable=True)
     recipe_json: Mapped[str] = mapped_column(Text, nullable=False)  # same schema as PlanDish.recipe_json
     source_url: Mapped[str | None] = mapped_column(String(1000), nullable=True)
+    # "eigene" (imported/manual) | "gekocht" (archived from a confirmed PlanDish)
+    origin: Mapped[str] = mapped_column(String(20), default="eigene", nullable=False)
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), server_default=func.now(), nullable=False
     )

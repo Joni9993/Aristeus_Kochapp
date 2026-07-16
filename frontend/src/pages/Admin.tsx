@@ -73,48 +73,48 @@ export default function Admin() {
 
   return (
     <main className="mx-auto max-w-xl px-4 py-5 sm:p-6">
-      <div className="mb-6">
-        <h1 className="text-xl font-semibold">Admin</h1>
-        <p className="text-sm text-stone-500">{household?.username}</p>
+      <div className="mb-6 border-b border-honey/30 pb-4">
+        <h1 className="font-display text-xl font-semibold text-ink">Admin</h1>
+        <p className="text-sm text-muted">{household?.username}</p>
       </div>
 
       {/* Einladungs-Tokens */}
       <section className="mb-8">
         <div className="mb-3 flex items-center justify-between">
-          <h2 className="font-semibold">Einladungs-Tokens</h2>
+          <h2 className="font-display font-semibold text-ink">Einladungs-Tokens</h2>
           <button
             onClick={createToken}
             disabled={creating}
-            className="rounded-lg bg-emerald-600 px-3 py-2 text-sm font-medium text-white hover:bg-emerald-700 disabled:opacity-50"
+            className="rounded-lg bg-olive px-3 py-2 text-sm font-medium text-olive-on hover:bg-olive-hover disabled:opacity-50"
           >
             {creating ? '…' : '+ Token'}
           </button>
         </div>
-        {error && <p className="mb-2 text-sm text-red-600">{error}</p>}
+        {error && <p className="mb-2 text-sm text-red-600 dark:text-red-400">{error}</p>}
         {tokens.length === 0 ? (
-          <p className="text-sm text-stone-400">Noch keine Tokens erstellt.</p>
+          <p className="text-sm text-muted">Noch keine Tokens erstellt.</p>
         ) : (
           <div className="space-y-2">
             {tokens.map(t => (
               <div
                 key={t.token}
-                className={`rounded-xl border p-3 ${t.used_by ? 'border-stone-200 bg-stone-50 opacity-60' : 'border-emerald-200 bg-emerald-50'}`}
+                className={`rounded-xl border p-3 ${t.used_by ? 'border-line bg-surface opacity-60' : 'border-olive/30 bg-olive-soft'}`}
               >
-                <code className="block font-mono text-xs break-all text-stone-700">{t.token}</code>
+                <code className="block font-mono text-xs break-all text-ink">{t.token}</code>
                 <div className="mt-2 flex items-center gap-3">
                   {t.used_by ? (
-                    <span className="text-xs text-stone-400">Verwendet</span>
+                    <span className="text-xs text-muted">Verwendet</span>
                   ) : (
                     <>
                       <button
                         onClick={() => copyLink(t.token)}
-                        className="text-sm font-medium text-emerald-700 active:text-emerald-900"
+                        className="text-sm font-medium text-olive active:text-olive-hover"
                       >
                         {copied === t.token ? '✓ Kopiert' : 'Link kopieren'}
                       </button>
                       <button
                         onClick={() => revokeToken(t.token)}
-                        className="text-sm text-red-500 active:text-red-700"
+                        className="text-sm text-red-500 dark:text-red-400 active:text-red-700 dark:active:text-red-400"
                       >
                         Widerrufen
                       </button>
@@ -129,27 +129,27 @@ export default function Admin() {
 
       {/* Haushalte */}
       <section>
-        <h2 className="mb-3 font-semibold">Haushalte ({households.length})</h2>
+        <h2 className="mb-3 font-display font-semibold text-ink">Haushalte ({households.length})</h2>
         <div className="space-y-2">
           {households.map(h => (
             <div key={h.id}>
               <button
                 onClick={() => toggleRow(h.id)}
-                className="w-full rounded-xl border border-stone-200 bg-white px-4 py-3 text-left active:bg-stone-50"
+                className="w-full rounded-xl border border-line bg-card px-4 py-3 text-left active:bg-surface"
               >
                 <div className="flex items-start justify-between gap-2">
                   <div className="min-w-0 flex-1">
                     <div className="flex flex-wrap items-center gap-2">
-                      <span className="font-medium text-stone-800">{h.username}</span>
+                      <span className="font-medium text-ink">{h.username}</span>
                       {h.is_admin && (
-                        <span className="rounded-full bg-amber-100 px-2 py-0.5 text-xs text-amber-700">Admin</span>
+                        <span className="rounded-full bg-olive-soft px-2 py-0.5 text-xs text-olive">Admin</span>
                       )}
-                      <span className={`rounded-full px-2 py-0.5 text-xs ${h.onboarding_complete ? 'bg-emerald-100 text-emerald-700' : 'bg-stone-100 text-stone-500'}`}>
+                      <span className={`rounded-full px-2 py-0.5 text-xs ${h.onboarding_complete ? 'bg-olive-soft text-olive' : 'bg-line text-muted'}`}>
                         {h.onboarding_complete ? '✓ Fertig' : 'Ausstehend'}
                       </span>
                     </div>
-                    <p className="mt-0.5 text-xs text-stone-500 truncate">{h.email}</p>
-                    <div className="mt-1.5 flex flex-wrap gap-x-3 gap-y-0.5 text-xs text-stone-400">
+                    <p className="mt-0.5 text-xs text-muted truncate">{h.email}</p>
+                    <div className="mt-1.5 flex flex-wrap gap-x-3 gap-y-0.5 text-xs text-muted">
                       <span>{h.api_calls_count} API-Calls</span>
                       {h.total_tokens > 0 && (
                         <span>{h.total_tokens.toLocaleString('de-DE')} Tokens</span>
@@ -157,14 +157,14 @@ export default function Admin() {
                       <span>seit {new Date(h.created_at).toLocaleDateString('de-DE')}</span>
                     </div>
                   </div>
-                  <span className="mt-1 shrink-0 text-stone-400 text-sm">
+                  <span className="mt-1 shrink-0 text-muted text-sm">
                     {expanded === h.id ? '▼' : '▶'}
                   </span>
                 </div>
               </button>
 
               {expanded === h.id && (
-                <div className="rounded-b-xl border-x border-b border-stone-200 bg-stone-50 px-4 py-3 -mt-1">
+                <div className="rounded-b-xl border-x border-b border-line bg-surface px-4 py-3 -mt-1">
                   <HouseholdDetailPanel detail={details[h.id] ?? null} />
                 </div>
               )}
@@ -177,18 +177,18 @@ export default function Admin() {
 }
 
 function HouseholdDetailPanel({ detail }: { detail: HouseholdDetails | null }) {
-  if (!detail) return <p className="text-xs text-stone-400">Lädt…</p>
+  if (!detail) return <p className="text-xs text-muted">Lädt…</p>
 
   const { profile: p, learned_preferences: lp } = detail
 
   return (
     <div className="space-y-4 text-xs">
       <div>
-        <p className="mb-1.5 font-semibold text-stone-600">Profil</p>
+        <p className="mb-1.5 font-semibold text-ink/75">Profil</p>
         {!p ? (
-          <p className="text-stone-400">Kein Profil</p>
+          <p className="text-muted">Kein Profil</p>
         ) : (
-          <dl className="space-y-1 text-stone-600">
+          <dl className="space-y-1 text-ink/75">
             <Row label="PLZ" value={p.postal_code || '–'} />
             <Row label="Haushalt" value={`${p.adults} Erw. / ${p.kids} Kinder`} />
             <Row label="Ernährung" value={p.diet} />
@@ -202,11 +202,11 @@ function HouseholdDetailPanel({ detail }: { detail: HouseholdDetails | null }) {
       </div>
 
       <div>
-        <p className="mb-1.5 font-semibold text-stone-600">Gelernte Präferenzen</p>
+        <p className="mb-1.5 font-semibold text-ink/75">Gelernte Präferenzen</p>
         {!lp ? (
-          <p className="text-stone-400">Noch keine Präferenzen</p>
+          <p className="text-muted">Noch keine Präferenzen</p>
         ) : (
-          <dl className="space-y-1 text-stone-600">
+          <dl className="space-y-1 text-ink/75">
             <Row label="Beliebt" value={lp.loved_dishes.join(', ') || '–'} />
             <Row label="Nicht gemocht" value={lp.disliked_dishes.join(', ') || '–'} />
             {Object.keys(lp.portion_adjustments).length > 0 && (
@@ -226,7 +226,7 @@ function HouseholdDetailPanel({ detail }: { detail: HouseholdDetails | null }) {
 function Row({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex gap-2">
-      <dt className="w-24 shrink-0 text-stone-400">{label}</dt>
+      <dt className="w-24 shrink-0 text-muted">{label}</dt>
       <dd className="break-words min-w-0">{value}</dd>
     </div>
   )

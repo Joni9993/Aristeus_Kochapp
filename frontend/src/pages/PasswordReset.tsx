@@ -43,36 +43,36 @@ export default function PasswordReset() {
   }
 
   return (
-    <main className="flex min-h-screen items-center justify-center bg-stone-50 p-4">
+    <main className="flex min-h-screen items-center justify-center bg-surface p-4">
       <div className="w-full max-w-sm">
-        <h1 className="mb-6 text-2xl font-semibold tracking-tight">Passwort zurücksetzen</h1>
+        <h1 className="mb-6 font-display text-2xl font-semibold tracking-tight text-ink">Passwort zurücksetzen</h1>
         {message ? (
           <div className="space-y-4">
-            <p className="text-sm text-emerald-700">{message}</p>
-            <Link to="/login" className="text-sm underline text-stone-600 hover:text-stone-800">
+            <p className="text-sm text-olive">{message}</p>
+            <Link to="/login" className="text-sm underline text-ink/75 hover:text-ink">
               Zur Anmeldung
             </Link>
           </div>
         ) : token ? (
           <form onSubmit={handleConfirm} className="space-y-4">
             <div>
-              <label className="mb-1 block text-sm font-medium text-stone-700">
+              <label className="mb-1 block text-sm font-medium text-ink">
                 Neues Passwort
               </label>
               <input
                 type="password"
-                className="w-full rounded-lg border border-stone-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                className="w-full rounded-lg border border-line px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-olive"
                 value={newPassword}
                 onChange={(e) => setNewPassword(e.target.value)}
                 minLength={8}
                 required
               />
             </div>
-            {error && <p className="text-sm text-red-600">{error}</p>}
+            {error && <p className="text-sm text-red-600 dark:text-red-400">{error}</p>}
             <button
               type="submit"
               disabled={loading}
-              className="w-full rounded-lg bg-emerald-600 px-4 py-2 text-sm font-medium text-white hover:bg-emerald-700 disabled:opacity-50"
+              className="w-full rounded-lg bg-olive px-4 py-2 text-sm font-medium text-olive-on hover:bg-olive-hover disabled:opacity-50"
             >
               {loading ? 'Speichern…' : 'Passwort speichern'}
             </button>
@@ -80,20 +80,20 @@ export default function PasswordReset() {
         ) : (
           <form onSubmit={handleRequest} className="space-y-4">
             <div>
-              <label className="mb-1 block text-sm font-medium text-stone-700">E-Mail</label>
+              <label className="mb-1 block text-sm font-medium text-ink">E-Mail</label>
               <input
                 type="email"
-                className="w-full rounded-lg border border-stone-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                className="w-full rounded-lg border border-line px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-olive"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
               />
             </div>
-            {error && <p className="text-sm text-red-600">{error}</p>}
+            {error && <p className="text-sm text-red-600 dark:text-red-400">{error}</p>}
             <button
               type="submit"
               disabled={loading}
-              className="w-full rounded-lg bg-emerald-600 px-4 py-2 text-sm font-medium text-white hover:bg-emerald-700 disabled:opacity-50"
+              className="w-full rounded-lg bg-olive px-4 py-2 text-sm font-medium text-olive-on hover:bg-olive-hover disabled:opacity-50"
             >
               {loading ? 'Sende Link…' : 'Reset-Link senden'}
             </button>
