@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { apiFetch, ApiError } from '../api/client'
 import DishImage from '../components/DishImage'
+import PhotoRecipeImport from '../components/PhotoRecipeImport'
 import RecipeDetails from '../components/RecipeDetails'
 import { cookbookEntryKey, cuisineBadgeClass, DAYS } from '../types'
 import type { CookbookEntry } from '../types'
@@ -35,18 +36,30 @@ function UrlImportForm({ onAdded }: { onAdded: (entry: CookbookEntry) => void })
 
   return (
     <div className="space-y-3">
-      <input
-        value={url}
-        onChange={(e) => setUrl(e.target.value)}
-        placeholder="https://…"
-        inputMode="url"
-        className="w-full min-w-0 rounded-lg border border-line px-3 py-2 text-sm focus:border-olive focus:outline-none"
-      />
-      {error && <p className="rounded bg-red-50 dark:bg-red-950/40 p-2 text-xs text-red-700 dark:text-red-300">{error}</p>}
+      <div className="relative">
+        <span className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-base text-muted">
+          🔗
+        </span>
+        <input
+          value={url}
+          onChange={(e) => setUrl(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') {
+              e.preventDefault()
+              submit()
+            }
+          }}
+          placeholder="chefkoch.de/rezepte/... oder ein anderer Rezept-Link"
+          inputMode="url"
+          autoFocus
+          className="min-h-12 w-full min-w-0 rounded-xl border border-line bg-card py-3 pl-10 pr-3 text-sm focus:border-olive focus:outline-none"
+        />
+      </div>
+      {error && <p className="rounded-xl bg-red-50 dark:bg-red-950/40 p-3 text-xs text-red-700 dark:text-red-300">{error}</p>}
       <button
         onClick={submit}
         disabled={loading || !url.trim()}
-        className="min-h-11 w-full rounded-lg bg-olive py-2.5 text-sm font-medium text-olive-on hover:bg-olive-hover disabled:opacity-50"
+        className="min-h-12 w-full rounded-xl bg-olive py-3 text-sm font-semibold text-olive-on hover:bg-olive-hover disabled:opacity-50"
       >
         {loading ? 'Rezept wird gelesen…' : 'Importieren'}
       </button>
@@ -214,6 +227,68 @@ function ManualEntryForm({ onAdded }: { onAdded: (entry: CookbookEntry) => void 
   )
 }
 
+// A single tile in the entry-point chooser (`ModeChooser` below). Reused for
+// the two functional paths (URL import, manual entry); the third, disabled
+// "Per Foto" tile is laid out separately since it isn't a real button yet.
+function ChooserTile({
+  icon,
+  title,
+  subtitle,
+  hint,
+  onClick,
+}: {
+  icon: string
+  title: string
+  subtitle: string
+  hint?: string
+  onClick: () => void
+}) {
+  return (
+    <button
+      onClick={onClick}
+      className="flex min-h-11 w-full min-w-0 items-start gap-3 rounded-2xl border border-line bg-surface p-4 text-left transition-colors hover:border-olive/50 hover:bg-olive-soft active:bg-olive-soft"
+    >
+      <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-olive-soft text-xl">
+        {icon}
+      </span>
+      <span className="min-w-0">
+        <span className="block font-display text-sm font-semibold text-ink">{title}</span>
+        <span className="mt-0.5 block truncate text-xs text-muted">{subtitle}</span>
+        {hint && <span className="mt-1 block text-xs text-muted/80">{hint}</span>}
+      </span>
+    </button>
+  )
+}
+
+// Entry-point screen of the add-recipe dialog: an inviting choice instead of
+// two plain tab buttons.
+function ModeChooser({ onChoose }: { onChoose: (mode: 'url' | 'manual' | 'photo') => void }) {
+  return (
+    <div className="space-y-3">
+      <ChooserTile
+        icon="🔗"
+        title="Von einer Website importieren"
+        subtitle="Chefkoch, Kitchen Stories, Foodblogs …"
+        hint="Funktioniert am besten bei Rezeptseiten mit Text — Insta/Pinterest nur, wenn die Bildunterschrift den Text enthält."
+        onClick={() => onChoose('url')}
+      />
+      <ChooserTile
+        icon="📷"
+        title="Per Foto"
+        subtitle="Kochbuchseite oder Screenshot fotografieren."
+        hint="Am besten bei gedrucktem/getipptem Text — handschriftliche Notizen werden seltener sauber erkannt."
+        onClick={() => onChoose('photo')}
+      />
+      <ChooserTile
+        icon="✏️"
+        title="Manuell eintragen"
+        subtitle="Zutaten, Schritte und Tipps selbst eingeben."
+        onClick={() => onChoose('manual')}
+      />
+    </div>
+  )
+}
+
 function AddRecipeDialog({
   onClose,
   onAdded,
@@ -221,7 +296,14 @@ function AddRecipeDialog({
   onClose: () => void
   onAdded: (entry: CookbookEntry) => void
 }) {
-  const [mode, setMode] = useState<'url' | 'manual'>('url')
+  const [mode, setMode] = useState<'choose' | 'url' | 'manual' | 'photo'>('choose')
+
+  const titles: Record<typeof mode, string> = {
+    choose: 'Rezept hinzufügen',
+    url: 'Per Link importieren',
+    manual: 'Manuell eintragen',
+    photo: 'Per Foto erkennen',
+  }
 
   return (
     <div
@@ -233,35 +315,31 @@ function AddRecipeDialog({
         style={{ paddingBottom: 'max(1rem, env(safe-area-inset-bottom))' }}
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="mb-4 flex items-center justify-between gap-2">
-          <h2 className="min-w-0 truncate font-display font-semibold text-ink">Rezept hinzufügen</h2>
+        <div className="mb-4 flex items-center gap-1">
+          {mode !== 'choose' && (
+            <button
+              onClick={() => setMode('choose')}
+              aria-label="Zurück"
+              className="min-h-11 min-w-11 shrink-0 rounded-full text-lg leading-none text-muted hover:bg-surface hover:text-ink"
+            >
+              ←
+            </button>
+          )}
+          <h2 className="min-w-0 flex-1 truncate font-display font-semibold text-ink">{titles[mode]}</h2>
           <button
             onClick={onClose}
             aria-label="Schließen"
-            className="shrink-0 p-2 text-xl leading-none text-muted hover:text-ink"
+            className="min-h-11 min-w-11 shrink-0 text-xl leading-none text-muted hover:text-ink"
           >
             ✕
           </button>
         </div>
-        <div className="mb-4 flex gap-2">
-          <button
-            onClick={() => setMode('url')}
-            className={`min-h-10 flex-1 rounded-full px-3 py-2 text-sm font-medium transition-colors ${
-              mode === 'url' ? 'bg-olive text-olive-on' : 'bg-olive-soft text-ink/75 hover:bg-line'
-            }`}
-          >
-            Per Link
-          </button>
-          <button
-            onClick={() => setMode('manual')}
-            className={`min-h-10 flex-1 rounded-full px-3 py-2 text-sm font-medium transition-colors ${
-              mode === 'manual' ? 'bg-olive text-olive-on' : 'bg-olive-soft text-ink/75 hover:bg-line'
-            }`}
-          >
-            Manuell eintragen
-          </button>
-        </div>
-        {mode === 'url' ? <UrlImportForm onAdded={onAdded} /> : <ManualEntryForm onAdded={onAdded} />}
+        {mode === 'choose' && <ModeChooser onChoose={setMode} />}
+        {mode === 'url' && <UrlImportForm onAdded={onAdded} />}
+        {mode === 'manual' && <ManualEntryForm onAdded={onAdded} />}
+        {mode === 'photo' && (
+          <PhotoRecipeImport onImported={onAdded} onCancel={() => setMode('choose')} />
+        )}
       </div>
     </div>
   )

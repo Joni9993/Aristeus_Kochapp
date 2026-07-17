@@ -29,7 +29,16 @@ _LAST_RESORT_MODELS = [
 ]
 
 
-def _effective_chain(settings) -> list[str]:
+def _effective_chain(settings, override: list[str] | None = None) -> list[str]:
+    """Build the model chain to try, in order.
+
+    `override` (e.g. Settings.vision_model_chain for photo import) replaces the
+    default text chain entirely — it is NOT merged with _LAST_RESORT_MODELS or
+    the paid chain, since those are general-purpose text models that would
+    just fail (or silently ignore image content) on a vision request.
+    """
+    if override is not None:
+        return list(override)
     chain = list(settings.model_chain)
     chain += [m for m in _LAST_RESORT_MODELS if m not in chain]
     paid = [m.strip() for m in settings.openrouter_paid_models.split(",") if m.strip()]
@@ -147,6 +156,7 @@ async def _run_chain(
     max_tokens: int | None,
     reasoning_effort: str | None,
     parse_json: bool,
+    models: list[str] | None = None,
 ) -> tuple[Any, str, dict]:
     """Try every model in the chain (fast failover, no per-model sleep).
 
@@ -154,13 +164,16 @@ async def _run_chain(
     whole chain failed AND at least one failure was a rate limit do we wait once
     and run a second pass. This keeps the happy path fast even when the first
     free models are congested.
+
+    `models`, when given, replaces the default chain entirely (see
+    _effective_chain) — used for the vision-only photo import chain.
     """
     settings = get_settings()
     if not settings.openrouter_api_key:
         raise RuntimeError("OPENROUTER_API_KEY not set")
 
     headers = _make_headers(settings)
-    chain = _effective_chain(settings)
+    chain = _effective_chain(settings, override=models)
     last_exc: Exception | None = None
 
     for round_no in range(1, _MAX_RETRIES + 1):
@@ -225,6 +238,7 @@ async def chat_completion_json(
     temperature: float | None = None,
     max_tokens: int | None = None,
     reasoning_effort: str | None = "low",
+    models: list[str] | None = None,
 ) -> tuple[dict, str, dict]:
     """Like chat_completion but enforces + parses JSON output.
 
@@ -233,6 +247,10 @@ async def chat_completion_json(
 
     max_tokens must leave headroom for reasoning models — Nemotron & Co. spend
     1000+ completion tokens on reasoning before the JSON starts.
+
+    `models`, when given, overrides Settings.model_chain entirely (e.g.
+    Settings.vision_model_chain for photo recipe import) instead of appending
+    to it — see _effective_chain.
     """
     return await _run_chain(
         messages,
@@ -242,4 +260,5 @@ async def chat_completion_json(
         max_tokens=max_tokens,
         reasoning_effort=reasoning_effort,
         parse_json=True,
+        models=models,
     )

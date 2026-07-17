@@ -274,6 +274,54 @@ Extrahiere nur, was im Text tatsächlich steht — erfinde keine Zutaten oder Sc
     ]
 
 
+def build_recipe_photo_prompt(*, image_data_urls: list[str]) -> list[dict]:
+    """Extract a full recipe from one or more photos (cookbook page, social-media
+    screenshot series, handwritten note) — used by POST /api/recipes/import-photo.
+    Mirrors build_recipe_import_from_text_prompt's erkannt/nicht-erkannt contract
+    (same ImportedRecipeResponse schema) so the router can reuse that parsing path."""
+    system = (
+        "Du bist ein Kochassistent, der Rezepte von Fotos abliest — Kochbuchseiten, "
+        "Screenshots von Social-Media-Posts oder handschriftliche Notizzettel. "
+        "Antworte immer auf Deutsch und ausschließlich als gültiges JSON."
+    )
+    n = len(image_data_urls)
+    photo_note = (
+        "Das folgende Foto zeigt" if n == 1
+        else f"Die folgenden {n} Fotos zeigen (zusammengehörig, z.B. Zutatenliste + Zubereitung getrennt)"
+    )
+    user_text = f"""{photo_note} vermutlich ein Kochrezept. Lies den Text (auch handschriftliche
+Notizen) sorgfältig, auch wenn die Bildqualität nicht perfekt ist.
+
+Wenn KEIN Rezept erkennbar ist (z.B. Urlaubsfoto, Produktfoto ohne Zutaten/Zubereitung,
+unleserlicher Text), gib zurück: {{"erkannt": false}}
+
+Wenn ein Rezept erkennbar ist, gib exakt dieses JSON zurück:
+{{
+  "erkannt": true,
+  "name": "Gerichtname",
+  "kategorie": "vegetarisch|vegan|Fisch|Fleisch|gemischt",
+  "zutaten": [
+    {{"name": "Zutatname", "menge": 200, "einheit": "g"}}
+  ],
+  "schritte": ["Schritt 1: ...", "Schritt 2: ..."],
+  "geschaetzte_zeit_min": 30,
+  "tipps": ["Tipp"]
+}}
+
+Extrahiere nur, was auf den Fotos tatsächlich zu erkennen ist — erfinde keine Zutaten oder Schritte.
+Wenn mehrere Fotos gegeben sind, führe die Informationen zu einem einzigen Rezept zusammen
+(z.B. Zutatenliste von Foto 1 + Zubereitungsschritte von Foto 2)."""
+
+    content: list[dict] = [{"type": "text", "text": user_text}]
+    for url in image_data_urls:
+        content.append({"type": "image_url", "image_url": {"url": url}})
+
+    return [
+        {"role": "system", "content": system},
+        {"role": "user", "content": content},
+    ]
+
+
 def format_profile(profile, portion_override: int | None = None) -> str:
     """Format a Profile ORM object as a readable string for prompts.
 

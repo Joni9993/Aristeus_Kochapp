@@ -30,6 +30,17 @@ class Settings(BaseSettings):
     # chain (both retry rounds) — only used when set. Empty = today's behavior.
     openrouter_paid_models: str = ""
 
+    # Vision-capable free-tier models for photo recipe import (POST
+    # /api/recipes/import-photo) — a separate, standalone chain (NOT merged
+    # into model_chain/_LAST_RESORT_MODELS) since non-vision models would just
+    # fail or silently ignore the image content. Verified vision-capable via
+    # OpenRouter's /api/v1/models input_modalities field, 2026-07-17.
+    vision_models: str = (
+        "google/gemma-4-31b-it:free,"
+        "google/gemma-4-26b-a4b-it:free,"
+        "nvidia/nemotron-nano-12b-v2-vl:free"
+    )
+
     # Optional status-dashboard webhook (Kuma-format, see services/status_webhook.py)
     # for plan-generation failures + the Monday 07:00 healthcheck. In production:
     # http://192.168.50.62:8080/api/kuma-webhook (monitor-LXC, LAN-only).
@@ -45,6 +56,11 @@ class Settings(BaseSettings):
         """All models to try in order: default first, then each fallback."""
         fallbacks = [m.strip() for m in self.openrouter_fallback_models.split(",") if m.strip()]
         return [self.openrouter_default_model] + fallbacks
+
+    @property
+    def vision_model_chain(self) -> list[str]:
+        """Vision-capable models to try in order for photo recipe import."""
+        return [m.strip() for m in self.vision_models.split(",") if m.strip()]
 
     smtp_host: str = ""
     smtp_port: int = 587

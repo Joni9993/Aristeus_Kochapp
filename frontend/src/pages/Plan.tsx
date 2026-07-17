@@ -632,11 +632,8 @@ export default function Plan() {
 
   return (
     <main className="mx-auto max-w-xl px-4 py-5 sm:p-6">
-      <div className="mb-6 flex items-center justify-between gap-2">
-        <button onClick={() => navigate('/')} className="shrink-0 text-sm text-muted underline hover:text-ink">
-          Zurück
-        </button>
-        <span className="shrink-0 text-xs text-muted">KW ab {plan.week_start_date}</span>
+      <div className="mb-6">
+        <span className="text-xs text-muted">KW ab {plan.week_start_date}</span>
       </div>
 
       {plan.status === 'pending' && (

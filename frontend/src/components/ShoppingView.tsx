@@ -2,7 +2,7 @@
 // share, add-item form, and a 10s poll so changes on another device show up
 // here too. Extracted from Plan.tsx (task 6) so it can be reused by both the
 // Plan page (embedded, one of two tabs) and the standalone /shopping page.
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState, type RefObject } from 'react'
 import { apiFetch } from '../api/client'
 import type { Plan, ShoppingItem } from '../types'
 
@@ -44,6 +44,34 @@ export default function ShoppingView({
   onSync: (items: ShoppingItem[]) => void
 }) {
   const allItems = plan.shopping_items || []
+
+  // Floating "+" button (thumb-reachable) that mirrors the always-present
+  // add-item form at the bottom of the list. An IntersectionObserver watches
+  // that form's wrapping card: once it scrolls into view the FAB fades/
+  // shrinks away (visually "melts into" the form instead of just vanishing),
+  // and reappears once the form scrolls back out of view. Tapping the FAB
+  // scrolls the form into view and focuses its input.
+  const addFormRef = useRef<HTMLDivElement>(null)
+  const addInputRef = useRef<HTMLInputElement>(null)
+  const [addFormVisible, setAddFormVisible] = useState(false)
+
+  useEffect(() => {
+    const el = addFormRef.current
+    if (!el) return
+    const observer = new IntersectionObserver(
+      ([entry]) => setAddFormVisible(entry.isIntersecting),
+      { threshold: 0.15 },
+    )
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [])
+
+  function focusAddForm() {
+    addFormRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+    // Wait for the scroll to (roughly) land before focusing, so the on-screen
+    // keyboard doesn't fight the smooth-scroll animation on mobile.
+    window.setTimeout(() => addInputRef.current?.focus(), 400)
+  }
 
   // Build angebot ingredient set from recipe data (fallback for plans without store set)
   const angebotNames = new Set<string>()
@@ -251,17 +279,43 @@ export default function ShoppingView({
         </details>
       )}
 
-      <div className="mt-4 rounded-xl border border-line bg-card p-3">
+      <div ref={addFormRef} className="mt-4 rounded-xl border border-line bg-card p-3">
         <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-muted">
           Eigenes hinzufügen
         </p>
-        <AddItemForm onAdd={addItem} />
+        <AddItemForm onAdd={addItem} inputRef={addInputRef} />
       </div>
+
+      {/* Thumb-reachable shortcut to the add-item form above. Fades/shrinks
+          out once that form is itself on screen, so it visually "hands off"
+          to it instead of overlapping it. z-20 keeps it below the z-30
+          BottomNav so it never covers (or gets covered oddly relative to)
+          the tab bar. */}
+      <button
+        onClick={focusAddForm}
+        aria-label="Eigenes hinzufügen"
+        aria-hidden={addFormVisible}
+        tabIndex={addFormVisible ? -1 : 0}
+        className={`fixed right-4 z-20 flex min-h-14 min-w-14 items-center justify-center rounded-full bg-olive text-olive-on shadow-lg transition-all duration-300 ease-out hover:bg-olive-hover active:bg-olive-hover ${
+          addFormVisible ? 'pointer-events-none scale-50 opacity-0' : 'scale-100 opacity-100'
+        }`}
+        style={{ bottom: 'calc(6rem + env(safe-area-inset-bottom))' }}
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="h-7 w-7">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+        </svg>
+      </button>
     </div>
   )
 }
 
-function AddItemForm({ onAdd }: { onAdd: (ingredient: string) => Promise<void> }) {
+function AddItemForm({
+  onAdd,
+  inputRef,
+}: {
+  onAdd: (ingredient: string) => Promise<void>
+  inputRef?: RefObject<HTMLInputElement>
+}) {
   const [value, setValue] = useState('')
   const [adding, setAdding] = useState(false)
 
@@ -280,6 +334,7 @@ function AddItemForm({ onAdd }: { onAdd: (ingredient: string) => Promise<void> }
     // value push the button off the right edge on narrow screens.
     <div className="flex gap-2">
       <input
+        ref={inputRef}
         value={value}
         onChange={(e) => setValue(e.target.value)}
         onKeyDown={(e) => {

@@ -134,13 +134,18 @@ function OffersDrawer({
 
   return (
     <>
-      {/* Backdrop */}
+      {/* Backdrop — stops above the bottom nav so it stays reachable/tappable
+          as an easy way out on mobile, in addition to the ✕ and tap-outside. */}
       <div
-        className="fixed inset-0 z-40 bg-ink/30"
+        className="fixed inset-x-0 top-0 z-20 bg-ink/30"
+        style={{ bottom: 'calc(4rem + env(safe-area-inset-bottom))' }}
         onClick={onClose}
       />
       {/* Drawer */}
-      <div className="fixed inset-y-0 right-0 z-50 flex w-full max-w-md flex-col bg-card shadow-2xl">
+      <div
+        className="fixed inset-x-0 top-0 z-20 mx-auto flex w-full max-w-md flex-col bg-card shadow-2xl sm:right-0"
+        style={{ bottom: 'calc(4rem + env(safe-area-inset-bottom))' }}
+      >
         {/* Header */}
         <div className="flex items-start justify-between gap-2 border-b border-line px-5 py-4">
           <div className="min-w-0">
@@ -157,7 +162,7 @@ function OffersDrawer({
           </div>
           <button
             onClick={onClose}
-            className="shrink-0 rounded-md p-2 text-muted hover:bg-surface hover:text-ink"
+            className="flex min-h-11 min-w-11 shrink-0 items-center justify-center rounded-full text-muted hover:bg-surface hover:text-ink active:bg-surface"
             aria-label="Schließen"
           >
             ✕

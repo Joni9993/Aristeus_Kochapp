@@ -19,6 +19,7 @@ and "plan-into-week" which drops any recipe (gekocht or eigene) into the
 current or next weekly plan.
 """
 
+import base64
 import ipaddress
 import json
 import logging
@@ -28,7 +29,7 @@ from urllib.parse import urlparse
 
 import httpx
 from bs4 import BeautifulSoup
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, File, HTTPException, UploadFile
 from pydantic import BaseModel
 from sqlalchemy import select
 from sqlalchemy.orm import Session as DbSession
@@ -40,8 +41,13 @@ from ..ai.pipeline import (
     build_shopping_list,
     rebuild_shopping_list_preserving,
 )
-from ..ai.prompts import build_recipe_import_from_text_prompt, build_recipe_import_ingredients_prompt
+from ..ai.prompts import (
+    build_recipe_import_from_text_prompt,
+    build_recipe_import_ingredients_prompt,
+    build_recipe_photo_prompt,
+)
 from ..ai.schemas import ImportedRecipeResponse, ImportIngredientsResponse, RecipeResponse
+from ..config import get_settings
 from ..db import get_db
 from ..models import Household, PlanDish, SavedRecipe, WeeklyPlan
 from ..security import get_current_household
@@ -405,6 +411,112 @@ async def import_recipe(
         image_url=image_url,
         recipe_json=json.dumps(recipe_data, ensure_ascii=False),
         source_url=url[:1000],
+    )
+    db.add(saved)
+    db.commit()
+    db.refresh(saved)
+    return _saved_out(saved)
+
+
+# ---------------------------------------------------------------------------
+# Photo import (vision LLM) — cookbook page / social-media screenshot /
+# handwritten note. Photos themselves are never persisted: read into memory,
+# base64-encoded into the vision request, then discarded once the request
+# completes (only the extracted recipe_json + a best-effort stock photo are
+# saved).
+# ---------------------------------------------------------------------------
+
+_MAX_PHOTOS = 4
+_MAX_PHOTO_BYTES = 8 * 1024 * 1024  # 8 MB per file
+
+# Sniffed from the first bytes rather than trusting the client-supplied
+# Content-Type, which browsers/apps get wrong often enough (octet-stream,
+# missing entirely for some share-sheet flows) to not be load-bearing alone.
+def _sniff_image_mime(data: bytes) -> str | None:
+    if data.startswith(b"\xff\xd8\xff"):
+        return "image/jpeg"
+    if data.startswith(b"\x89PNG\r\n\x1a\n"):
+        return "image/png"
+    if data[:4] == b"RIFF" and data[8:12] == b"WEBP":
+        return "image/webp"
+    return None
+
+
+@router.post("/import-photo", status_code=201)
+async def import_recipe_photo(
+    files: list[UploadFile] = File(...),
+    household: Household = Depends(get_current_household),
+    db: DbSession = Depends(get_db),
+) -> dict:
+    files = [f for f in files if f.filename]
+    if not files:
+        raise HTTPException(400, "Kein Foto ausgewählt")
+    if len(files) > _MAX_PHOTOS:
+        raise HTTPException(400, f"Maximal {_MAX_PHOTOS} Fotos auf einmal")
+
+    image_data_urls: list[str] = []
+    for f in files:
+        data = await f.read()
+        if not data:
+            raise HTTPException(400, "Leere Datei")
+        if len(data) > _MAX_PHOTO_BYTES:
+            raise HTTPException(400, f"Foto zu groß (max. {_MAX_PHOTO_BYTES // (1024 * 1024)} MB pro Foto)")
+        mime = _sniff_image_mime(data)
+        if not mime:
+            raise HTTPException(400, "Nur JPEG-, PNG- oder WebP-Fotos sind erlaubt")
+        image_data_urls.append(f"data:{mime};base64,{base64.b64encode(data).decode('ascii')}")
+
+    messages = build_recipe_photo_prompt(image_data_urls=image_data_urls)
+    settings = get_settings()
+    try:
+        raw, model, _usage = await chat_completion_json(
+            messages,
+            purpose="recipe_photo_import",
+            max_tokens=6000,
+            models=settings.vision_model_chain,
+        )
+    except Exception as exc:
+        logger.warning("Recipe photo import: all vision models failed: %s", exc)
+        raise HTTPException(503, "Gerade überlastet — bitte gleich nochmal versuchen.") from None
+
+    try:
+        parsed = ImportedRecipeResponse.model_validate(raw)
+    except Exception as exc:
+        logger.warning("Recipe photo import: response from %s didn't match schema: %s", model, exc)
+        raise HTTPException(
+            422, "Konnte auf den Fotos kein Rezept erkennen — bitte manuell eintragen."
+        ) from None
+
+    if not parsed.erkannt or not parsed.schritte:
+        raise HTTPException(422, "Konnte auf den Fotos kein Rezept erkennen — bitte manuell eintragen.")
+
+    name = (parsed.name or "Importiertes Rezept").strip()[:300]
+    zutaten = [
+        {"name": z.name, "menge": z.menge, "einheit": z.einheit, "ist_angebot": False, "laden": None}
+        for z in parsed.zutaten
+    ]
+    recipe_data = {
+        "zutaten": zutaten,
+        "schritte": parsed.schritte,
+        "geschaetzte_zeit_min": parsed.geschaetzte_zeit_min or 30,
+        "tipps": parsed.tipps,
+    }
+
+    image_url = None
+    try:
+        from ..services.dish_images import find_dish_image
+        image_url = await find_dish_image(name, parsed.kategorie)
+    except Exception:
+        image_url = None
+
+    saved = SavedRecipe(
+        household_id=household.id,
+        name=name,
+        cuisine=parsed.kategorie,
+        cook_time_min=parsed.geschaetzte_zeit_min,
+        image_url=image_url,
+        recipe_json=json.dumps(recipe_data, ensure_ascii=False),
+        source_url=None,
     )
     db.add(saved)
     db.commit()
